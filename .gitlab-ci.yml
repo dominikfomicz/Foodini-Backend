@@ -1,0 +1,12 @@
+stages:
+  - build
+ 
+build:
+  stage: build
+  tags: 
+   - windows
+   - ng
+  script:
+    - npm install
+    - npm run production
+    # - ng build --prod
