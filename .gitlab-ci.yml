@@ -4,6 +4,5 @@ stages:
 build:
   stage: build
   script:
-    - npm install
     - npm run production
     # - ng build --prod
