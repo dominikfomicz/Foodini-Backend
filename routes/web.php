@@ -11,6 +11,15 @@
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/token', function () {
+        echo csrf_token(); 
+
+  });
+
+
+Route::post('/getList', 'ListController@getList');
