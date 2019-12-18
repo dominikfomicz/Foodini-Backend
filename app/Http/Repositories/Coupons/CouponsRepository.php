@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Repositories\Restaurants;
+namespace App\Http\Repositories\Coupons;
 use Illuminate\Support\Facades\DB;
 
-class RestaurantsRepository 
+class CouponsRepository 
 {
     public static function getList(){
         return DB::select("SELECT * FROM locals.main");
