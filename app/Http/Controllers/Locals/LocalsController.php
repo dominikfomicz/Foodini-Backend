@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Locals;
 
 use App\Http\Controllers\Controller;
 use App\Http\Services\Locals\LocalsService;
+use Illuminate\Http\Request;
 
 class LocalsController extends Controller
 {
@@ -15,6 +16,10 @@ class LocalsController extends Controller
 
     public function getList(){
         return $this->service->getList();
+    }
+
+    public function getDetails(Request $request){
+        return $this->service->getDetails($request->id_local_data_main);
     }
 
     public function addOpenDays(){
