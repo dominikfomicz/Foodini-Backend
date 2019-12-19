@@ -21,6 +21,7 @@ class CouponsService
     }
 
     public function addCoupon(){
+        return 1;
     //     for ($i = 1; $i <= 4; $i++) {
     //         $new_coupon = new CouponDataMain();
     //         $new_coupon->name = "Kupon test nr: ".$i;
