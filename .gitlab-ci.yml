@@ -1,8 +1,17 @@
 image: ubuntu:18.04
 
 stages:
+#   - build
   - deploy
 
+# build:
+#     stage: build
+#     only: 
+#      - master
+#     before_script:
+#      - apt-get update -qy
+    # script:
+    
 deploy:
     stage: deploy
     only:
