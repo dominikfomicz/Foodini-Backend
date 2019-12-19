@@ -27,39 +27,39 @@ class LocalsService
     }
 
     public function addOpenDays(){
-            $lokals = LocalDataMain::all();
-            foreach($lokals AS $local){
-                for ($i = 0; $i <= 6; $i++) {
-                    $new_ref = new OpenRefMain();
-                    $new_ref->id_local_data_main = $local->id;
-                    $new_ref->id_weekday_const_type = $i;
-                    $new_ref->local_hour_from = '08:00';
-                    $new_ref->local_hour_to = '22:00';
+            // $lokals = LocalDataMain::all();
+            // foreach($lokals AS $local){
+            //     for ($i = 0; $i <= 6; $i++) {
+            //         $new_ref = new OpenRefMain();
+            //         $new_ref->id_local_data_main = $local->id;
+            //         $new_ref->id_weekday_const_type = $i;
+            //         $new_ref->local_hour_from = '08:00';
+            //         $new_ref->local_hour_to = '22:00';
 
-                    $new_ref->kitchen_hour_from = '08:00';
-                    $new_ref->kitchen_hour_to = '22:00';
+            //         $new_ref->kitchen_hour_from = '08:00';
+            //         $new_ref->kitchen_hour_to = '22:00';
 
-                    $new_ref->delivery_hour_from = '08:00';
-                    $new_ref->delivery_hour_to = '22:00';
-                    $new_ref->save();
-                }
-            }
+            //         $new_ref->delivery_hour_from = '08:00';
+            //         $new_ref->delivery_hour_to = '22:00';
+            //         $new_ref->save();
+            //     }
+            // }
     }
 
     public function addTagsToLocal(){
-        $lokals = LocalDataMain::all();
-        foreach($lokals AS $local){
-            $boolean = TRUE;
-            for ($i = 0; $i <= 3; $i++) {
-                $new_ref = new LocalRefMain();
-                $new_ref->id_local_data_main = $local->id;
-                $new_ref->id_tag_data_main = rand(1,12);
-                $new_ref->priority_status = $boolean;
-                if($i == 2){
-                    $boolean = false;
-                }
-                $new_ref->save();
-            }
-        }
-}
+        // $lokals = LocalDataMain::all();
+        // foreach($lokals AS $local){
+        //     $boolean = TRUE;
+        //     for ($i = 0; $i <= 3; $i++) {
+        //         $new_ref = new LocalRefMain();
+        //         $new_ref->id_local_data_main = $local->id;
+        //         $new_ref->id_tag_data_main = rand(1,12);
+        //         $new_ref->priority_status = $boolean;
+        //         if($i == 2){
+        //             $boolean = false;
+        //         }
+        //         $new_ref->save();
+        //     }
+        // }
+    }
 }
