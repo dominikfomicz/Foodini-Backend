@@ -43,6 +43,7 @@ class LocalsRepository
         if($day_of_week == 7){
             $day_of_week = 0;
         }
+        
         $query = "WITH counter_fav AS (SELECT
                                         COUNT(*) AS favourite_count
                                     FROM s_locals.t_local_ref_favourite
@@ -88,16 +89,19 @@ class LocalsRepository
                     LEFT JOIN counter_coupons ON 0=0
                     WHERE l.id = {$id_local_data_main};
                     ";
+
         return DB::select($query);
     }
 
     public static function getWorkHours($id_local_data_main){
+
         $query = "SELECT 
                         o.id_weekday_const_type AS id_day,
                         o.local_hour_from AS open_from,
                         o.local_hour_to AS open_to
                     FROM s_locals.t_open_ref_main o 
                     WHERE o.id_local_data_main = {$id_local_data_main};";
+
         return DB::select($query);
     }
 }
