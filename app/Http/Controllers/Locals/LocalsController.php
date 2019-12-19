@@ -14,8 +14,8 @@ class LocalsController extends Controller
         $this->service = $service;
     }
 
-    public function getList(){
-        return $this->service->getList();
+    public function getList(Request $request){
+        return $this->service->getList($request->id_city_const_type);
     }
 
     public function getDetails(Request $request){

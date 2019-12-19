@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 
 class LocalsRepository 
 {
-    public static function getList(){
+    public static function getList($id_city_const_type){
         $day_of_week = date('N');
         if($day_of_week == 7){
             $day_of_week = 0;
@@ -23,7 +23,8 @@ class LocalsRepository
                     
                     FROM s_locals.t_local_data_main l
                     LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
-                                                            AND id_weekday_const_type = {$day_of_week};
+                                                            AND id_weekday_const_type = {$day_of_week}
+                    WHERE l.id_city_const_type = {$id_city_const_type}                                        ;
                     ";
         return DB::select($query);
     }
@@ -32,7 +33,8 @@ class LocalsRepository
         $query = "SELECT 
                         r.id_local_data_main,
                         t.id,
-                        t.name
+                        t.name,
+                        r.priority_status AS is_main
                     FROM s_tags.t_local_ref_main r
                     LEFT JOIN s_tags.t_tag_data_main t ON t.id = r.id_tag_data_main;";
         return DB::select($query);
@@ -43,7 +45,7 @@ class LocalsRepository
         if($day_of_week == 7){
             $day_of_week = 0;
         }
-        
+
         $query = "WITH counter_fav AS (SELECT
                                         COUNT(*) AS favourite_count
                                     FROM s_locals.t_local_ref_favourite
@@ -90,6 +92,17 @@ class LocalsRepository
                     WHERE l.id = {$id_local_data_main};
                     ";
 
+        return DB::select($query);
+    }
+
+    public static function getTagsByLocal($local_id){
+        $query = "SELECT 
+                        t.id,
+                        t.name,
+                        r.priority_status AS is_main
+                    FROM s_tags.t_local_ref_main r
+                    LEFT JOIN s_tags.t_tag_data_main t ON t.id = r.id_tag_data_main
+                    WHERE r.id_local_data_main = {$local_id};";
         return DB::select($query);
     }
 

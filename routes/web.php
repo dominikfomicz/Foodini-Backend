@@ -29,7 +29,7 @@ Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
   Route::post('addOpenDays', 'LocalsController@addOpenDays'); // checked MSC
   Route::post('addTagsToLocal', 'LocalsController@addTagsToLocal'); // checked MSC
 
-  Route::get('getList', 'LocalsController@getList'); // checked MSC
+  Route::get('getList/{id_city_const_type}', 'LocalsController@getList'); // checked MSC
   Route::get('getDetails/{id_local_data_main}', 'LocalsController@getDetails'); // checked MSC
 });
 
