@@ -9,8 +9,8 @@ use App\Http\Repositories\Locals\LocalsRepository;
 
 class LocalsService 
 {
-    public function getList(){
-        $locals = collect(LocalsRepository::getList());
+    public function getList($id_city_const_type){
+        $locals = collect(LocalsRepository::getList($id_city_const_type));
         $tags = collect(LocalsRepository::getTags());
         foreach($locals AS $local){
             $local->tags = $tags->where('id_local_data_main', $local->local_id)->map(function ($item, $key) {
@@ -23,6 +23,7 @@ class LocalsService
     public function getDetails($id_local_data_main){
         $local = collect(LocalsRepository::getDetails($id_local_data_main))->first();
         $local->work_hours = collect(LocalsRepository::getWorkHours($local->local_id));
+        $local->tags = collect(LocalsRepository::getTagsByLocal($local->local_id));
         return json_encode($local);
     }
 
