@@ -43,3 +43,7 @@ Route::group(array('namespace' => 'Coupons', 'prefix' => 'coupons'), function() 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
