@@ -20,7 +20,7 @@ deploy:
      - apt-get update -qy
      - apt-get install lftp -y
     script:
-     - lftp -c "set ftp:ssl-allow no; open -u $FTP_USERNAME,$FTP_PASSWORD $HOST; mirror -Rev ./ ./var/www/  --ignore-time --parallel=10 --exclude-glob .git* --exclude .git/"
+     - lftp -c "set ftp:ssl-allow no; open -u $FTP_USERNAME,$FTP_PASSWORD $HOST; mirror -Rev ./ /var/www/  --ignore-time --parallel=10 --exclude-glob .git* --exclude .git/"
 
 
 # stages:
