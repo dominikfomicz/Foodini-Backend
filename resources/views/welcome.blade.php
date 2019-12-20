@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Foodini
+                    Foodini sdf
                 </div>
 
                 <div class="links">
