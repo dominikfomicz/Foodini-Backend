@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Foodini
+                    Foodini d
                 </div>
 
                 <div class="links">
