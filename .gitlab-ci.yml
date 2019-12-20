@@ -1,8 +1,8 @@
-#image: ubuntu:18.04
+image: ubuntu:18.04
 
-#stages:
+stages:
 #   - build
-#  - deploy
+  - deploy
 
 # build:
 #     stage: build
@@ -12,15 +12,18 @@
 #      - apt-get update -qy
     # script:
     
-#deploy:
-#    stage: deploy
-#    only:
-#     - master
-#    before_script:
-#     - apt-get update -qy
-#     - apt-get install lftp -y
-#    script:
-#     - lftp -c "set ftp:ssl-allow no; open -u $FTP_USERNAME,$FTP_PASSWORD $HOST; mirror -Rev ./ /var/www/  --ignore-time --parallel=10 --exclude-glob .git* --exclude .git/ --exclude vendor/ --exclude composer.json"
+deploy:
+    stage: deploy
+    only:
+     changes:
+      - app/*
+      - resources/*
+      - routes/*
+    before_script:
+     - apt-get update -qy
+     - apt-get install lftp -y
+    script:
+     - lftp -c "set ftp:ssl-allow no; open -u $FTP_USERNAME,$FTP_PASSWORD $HOST; mirror -Rev ./ /var/www/  --ignore-time --parallel=10 --exclude-glob .git* --exclude .git/ --exclude vendor/ --exclude composer.json"
 
 
 # stages:
