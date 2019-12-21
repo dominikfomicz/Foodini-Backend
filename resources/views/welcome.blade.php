@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Foodini Push Push
+                    Foodini
                 </div>
             </div>
         </div>
