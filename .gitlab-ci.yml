@@ -15,10 +15,7 @@ stages:
 deploy:
     stage: deploy
     only:
-     changes:
-      - app/*
-      - resources/*
-      - routes/*
+     - master
     before_script:
      - apt-get update -qy
      - apt-get install lftp -y
