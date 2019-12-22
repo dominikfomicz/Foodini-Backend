@@ -24,4 +24,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::post('register', '/Auth/AuthController@register');
+Route::post('/oauth/register', '/Auth/AuthController@register');
