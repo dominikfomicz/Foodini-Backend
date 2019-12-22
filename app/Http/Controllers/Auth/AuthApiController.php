@@ -12,7 +12,7 @@ class AuthApiController extends Controller
         $this->middleware('guest');
     }
 
-	protected function generateAccessToken($user){
+	public function generateAccessToken($user){
 		$token = $user->createToken($user->email.'-'.now());
 
 		return $token->accessToken;
