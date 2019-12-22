@@ -29,6 +29,6 @@ class AuthApiController extends Controller
 			'password' => bcrypt($request->password)
 		]);
 
-        return "ok";
+        return 0;
 	}
 }
