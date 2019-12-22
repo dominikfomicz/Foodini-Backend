@@ -7,6 +7,11 @@ use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
+
 	protected function generateAccessToken($user){
 		$token = $user->createToken($user->email.'-'.now());
 
