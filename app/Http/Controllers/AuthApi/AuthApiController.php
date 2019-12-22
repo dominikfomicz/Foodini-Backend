@@ -21,12 +21,11 @@ class AuthApiController extends Controller
 		]);
 
 
-		// $user = User::create([
-		// 	'name' => $request->name,
-		// 	'password' => bcrypt($request->password)
-		// ]);
+		$user = User::create([
+			'name' => $request->name,
+			'password' => bcrypt($request->password)
+		]);
 
-        // return response()->json($user);
-        return $request->name;
+        return response()->json($user);
 	}
 }
