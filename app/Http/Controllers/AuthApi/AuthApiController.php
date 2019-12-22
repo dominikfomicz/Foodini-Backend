@@ -17,13 +17,15 @@ class AuthApiController extends Controller
 
 	public function register(Request $request){
 		$request->validate([
-			'name' => 'required',
+            'name' => 'required',
+            'email' => 'required',
 			'password' => 'required'
 		]);
 
 
 		$user = User::create([
-			'name' => $request->name,
+            'name' => $request->name,
+            'email' => $request->email,
 			'password' => bcrypt($request->password)
 		]);
 
