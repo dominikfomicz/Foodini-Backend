@@ -24,6 +24,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(array('namespace' => 'Auth', 'prefix' => 'auth-api'), function() {
+Route::group(array('namespace' => 'AuthApi', 'prefix' => 'auth-api'), function() {
     Route::post('register', 'AuthApiController@register');
 });
