@@ -2,11 +2,13 @@
 
 namespace App\Http\Repositories\Coupons;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Auth;
+
 
 class CouponsRepository 
 {
     public static function getList($id_local_data_main){
-
+        $id_user = Auth::user()->id;
         $query = "SELECT 
                         c.id AS coupon_id,
                         l.id AS lokal_id,
@@ -16,7 +18,9 @@ class CouponsRepository
                         l.eat_in_local,
                         l.pick_up_local,
                         c.amount,
-                        FALSE AS is_favouirite,
+                        CASE WHEN f.id IS NOT NULL THEN TRUE
+                        ELSE FALSE 
+                        END AS is_favouirite,
                         l.name AS local_name,
                         CASE WHEN c.status = 1 THEN TRUE
                         ELSE FALSE
@@ -25,6 +29,7 @@ class CouponsRepository
                     FROM s_coupons.t_local_ref_coupon r
                     LEFT JOIN s_coupons.t_coupon_data_main c ON c.id = r.id_coupon_data_main
                     LEFT JOIN s_locals.t_local_data_main l ON l.id = r.id_local_data_main
+                    LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
                     WHERE r.id_local_data_main = {$id_local_data_main}                                        ;
                     ";
         return DB::select($query);
@@ -42,15 +47,18 @@ class CouponsRepository
     }
 
     public static function getDetails($id_coupon_data_main){
-
+        $id_user = Auth::user()->id;
         $query = "
                     SELECT 
                         c.id AS coupon_id,
                         c.description,
                         c.amount,
                         c.name,
-                        FALSE AS is_favourite
+                        CASE WHEN f.id IS NOT NULL THEN TRUE
+                        ELSE FALSE 
+                        END AS is_favouirite
                     FROM s_coupons.t_coupon_data_main c
+                    LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
                     WHERE c.id = {$id_coupon_data_main};
                     ";
 

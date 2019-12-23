@@ -13,8 +13,8 @@ class LocalsRepository
         $query = "SELECT 
                         l.name,
                         l.id AS local_id,
-                        o.local_hour_from AS open_from,
-                        o.local_hour_to AS open_to,
+                        to_char(o.local_hour_from, 'HH24:MI') AS open_from,
+                        to_char(o.local_hour_to, 'HH24:MI') AS open_to,
                         o.status_closed AS is_closed,
                         FALSE AS is_favourite,
                         l.delivery,
@@ -83,7 +83,8 @@ class LocalsRepository
                         l.cash_payment,
                         l.creditcards_payment,
                         l.contactless_payment,
-                        l.blik_payment
+                        l.blik_payment,
+                        l.phone_number
                     FROM s_locals.t_local_data_main l
                     LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
                                                             AND id_weekday_const_type = {$day_of_week}
