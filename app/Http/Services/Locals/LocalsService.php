@@ -4,6 +4,7 @@ namespace App\Http\Services\Locals;
 use  App\Models\s_locals\OpenRefMain;
 use App\Models\s_locals\LocalDataMain;
 use App\Models\s_tags\LocalRefMain;
+use App\Models\s_locals\LocalRefFavourite;
 
 use App\Http\Repositories\Locals\LocalsRepository;
 
@@ -62,5 +63,19 @@ class LocalsService
         //         $new_ref->save();
         //     }
         // }
+    }
+
+    public function addCouponToFavourite($id_local_data_main){
+        $id_user = Auth::user()->id;
+        $favourite = new LocalRefFavourite();
+        $favourite->id_user = $id_user;
+        $favourite->id_local_data_main = $id_local_data_main;
+        $favourite->save();
+    }
+
+    public function removeFromFavourite($id_local_data_main){
+        $id_user = Auth::user()->id;
+        $favourite = LocalRefFavourite::where('id_user', $id_user)->where('id_local_data_main', $id_local_data_main)->delete();
+
     }
 }

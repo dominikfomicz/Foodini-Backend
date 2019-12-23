@@ -29,4 +29,12 @@ class LocalsController extends Controller
     public function addTagsToLocal(){
         return $this->service->addTagsToLocal();
     }
+
+    public function addLocalToFavourite(Request $request){
+        return $this->service->addLocalToFavourite($request->id_local_data_main);
+    }
+
+    public function removeLocalFromFavourite(Request $request){
+        return $this->service->removeLocalFromFavourite($request->id_local_data_main);
+    }
 }
