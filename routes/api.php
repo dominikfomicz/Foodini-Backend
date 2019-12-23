@@ -18,6 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
+    Route::post('addLocal', 'LocalsController@addLocal'); // checked MSC
+    Route::post('removeLocal', 'LocalsController@removeLocal'); // checked MSC
+
     Route::post('addOpenDays', 'LocalsController@addOpenDays'); // checked MSC
     Route::post('addTagsToLocal', 'LocalsController@addTagsToLocal'); // checked MSC
 

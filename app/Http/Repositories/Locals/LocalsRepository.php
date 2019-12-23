@@ -16,7 +16,9 @@ class LocalsRepository
                         to_char(o.local_hour_from, 'HH24:MI') AS open_from,
                         to_char(o.local_hour_to, 'HH24:MI') AS open_to,
                         o.status_closed AS is_closed,
-                        FALSE AS is_favourite,
+                        CASE WHEN f.id IS NOT NULL THEN TRUE
+                        ELSE FALSE 
+                        END AS is_favouirite,
                         l.delivery,
                         l.eat_in_local,
                         l.pick_up_local		
@@ -24,6 +26,7 @@ class LocalsRepository
                     FROM s_locals.t_local_data_main l
                     LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
                                                             AND id_weekday_const_type = {$day_of_week}
+                    LEFT JOIN s_locals.t_local_ref_favourite f ON f.id_user = {$id_user} AND f.id_local_data_main = l.id
                     WHERE l.id_city_const_type = {$id_city_const_type}                                        ;
                     ";
         return DB::select($query);
@@ -45,7 +48,7 @@ class LocalsRepository
         if($day_of_week == 7){
             $day_of_week = 0;
         }
-
+        $id_user = Auth::user()->id;
         $query = "WITH counter_fav AS (SELECT
                                         COUNT(*) AS favourite_count
                                     FROM s_locals.t_local_ref_favourite
@@ -70,7 +73,9 @@ class LocalsRepository
                         ELSE FALSE
                         END AS delivery_open_status,
                         o.status_closed AS is_closed,
-                        FALSE AS is_favourite,
+                        CASE WHEN f.id IS NOT NULL THEN TRUE
+                        ELSE FALSE 
+                        END AS is_favouirite,
                         l.delivery,
                         l.eat_in_local,
                         l.pick_up_local,
@@ -90,6 +95,7 @@ class LocalsRepository
                                                             AND id_weekday_const_type = {$day_of_week}
                     LEFT JOIN counter_fav ON 0=0
                     LEFT JOIN counter_coupons ON 0=0
+                    LEFT JOIN s_locals.t_local_ref_favourite f ON f.id_user = {$id_user} AND f.id_local_data_main = l.id
                     WHERE l.id = {$id_local_data_main};
                     ";
 
