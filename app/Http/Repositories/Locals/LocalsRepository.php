@@ -29,7 +29,7 @@ class LocalsRepository
                     LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
                                                             AND id_weekday_const_type = {$day_of_week}
                     LEFT JOIN s_locals.t_local_ref_favourite f ON f.id_user = {$id_user} AND f.id_local_data_main = l.id
-                    WHERE l.id_city_const_type = {$id_city_const_type}                                        ;
+                    WHERE l.id_city_const_type = {$id_city_const_type} AND l.deleted = FALSE                                      ;
                     ";
         return DB::select($query);
     }
@@ -150,7 +150,7 @@ class LocalsRepository
                     LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
                                                             AND o.id_weekday_const_type = {$day_of_week}
                     
-                    WHERE f.id_user = {$id_user} AND l.id_city_const_type = {$id_city_const_type}                                        ;
+                    WHERE f.id_user = {$id_user} AND l.id_city_const_type = {$id_city_const_type} AND l.deleted = FALSE;
                     ";
         return DB::select($query);
     }
