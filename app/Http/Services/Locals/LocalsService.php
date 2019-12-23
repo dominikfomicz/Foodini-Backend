@@ -5,6 +5,7 @@ use  App\Models\s_locals\OpenRefMain;
 use App\Models\s_locals\LocalDataMain;
 use App\Models\s_tags\LocalRefMain;
 use App\Models\s_locals\LocalRefFavourite;
+use \Auth;
 
 use App\Http\Repositories\Locals\LocalsRepository;
 
