@@ -29,24 +29,19 @@ class LocalsService
         return json_encode($local);
     }
 
-    public function addOpenDays(){
-            // $lokals = LocalDataMain::all();
-            // foreach($lokals AS $local){
-            //     for ($i = 0; $i <= 6; $i++) {
-            //         $new_ref = new OpenRefMain();
-            //         $new_ref->id_local_data_main = $local->id;
-            //         $new_ref->id_weekday_const_type = $i;
-            //         $new_ref->local_hour_from = '08:00';
-            //         $new_ref->local_hour_to = '22:00';
+    public function changeOpenHoursDay($id_local_data_main, $week_day_id, $open_data){
+        $new_ref = new OpenRefMain();
+        $new_ref->id_local_data_main = $id_local_data_main;
+        $new_ref->id_weekday_const_type = $week_day_id;
+        $new_ref->local_hour_from = $open_data->local_hour_from;
+        $new_ref->local_hour_to = $open_data->local_hour_to;
 
-            //         $new_ref->kitchen_hour_from = '08:00';
-            //         $new_ref->kitchen_hour_to = '22:00';
+        $new_ref->kitchen_hour_from = $open_data->kitchen_hour_from;
+        $new_ref->kitchen_hour_to = $open_data->kitchen_hour_to;
 
-            //         $new_ref->delivery_hour_from = '08:00';
-            //         $new_ref->delivery_hour_to = '22:00';
-            //         $new_ref->save();
-            //     }
-            // }
+        $new_ref->delivery_hour_from = $open_data->delivery_hour_from;
+        $new_ref->delivery_hour_to = $open_data->delivery_hour_to;
+        $new_ref->save();
     }
 
     public function addTagToLocal($id_local_data_main, $id_tag_data_main, $priority_status){
@@ -82,7 +77,26 @@ class LocalsService
         return json_encode($locals);
     }
 
-    public function addLocal(){
+    public function addLocal($local_data, $tags){
+        $new_local = new LocalDataMain();
+        $new_local->name = $local_data->name;
+        $new_local->address = $local_data->address;
+        $new_local->id_city_const_type = $local_data->id_city_const_type;
+        $new_local->phone_number = $local_data->phone_number;
+        $new_local->description = $local_data->description;
+        $new_local->other_info = $local_data->other_info;
+        $new_local->facebook_url = $local_data->facebook_url;
+        $new_local->instagram_url = $local_data->instagram_url;
+        $new_local->delivery = $local_data->delivery;
+        $new_local->eat_in_local = $local_data->eat_in_local;
+        $new_local->pick_up_local = $local_data->pick_up_local;
+        $new_local->cash_payment = $local_data->cash_payment;
+        $new_local->creditcards_payment = $local_data->creditcards_payment;
+        $new_local->contackless_payment = $local_data->contackless_payment;
+        $new_local->blik_payment = $local_data->blik_payment;
+
+        $new_local->save();
+
 
     }
 
