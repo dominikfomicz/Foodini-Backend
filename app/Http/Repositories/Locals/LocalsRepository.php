@@ -125,4 +125,33 @@ class LocalsRepository
 
         return DB::select($query);
     }
+
+    public static function getFavouriteList($id_city_const_type){
+        $day_of_week = date('N');
+        if($day_of_week == 7){
+            $day_of_week = 0;
+        }
+        $id_user = Auth::user()->id;
+        $query = "SELECT 
+                        l.name,
+                        l.id AS local_id,
+                        to_char(o.local_hour_from, 'HH24:MI') AS open_from,
+                        to_char(o.local_hour_to, 'HH24:MI') AS open_to,
+                        o.status_closed AS is_closed,
+                        CASE WHEN f.id IS NOT NULL THEN TRUE
+                        ELSE FALSE 
+                        END AS is_favouirite,
+                        l.delivery,
+                        l.eat_in_local,
+                        l.pick_up_local		
+                    
+                    FROM  s_locals.t_local_ref_favourite f
+                    LEFT JOIN s_locals.t_local_data_main l ON f.id_local_data_main = l.id
+                    LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
+                                                            AND o.id_weekday_const_type = {$day_of_week}
+                    
+                    WHERE f.id_user = {$id_user} AND l.id_city_const_type = {$id_city_const_type}                                        ;
+                    ";
+        return DB::select($query);
+    }
 }

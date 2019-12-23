@@ -37,4 +37,8 @@ class LocalsController extends Controller
     public function removeLocalFromFavourite(Request $request){
         return $this->service->removeLocalFromFavourite($request->id_local_data_main);
     }
+
+    public function getFavouriteList(Request $request){
+        return $this->service->getFavouriteList($request->id_city_const_type);
+    }
 }

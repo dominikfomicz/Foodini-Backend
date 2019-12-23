@@ -79,4 +79,15 @@ class LocalsService
         $favourite = LocalRefFavourite::where('id_user', $id_user)->where('id_local_data_main', $id_local_data_main)->delete();
 
     }
+
+    public function getFavouriteList($id_city_const_type){
+        $locals = collect(LocalsRepository::getFavouriteList($id_city_const_type));
+        $tags = collect(LocalsRepository::getTags());
+        foreach($locals AS $local){
+            $local->tags = $tags->where('id_local_data_main', $local->local_id)->where('is_main', 'true')->map(function ($item, $key) {
+                return collect($item)->except(['id_local_data_main'])->all();
+            });
+        }
+        return json_encode($locals);
+    }
 }
