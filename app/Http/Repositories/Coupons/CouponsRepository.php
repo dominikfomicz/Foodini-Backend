@@ -2,7 +2,7 @@
 
 namespace App\Http\Repositories\Coupons;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Auth;
+use \Auth;
 
 
 class CouponsRepository 

@@ -7,7 +7,7 @@ use App\Models\s_coupons\CouponRefFavourite;
 
 use App\Http\Repositories\Coupons\CouponsRepository;
 use App\Models\s_tags\CouponRefMain;
-use App\Http\Controllers\Auth;
+use \Auth;
 
 class CouponsService 
 {
@@ -67,6 +67,6 @@ class CouponsService
     public function removeFromFavourite($id_coupon_data_main){
         $id_user = Auth::user()->id;
         $favourite = CouponRefFavourite::where('id_user', $id_user)->where('id_coupon_data_main', $id_coupon_data_main)->delete();
-        
+
     }
 }
