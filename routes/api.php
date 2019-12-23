@@ -27,7 +27,9 @@ Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
 
   Route::group(array('namespace' => 'Coupons', 'prefix' => 'coupons'), function() {
     Route::post('addCoupon', 'CouponsController@addCoupon'); // checked MSC
-
+    Route::post('addCouponToFavourite', 'CouponsController@addCouponToFavourite'); // checked MSC
+    Route::post('removeFromFavourite', 'CouponsController@removeFromFavourite'); // checked MSC
+    
     Route::get('getList/{id_local_data_main}', 'CouponsController@getList'); // checked MSC
     Route::get('getDetails/{id_local_data_main}/{id_coupon_data_main}', 'CouponsController@getDetails'); // checked MSC
   });
