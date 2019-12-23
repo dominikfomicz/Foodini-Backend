@@ -37,4 +37,8 @@ class CouponsController extends Controller
     public function removeFromFavourite(Request $request){
         return $this->service->removeFromFavourite($request->id_coupon_data_main);
     }
+
+    public function getFavouriteList(Request $request){
+        return $this->service->getFavouriteList();
+    }
 }

@@ -73,4 +73,15 @@ class CouponsService
     public function removeCoupon($id_coupon_data_main){
         //to do
     }
+
+    public function getFavouriteList(){
+        $coupons = collect(CouponsRepository::getFavouriteList());
+        $tags = collect(CouponsRepository::getTags());
+        foreach($coupons AS $coupon){
+            $coupon->tags = $tags->where('id_coupon_data_main', $coupon->coupon_id)->map(function ($item, $key) {
+                return collect($item)->except(['id_coupon_data_main'])->all();
+            });
+        }
+        return json_encode($coupons);
+    }
 }
