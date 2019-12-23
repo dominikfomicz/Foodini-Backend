@@ -41,4 +41,5 @@ class CouponsController extends Controller
     public function getFavouriteList(Request $request){
         return $this->service->getFavouriteList();
     }
+    
 }

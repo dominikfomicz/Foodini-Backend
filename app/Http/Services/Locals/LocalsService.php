@@ -49,21 +49,12 @@ class LocalsService
             // }
     }
 
-    public function addTagsToLocal(){
-        // $lokals = LocalDataMain::all();
-        // foreach($lokals AS $local){
-        //     $boolean = TRUE;
-        //     for ($i = 0; $i <= 3; $i++) {
-        //         $new_ref = new LocalRefMain();
-        //         $new_ref->id_local_data_main = $local->id;
-        //         $new_ref->id_tag_data_main = rand(1,12);
-        //         $new_ref->priority_status = $boolean;
-        //         if($i == 2){
-        //             $boolean = false;
-        //         }
-        //         $new_ref->save();
-        //     }
-        // }
+    public function addTagToLocal($id_local_data_main, $id_tag_data_main, $priority_status){
+        $new_ref = new LocalRefMain();
+        $new_ref->id_local_data_main = $id_local_data_main;
+        $new_ref->id_tag_data_main = $id_tag_data_main;
+        $new_ref->priority_status = $priority_status;
+        $new_ref->save();
     }
 
     public function addLocalToFavourite($id_local_data_main){
@@ -89,5 +80,14 @@ class LocalsService
             });
         }
         return json_encode($locals);
+    }
+
+    public function addLocal(){
+
+    }
+
+    public function removeLocal($id_local_data_main){
+        $local = LocalDataMain::find($id_local_data_main);
+        $local->delete();
     }
 }
