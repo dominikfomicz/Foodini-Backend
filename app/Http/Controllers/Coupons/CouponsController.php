@@ -26,6 +26,10 @@ class CouponsController extends Controller
         return $this->service->addCoupon($request->id_local_data_main, json_encode($request->coupon_data), json_encode($request->tags));
     }
 
+    public function removeCoupon(Request $request){
+        return $this->service->removeCoupon($request->id_coupon_data_main);
+    }
+
     public function addCouponToFavourite(Request $request){
         return $this->service->addCouponToFavourite($request->id_coupon_data_main);
     }

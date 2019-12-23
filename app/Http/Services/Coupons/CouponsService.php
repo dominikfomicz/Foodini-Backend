@@ -69,4 +69,8 @@ class CouponsService
         $favourite = CouponRefFavourite::where('id_user', $id_user)->where('id_coupon_data_main', $id_coupon_data_main)->delete();
 
     }
+
+    public function removeCoupon($id_coupon_data_main){
+        //to do
+    }
 }
