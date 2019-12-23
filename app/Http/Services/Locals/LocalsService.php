@@ -65,7 +65,7 @@ class LocalsService
         // }
     }
 
-    public function addCouponToFavourite($id_local_data_main){
+    public function addLocalToFavourite($id_local_data_main){
         $id_user = Auth::user()->id;
         $favourite = new LocalRefFavourite();
         $favourite->id_user = $id_user;
@@ -73,7 +73,7 @@ class LocalsService
         $favourite->save();
     }
 
-    public function removeFromFavourite($id_local_data_main){
+    public function removeLocalFromFavourite($id_local_data_main){
         $id_user = Auth::user()->id;
         $favourite = LocalRefFavourite::where('id_user', $id_user)->where('id_local_data_main', $id_local_data_main)->delete();
 
