@@ -10,6 +10,7 @@ class LocalsRepository
         if($day_of_week == 7){
             $day_of_week = 0;
         }
+        $id_user = Auth::user()->id;
         $query = "SELECT 
                         l.name,
                         l.id AS local_id,
