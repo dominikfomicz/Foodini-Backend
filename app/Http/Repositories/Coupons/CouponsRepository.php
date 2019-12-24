@@ -10,6 +10,7 @@ class CouponsRepository
     public static function getList($id_local_data_main){
         $id_user = Auth::user()->id;
         $query = "SELECT 
+                        r.id AS id_local_ref_coupon
                         c.id AS coupon_id,
                         l.id AS local_id,
                         c.name AS coupon_name,
@@ -50,6 +51,7 @@ class CouponsRepository
         $id_user = Auth::user()->id;
         $query = "
                     SELECT 
+                        r.id AS id_local_ref_coupon
                         c.id AS coupon_id,
                         c.description,
                         c.amount,
@@ -60,7 +62,7 @@ class CouponsRepository
                     FROM s_coupons.t_local_ref_coupon r  
                     LEFT JOIN s_coupons.t_coupon_data_main c ON c.id = f.id_coupon_data_main
                     LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_local_ref_coupon = r.id
-                    WHERE f.id_coupon_data_main = {$id_coupon_data_main} AND f.id_local_data_main = {$id_local_data_main};
+                    WHERE r.id_coupon_data_main = {$id_coupon_data_main} AND r.id_local_data_main = {$id_local_data_main};
                     ";
 
         return DB::select($query);
@@ -80,6 +82,7 @@ class CouponsRepository
     public static function getFavouriteList(){
         $id_user = Auth::user()->id;
         $query = "SELECT 
+                        r.id AS id_local_ref_coupon
                         c.id AS coupon_id,
                         l.id AS local_id,
                         l.name AS local_name,
