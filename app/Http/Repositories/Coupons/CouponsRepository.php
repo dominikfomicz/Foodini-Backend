@@ -97,8 +97,8 @@ class CouponsRepository
                         END AS status	
                     
                     FROM  s_coupons.t_coupon_ref_favourite f
-                    LEFT JOIN s_coupons.t_coupon_data_main c ON c.id = f.id_coupon_data_main
-                    LEFT JOIN s_coupons.t_local_ref_coupon r ON r.id = f.id_coupon_data_main
+                    LEFT JOIN s_coupons.t_local_ref_coupon r ON r.id = f.id_local_ref_coupon
+                    LEFT JOIN s_coupons.t_coupon_data_main c ON c.id = r.id_coupon_data_main
                     LEFT JOIN s_locals.t_local_data_main l ON l.id = r.id_local_data_main
                     WHERE f.id_user = {$id_user};
                     ";

@@ -56,17 +56,17 @@ class CouponsService
         return json_encode($coupon);
     }
 
-    public function addCouponToFavourite($id_coupon_data_main){
+    public function addCouponToFavourite($id_local_ref_coupon){
         $id_user = Auth::user()->id;
         $favourite = new CouponRefFavourite();
         $favourite->id_user = $id_user;
-        $favourite->id_coupon_data_main = $id_coupon_data_main;
+        $favourite->id_local_ref_coupon = $id_local_ref_coupon;
         $favourite->save();
     }
 
-    public function removeFromFavourite($id_coupon_data_main){
+    public function removeFromFavourite($id_local_ref_coupon){
         $id_user = Auth::user()->id;
-        $favourite = CouponRefFavourite::where('id_user', $id_user)->where('id_coupon_data_main', $id_coupon_data_main)->delete();
+        $favourite = CouponRefFavourite::where('id_user', $id_user)->where('id_local_ref_coupon', $id_local_ref_coupon)->delete();
 
     }
 
