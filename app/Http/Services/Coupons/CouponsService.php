@@ -35,6 +35,7 @@ class CouponsService
         $new_ref = new LocalsRefCoupon();
         $new_ref->id_coupon_data_main = $new_coupon->id;
         $new_ref->id_local_data_main = $id_local_data_main;
+        $new_ref->amount = $coupon_data->amount;
         $new_ref->save();
 
         foreach($tags AS $tag){
