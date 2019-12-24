@@ -60,7 +60,7 @@ class CouponsRepository
                         ELSE FALSE 
                         END AS is_favouirite
                     FROM s_coupons.t_local_ref_coupon r  
-                    LEFT JOIN s_coupons.t_coupon_data_main c ON c.id = f.id_coupon_data_main
+                    LEFT JOIN s_coupons.t_coupon_data_main c ON c.id = r.id_coupon_data_main
                     LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_local_ref_coupon = r.id
                     WHERE r.id_coupon_data_main = {$id_coupon_data_main} AND r.id_local_data_main = {$id_local_data_main};
                     ";
