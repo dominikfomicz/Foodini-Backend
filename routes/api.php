@@ -44,7 +44,7 @@ Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
     Route::get('getFavouriteList', 'CouponsController@getFavouriteList'); // checked MSC
   });
 
-  Route::group(['namespace' => 'Tools', 'prefix' => 'tools'], function() {
+Route::group(['namespace' => 'Tools', 'prefix' => 'tools'], function() {
     Route::post('getList', 'SelectItemController@getList');
 });
 
