@@ -9,7 +9,7 @@ class CouponsRepository
 {
     public static function getList($id_local_data_main){
         $id_user = Auth::user()->id;
-        $query = "WITH used_counter(
+        $query = "WITH used_counter AS (
                             SELECT
                                 COUNT(*) AS used_counter,
                                 id_local_ref_coupon
