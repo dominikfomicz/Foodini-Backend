@@ -35,7 +35,9 @@ class CouponsRepository
                         CASE WHEN c.status = 1 THEN TRUE
                         ELSE FALSE
                         END AS status,
-                        r.amount - 	used_counter.used_counter AS coupon_left
+                        CASE WHEN r.amount - used_counter.used_counter IS NOT NULL THEN r.amount - used_counter.used_counter
+                        ELSE 0
+                        END AS coupon_left
                     
                     FROM s_coupons.t_local_ref_coupon r
                     LEFT JOIN s_coupons.t_coupon_data_main c ON c.id = r.id_coupon_data_main
@@ -58,7 +60,7 @@ class CouponsRepository
         return DB::select($query);
     }
 
-    public static function getDetails($id_coupon_data_main, $id_local_data_main){
+    public static function getDetails($id_local_ref_coupon){
         $id_user = Auth::user()->id;
         $query = "
                     SELECT 
@@ -73,7 +75,7 @@ class CouponsRepository
                     FROM s_coupons.t_local_ref_coupon r  
                     LEFT JOIN s_coupons.t_coupon_data_main c ON c.id = r.id_coupon_data_main
                     LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_local_ref_coupon = r.id
-                    WHERE r.id_coupon_data_main = {$id_coupon_data_main} AND r.id_local_data_main = {$id_local_data_main};
+                    WHERE r.id = {$id_local_ref_coupon};
                     ";
 
         return DB::select($query);

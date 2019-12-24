@@ -51,8 +51,8 @@ class CouponsService
             $new_ref->save();
     }
 
-    public function getDetails($id_local_data_main, $id_coupon_data_main){
-        $coupon = collect(CouponsRepository::getDetails($id_coupon_data_main, $id_local_data_main))->first();
+    public function getDetails($id_local_ref_coupon){
+        $coupon = collect(CouponsRepository::getDetails($id_local_ref_coupon))->first();
         $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id));
         return json_encode($coupon);
     }
