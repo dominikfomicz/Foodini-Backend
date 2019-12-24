@@ -36,7 +36,7 @@ class CouponsRepository
                         ELSE FALSE
                         END AS status,
                         CASE WHEN r.amount - used_counter.used_counter IS NOT NULL THEN r.amount - used_counter.used_counter
-                        ELSE 0
+                        ELSE r.amount
                         END AS coupon_left
                     
                     FROM s_coupons.t_local_ref_coupon r
