@@ -9,7 +9,16 @@ class CouponsRepository
 {
     public static function getList($id_local_data_main){
         $id_user = Auth::user()->id;
-        $query = "SELECT 
+        $query = "WITH used_counter(
+                        SELECT
+                            COUNT(*) AS used_counter,
+                            id_local_ref_user
+                        FROM s.coupons.t_coupon.ref_user
+                        GROUP BY id_local_ref_user
+                        WHERE used = 1
+                    )
+        
+                    SELECT 
                         r.id AS id_local_ref_coupon,
                         c.id AS coupon_id,
                         l.id AS local_id,
@@ -25,12 +34,14 @@ class CouponsRepository
                         l.name AS local_name,
                         CASE WHEN c.status = 1 THEN TRUE
                         ELSE FALSE
-                        END AS status	
+                        END AS status,
+                        r.amount - 	used_counter.used_counter AS coupon_left
                     
                     FROM s_coupons.t_local_ref_coupon r
                     LEFT JOIN s_coupons.t_coupon_data_main c ON c.id = r.id_coupon_data_main
                     LEFT JOIN s_locals.t_local_data_main l ON l.id = r.id_local_data_main
                     LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
+                    LEFT JOIN used_counter ON used_counter.id_local_ref_user = r.id
                     WHERE r.id_local_data_main = {$id_local_data_main}                                        ;
                     ";
         return DB::select($query);
