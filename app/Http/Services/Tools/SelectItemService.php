@@ -3,6 +3,8 @@
 namespace App\Http\Services\Tools;
 
 use App\Models\s_locals\CityConstType;
+use App\Models\s_locals\WeekdayConstType;
+use App\Models\s_tags\TagDataMain;
 use Illuminate\Support\Collection;
 use DB;
 
@@ -38,8 +40,17 @@ class SelectItemService {
     }
 
     private function getCityConstType() {
-        //$list = \App\Models\s_case\HistoryConstType::where("visible", "1")->select("id", "name")->get();
         $list = CityConstType::select("id", "name")->get();
         return $this->convertToReturnArray($list, "id", "name");
     }   
+
+    private function getWeekdayConstType() {
+        $list = WeekdayConstType::select("id", "name")->get();
+        return $this->convertToReturnArray($list, "id", "name");
+    }
+
+    private function getTagDataMain() {
+        $list = TagDataMain::select("id", "name")->get();
+        return $this->convertToReturnArray($list, "id", "name");
+    }
 }
