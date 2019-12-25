@@ -9,13 +9,13 @@ use App\Http\Repositories\Coupons\CouponsRepository;
 use App\Models\s_tags\CouponRefMain;
 use \Auth;
 
-class CouponsService 
+class CouponsService
 {
     public function getList($id_local_data_main){
         $coupons = collect(CouponsRepository::getList($id_local_data_main));
         $tags = collect(CouponsRepository::getTags());
         foreach($coupons AS $coupon){
-            $coupon->tags = $tags->where('id_coupon_data_main', $coupon->coupon_id)->map(function ($item, $key) {
+            $coupon->tags = $tags->where('id_coupon_data_main', $coupon->coupon_id)->where('is_main', 'true')->map(function ($item, $key) {
                 return collect($item)->except(['id_coupon_data_main'])->all();
             });
         }
