@@ -1,10 +1,10 @@
 <?php
-namespace App\Models\s_coupons;
+namespace App\Models\s_locals;
 use Illuminate\Database\Eloquent\Model;
 
-class CouponDataMain extends Model {
+class CityConstType extends Model {
     
-    protected $table = "s_coupons.t_coupon_data_main";
+    protected $table = "s_locals.t_city_const_type";
     public $timestamps = false;
     
     protected $fillable = [
