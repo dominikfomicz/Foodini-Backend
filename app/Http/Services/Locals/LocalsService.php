@@ -82,6 +82,7 @@ class LocalsService
 
     public function addLocal($local_data, $tags, $open_hours){
 
+        //comment
         $new_local = new LocalDataMain();
         $new_local->name = $local_data->name;
         $new_local->address = $local_data->address;
