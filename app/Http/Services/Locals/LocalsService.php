@@ -25,7 +25,7 @@ class LocalsService
     public function getDetails($id_local_data_main){
         $local = collect(LocalsRepository::getDetails($id_local_data_main))->first();
         $local->work_hours = collect(LocalsRepository::getWorkHours($local->local_id));
-        $local->tags = collect(LocalsRepository::getTagsByLocal($local->local_id));
+        $local->tags = collect(LocalsRepository::getTagsByLocal($local->local_id))->where('is_main', 'true');
         return json_encode($local);
     }
 
