@@ -30,6 +30,9 @@ class LocalsService
     }
 
     public function changeOpenHoursDay($id_local_data_main, $week_day_id, $open_data){
+
+        OpenRefMain::where('id_local_data_main', $id_local_data_main)->where('id_week_day_const_type', $week_day_id)->delete();
+
         $new_ref = new OpenRefMain();
         $new_ref->id_local_data_main = $id_local_data_main;
         $new_ref->id_weekday_const_type = $week_day_id;
@@ -77,7 +80,8 @@ class LocalsService
         return json_encode($locals);
     }
 
-    public function addLocal($local_data, $tags){
+    public function addLocal($local_data, $tags, $open_hours){
+
         $new_local = new LocalDataMain();
         $new_local->name = $local_data->name;
         $new_local->address = $local_data->address;
@@ -97,7 +101,13 @@ class LocalsService
 
         $new_local->save();
 
+        foreach($tags AS $tag){
+            $this->addTagToLocal($new_local->id, $tag->id, $tag->priority_status);
+        }
 
+        foreach($open_hours AS $open_hour){
+            $this->changeOpenHoursDay($new_local->id, $open_hour->id_week_day, $open_hour);
+        }
     }
 
     public function removeLocal($id_local_data_main){
