@@ -43,7 +43,7 @@ class LocalsController extends Controller
     }
 
     public function addLocal(Request $request){
-        return $this->service->addLocal(json_encode($request->local_data), json_encode($request->tags), json_encode($request->open_hours));
+        return $this->service->addLocal(collect(json_encode($request->local_data)), collect(json_encode($request->tags)), collect(json_encode($request->open_hours)));
     }
 
     public function removeLocal(Request $request){
