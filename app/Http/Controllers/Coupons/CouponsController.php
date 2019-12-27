@@ -45,5 +45,9 @@ class CouponsController extends Controller
     public function orderCoupon(Request $request){
         return $this->service->orderCoupon($request->id_coupon_data_main);
     }
+
+    public function checkCoupon(Request $request){
+        return $this->service->checkCoupon($request->unique_number);
+    }
     
 }
