@@ -7,6 +7,7 @@ use App\Models\s_locals\LocalRefFavourite;
 
 use App\Http\Repositories\Locals\LocalsRepository;
 use App\Models\s_locals\LocalDataMain;
+use App\Models\s_sys\HexaConstType;
 use Auth;
 
 class LocalsService
@@ -100,7 +101,12 @@ class LocalsService
         $new_local->contactless_payment = $local_data->contactless_payment;
         $new_local->blik_payment = $local_data->blik_payment;
 
+        $hexa = HexaConstType::where('used_local', FALSE)->first();
+        $new_local->hexa_value = $hexa->value;
         $new_local->save();
+
+        $hexa->used_local = TRUE;
+        $hexa->save();
 
         foreach($tags AS $tag){
             $this->addTagToLocal($new_local->id, $tag->id, $tag->priority_status);
