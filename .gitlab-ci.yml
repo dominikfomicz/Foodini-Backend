@@ -1,4 +1,4 @@
-image: ubuntu:18.04
+image: composer:latest
 
 stages:
 #   - build
@@ -13,7 +13,6 @@ stages:
     # script:
     
 deploy:
-    image: composer:latest
     stage: deploy
     only:
      - master
