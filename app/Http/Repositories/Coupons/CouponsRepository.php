@@ -37,7 +37,6 @@ class CouponsRepository
                         CASE WHEN c.amount - used_counter.used_counter IS NOT NULL THEN c.amount - used_counter.used_counter
                         ELSE c.amount
                         END AS coupon_left
-                    
                     FROM s_coupons.t_coupon_data_main c
                     LEFT JOIN s_locals.t_local_data_main l ON l.id = c.id_local_data_main
                     LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
