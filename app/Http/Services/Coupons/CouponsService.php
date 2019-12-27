@@ -107,12 +107,18 @@ class CouponsService
     }
 
     public function checkCoupon($unique_number){
-        $coupon = CouponRefUser::where('used', 2)->where('unique_number', $unique_number)->where('create_date', '>', date("Y-m-d H:i:s", strtotime("-5 minutes")))->first();
-        if($coupon != null){
-            $coupon->used = 1;
-            $coupon->unique_number = NULL;
-            $coupon->save();
-            return 1;
+        $user_type = Auth::user()->user_type;
+
+        if($user_type == 1){
+            $coupon = CouponRefUser::where('used', 2)->where('unique_number', $unique_number)->where('create_date', '>', date("Y-m-d H:i:s", strtotime("-5 minutes")))->first();
+            if($coupon != null){
+                $coupon->used = 1;
+                $coupon->unique_number = NULL;
+                $coupon->save();
+                return 1;
+            }else{
+                return 0;
+            }
         }else{
             return 0;
         }
