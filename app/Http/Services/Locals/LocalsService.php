@@ -82,7 +82,7 @@ class LocalsService
 
     public function addLocal($local_data, $tags, $open_hours){
 
-        $new_local = new LocalDataMain::all();
+        $new_local = LocalDataMain::all();
         // $new_local->name = $local_data->name;
         // $new_local->address = $local_data->address;
         // $new_local->id_city_const_type = $local_data->id_city_const_type;
