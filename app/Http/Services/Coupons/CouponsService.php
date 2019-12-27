@@ -97,5 +97,7 @@ class CouponsService
         $unique_number = (($ref_user->id * 569212223861) % 999999);  
         $ref_user->unique_number = str_pad($unique_number,  6, "0");
         $ref_user->save();
+
+        return $ref_user->unique_number;
     }
 }
