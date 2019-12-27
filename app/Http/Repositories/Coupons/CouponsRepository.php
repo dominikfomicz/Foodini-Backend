@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 use \Auth;
 
 
-class CouponsRepository 
+class CouponsRepository
 {
     public static function getList($id_local_data_main){
         $id_user = Auth::user()->id;
@@ -16,8 +16,8 @@ class CouponsRepository
                             FROM s_coupons.t_coupon_ref_user
                             GROUP BY id_coupon_data_main
                     )
-        
-                    SELECT 
+
+                    SELECT
                         c.id AS coupon_id,
                         l.id AS local_id,
                         c.name AS coupon_name,
@@ -27,7 +27,7 @@ class CouponsRepository
                         l.pick_up_local,
                         c.amount,
                         CASE WHEN f.id IS NOT NULL THEN TRUE
-                        ELSE FALSE 
+                        ELSE FALSE
                         END AS is_favouirite,
                         l.name AS local_name,
                         CASE WHEN c.status = 1 THEN TRUE
@@ -47,7 +47,7 @@ class CouponsRepository
     }
 
     public static function getTags(){
-        $query = "SELECT 
+        $query = "SELECT
                         r.id_coupon_data_main,
                         t.id,
                         t.name,
@@ -61,13 +61,13 @@ class CouponsRepository
     public static function getDetails($id_coupon_data_main){
         $id_user = Auth::user()->id;
         $query = "
-                    SELECT 
+                    SELECT
                         c.id AS coupon_id,
                         c.description,
                         c.amount,
                         c.name,
                         CASE WHEN f.id IS NOT NULL THEN TRUE
-                        ELSE FALSE 
+                        ELSE FALSE
                         END AS is_favouirite
                     FROM s_coupons.t_coupon_data_main c
                     LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_coupon_data_main = c.id
@@ -78,7 +78,7 @@ class CouponsRepository
     }
 
     public static function getTagsByCoupon($coupon_id){
-        $query = "SELECT 
+        $query = "SELECT
                         t.id,
                         t.name,
                         r.priority_status AS is_main
@@ -90,7 +90,7 @@ class CouponsRepository
 
     public static function getFavouriteList(){
         $id_user = Auth::user()->id;
-        $query = "SELECT 
+        $query = "SELECT
                         c.id AS coupon_id,
                         l.id AS local_id,
                         l.name AS local_name,
@@ -101,17 +101,57 @@ class CouponsRepository
                         l.pick_up_local,
                         c.amount,
                         CASE WHEN f.id IS NOT NULL THEN TRUE
-                        ELSE FALSE 
+                        ELSE FALSE
                         END AS is_favouirite,
                         l.name AS local_name,
                         CASE WHEN c.status = 1 THEN TRUE
                         ELSE FALSE
-                        END AS status	
-                    
+                        END AS status
+
                     FROM  s_coupons.t_coupon_ref_favourite f
                     LEFT JOIN s_coupons.t_coupon_data_main c ON c.id = f.id_coupon_data_main
                     LEFT JOIN s_locals.t_local_data_main l ON l.id = c.id_local_data_main
                     WHERE f.id_user = {$id_user};
+                    ";
+        return DB::select($query);
+    }
+
+
+    public static function getListForCity($id_city_const_type){
+        $id_user = Auth::user()->id;
+        $query = "WITH used_counter AS (
+                            SELECT
+                                COUNT(*) AS used_counter,
+                                id_coupon_data_main
+                            FROM s_coupons.t_coupon_ref_user
+                            GROUP BY id_coupon_data_main
+                    )
+
+                    SELECT
+                        c.id AS coupon_id,
+                        l.id AS local_id,
+                        c.name AS coupon_name,
+                        c.mature,
+                        l.delivery,
+                        l.eat_in_local,
+                        l.pick_up_local,
+                        c.amount,
+                        CASE WHEN f.id IS NOT NULL THEN TRUE
+                        ELSE FALSE
+                        END AS is_favouirite,
+                        l.name AS local_name,
+                        CASE WHEN c.status = 1 THEN TRUE
+                        ELSE FALSE
+                        END AS status,
+                        CASE WHEN c.amount = -1 THEN c.amount
+                            WHEN used_counter.used_counter IS NOT NULL THEN c.amount - used_counter.used_counter
+                        ELSE c.amount
+                        END AS coupon_left
+                    FROM s_coupons.t_coupon_data_main c
+                    LEFT JOIN s_locals.t_local_data_main l ON l.id = c.id_local_data_main
+                    LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
+                    LEFT JOIN used_counter ON used_counter.id_coupon_data_main = c.id
+                    WHERE l.id_city_const_type = {$id_city_const_type};
                     ";
         return DB::select($query);
     }

@@ -41,7 +41,7 @@ class CouponsService
                 $coupon->save();
             }
         }
-        
+
     }
 
     public function addCoupon($id_local_data_main, $coupon_data, $tags){
@@ -107,7 +107,7 @@ class CouponsService
     public function orderCoupon($id_coupon_data_main){
         $coupon = CouponDataMain::find($id_coupon_data_main);
         $id_user = Auth::user()->id;
-        
+
         $ref_user = new CouponRefUser();
         $ref_user->id_coupon_data_main = $id_coupon_data_main;
         $ref_user->id_user = $id_user;
@@ -116,7 +116,7 @@ class CouponsService
         $ref_user->save();
 
         $local = LocalDataMain::find($coupon->id_local_data_main);
-        $hexa_id = (($ref_user->id * 345545467) % 4096);  
+        $hexa_id = (($ref_user->id * 345545467) % 4096);
         $hexa = HexaConstType::find($hexa_id);
         $ref_user->unique_number = $local->hexa_value.$hexa->value;
         $ref_user->save();
@@ -140,5 +140,17 @@ class CouponsService
         }else{
             return -1;
         }
+    }
+
+    public function getListForCity($id_city_const_type){
+        $coupons = collect(CouponsRepository::getListForCity($id_city_const_type));
+        $tags = collect(CouponsRepository::getTags());
+        foreach($coupons AS $coupon){
+            $coupon->tags = $tags->where('id_coupon_data_main', $coupon->coupon_id)->where('is_main', 'true')->map(function ($item, $key) {
+                return collect($item)->except(['id_coupon_data_main'])->all();
+            });
+        }
+        return json_encode($coupons);
+
     }
 }
