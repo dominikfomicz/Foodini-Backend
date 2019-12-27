@@ -97,7 +97,7 @@ class LocalsService
         $new_local->pick_up_local = $local_data->pick_up_local;
         $new_local->cash_payment = $local_data->cash_payment;
         $new_local->creditcards_payment = $local_data->creditcards_payment;
-        $new_local->contactless_payment = $local_data->contactless_payments;
+        $new_local->contactless_payment = $local_data->contactless_payment;
         $new_local->blik_payment = $local_data->blik_payment;
 
         $new_local->save();
