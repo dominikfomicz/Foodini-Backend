@@ -7,7 +7,7 @@ use App\Models\s_locals\LocalRefFavourite;
 
 use App\Http\Repositories\Locals\LocalsRepository;
 use App\Models\s_locals\LocalDataMain;
-use \Auth;
+use Auth;
 
 class LocalsService
 {
