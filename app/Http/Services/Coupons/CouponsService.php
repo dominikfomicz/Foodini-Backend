@@ -93,7 +93,7 @@ class CouponsService
         //to do
     }
 
-    
+
     public function getFavouriteList(){
         $this->checkAllCoupons();
         $coupons = collect(CouponsRepository::getFavouriteList());
