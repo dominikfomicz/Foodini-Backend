@@ -13,6 +13,7 @@ stages:
     # script:
     
 deploy:
+    image: composer:latest
     stage: deploy
     only:
      - master
@@ -22,7 +23,8 @@ deploy:
     script:
      #- lftp -c "set ftp:ssl-allow no; open -u $FTP_USERNAME,$FTP_PASSWORD $HOST; mirror -Rev ./app && ./resources && ./routes /var/www/  --ignore-time --parallel=10 --exclude-glob .git* --exclude .git/ --exclude vendor/ --exclude composer.json"
      - lftp -c "set ftp:ssl-allow no; open -u $FTP_USERNAME,$FTP_PASSWORD $HOST; mirror -Rev ./ /var/www/ --ignore-time --parallel=10 --exclude ./* --include app/* --include resources/* --include routes/*"
-
+    after_script:
+     - composer dump-autoload
 
 # stages:
 #   - build
