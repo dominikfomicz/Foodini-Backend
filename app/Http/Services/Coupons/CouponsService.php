@@ -11,6 +11,7 @@ use App\Models\s_locals\LocalDataMain;
 use App\Models\s_sys\HexaConstType;
 use App\Models\s_tags\CouponRefMain;
 use \Auth;
+use DB;
 
 class CouponsService
 {
