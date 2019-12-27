@@ -135,6 +135,7 @@ class CouponsRepository
                         l.delivery,
                         l.eat_in_local,
                         l.pick_up_local,
+                        l.id_city_const_type,
                         c.amount,
                         CASE WHEN f.id IS NOT NULL THEN TRUE
                         ELSE FALSE
