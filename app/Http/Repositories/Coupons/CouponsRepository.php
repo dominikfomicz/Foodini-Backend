@@ -34,8 +34,8 @@ class CouponsRepository
                         CASE WHEN c.status = 1 THEN TRUE
                         ELSE FALSE
                         END AS status,
-                        CASE WHEN r.amount - used_counter.used_counter IS NOT NULL THEN r.amount - used_counter.used_counter
-                        ELSE r.amount
+                        CASE WHEN c.amount - used_counter.used_counter IS NOT NULL THEN c.amount - used_counter.used_counter
+                        ELSE c.amount
                         END AS coupon_left
                     
                     FROM s_coupons.t_coupon_data_main c
