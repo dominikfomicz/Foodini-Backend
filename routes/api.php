@@ -48,3 +48,7 @@ Route::group(['namespace' => 'Tools', 'prefix' => 'tools'], function() {
     Route::post('getList', 'SelectItemController@getList');
 });
 
+Route::group(['namespace' => 'Tags', 'prefix' => 'tags'], function() {
+  Route::post('addTag', 'TagsController@addTag');
+});
+
