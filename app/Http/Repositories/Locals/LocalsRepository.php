@@ -4,7 +4,7 @@ namespace App\Http\Repositories\Locals;
 use Illuminate\Support\Facades\DB;
 use \Auth;
 
-class LocalsRepository 
+class LocalsRepository
 {
     public static function getList($id_city_const_type){
         $day_of_week = date('N');
@@ -12,19 +12,19 @@ class LocalsRepository
             $day_of_week = 0;
         }
         $id_user = Auth::user()->id;
-        $query = "SELECT 
+        $query = "SELECT
                         l.name,
                         l.id AS local_id,
                         to_char(o.local_hour_from, 'HH24:MI') AS open_from,
                         to_char(o.local_hour_to, 'HH24:MI') AS open_to,
                         o.status_closed AS is_closed,
                         CASE WHEN f.id IS NOT NULL THEN TRUE
-                        ELSE FALSE 
+                        ELSE FALSE
                         END AS is_favouirite,
                         l.delivery,
                         l.eat_in_local,
-                        l.pick_up_local		
-                    
+                        l.pick_up_local
+
                     FROM s_locals.t_local_data_main l
                     LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
                                                             AND id_weekday_const_type = {$day_of_week}
@@ -35,7 +35,7 @@ class LocalsRepository
     }
 
     public static function getTags(){
-        $query = "SELECT 
+        $query = "SELECT
                         r.id_local_data_main,
                         t.id,
                         t.name,
@@ -46,7 +46,7 @@ class LocalsRepository
     }
 
     public static function getDetails($id_local_data_main){
-        
+
         $day_of_week = date('N');
         if($day_of_week == 7){
             $day_of_week = 0;
@@ -64,7 +64,7 @@ class LocalsRepository
                                     FROM s_coupons.t_coupon_data_main
                                     WHERE id_local_data_main = {$id_local_data_main}
                         )
-                    SELECT 
+                    SELECT
                         l.name,
                         l.id AS local_id,
                         CASE WHEN o.local_hour_from < CURRENT_TIME AND o.local_hour_to > CURRENT_TIME THEN TRUE
@@ -78,13 +78,14 @@ class LocalsRepository
                         END AS delivery_open_status,
                         o.status_closed AS is_closed,
                         CASE WHEN f.id IS NOT NULL THEN TRUE
-                        ELSE FALSE 
+                        ELSE FALSE
                         END AS is_favouirite,
                         l.delivery,
                         l.eat_in_local,
                         l.pick_up_local,
                         l.address,
                         l.description,
+                        l.other_info,
                         l.facebook_url,
                         l.instagram_url,
                         counter_fav.favourite_count,
@@ -107,7 +108,7 @@ class LocalsRepository
     }
 
     public static function getTagsByLocal($local_id){
-        $query = "SELECT 
+        $query = "SELECT
                         t.id,
                         t.name,
                         r.priority_status AS is_main
@@ -119,10 +120,10 @@ class LocalsRepository
 
     public static function getWorkHours($id_local_data_main){
 
-        $query = "SELECT 
+        $query = "SELECT
                         o.id_weekday_const_type AS id_day,
                         CONCAT_WS(' - ', to_char(o.local_hour_from, 'HH24:MI'), to_char(o.local_hour_to, 'HH24:MI')) AS open_hours
-                    FROM s_locals.t_open_ref_main o 
+                    FROM s_locals.t_open_ref_main o
                     WHERE o.id_local_data_main = {$id_local_data_main};";
 
         return DB::select($query);
@@ -134,24 +135,24 @@ class LocalsRepository
             $day_of_week = 0;
         }
         $id_user = Auth::user()->id;
-        $query = "SELECT 
+        $query = "SELECT
                         l.name,
                         l.id AS local_id,
                         to_char(o.local_hour_from, 'HH24:MI') AS open_from,
                         to_char(o.local_hour_to, 'HH24:MI') AS open_to,
                         o.status_closed AS is_closed,
                         CASE WHEN f.id IS NOT NULL THEN TRUE
-                        ELSE FALSE 
+                        ELSE FALSE
                         END AS is_favouirite,
                         l.delivery,
                         l.eat_in_local,
-                        l.pick_up_local		
-                    
+                        l.pick_up_local
+
                     FROM  s_locals.t_local_ref_favourite f
                     LEFT JOIN s_locals.t_local_data_main l ON f.id_local_data_main = l.id
                     LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
                                                             AND o.id_weekday_const_type = {$day_of_week}
-                    
+
                     WHERE f.id_user = {$id_user} AND l.id_city_const_type = {$id_city_const_type} AND l.deleted = FALSE;
                     ";
         return DB::select($query);
