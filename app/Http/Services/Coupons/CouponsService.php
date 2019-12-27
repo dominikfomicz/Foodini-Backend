@@ -29,7 +29,7 @@ class CouponsService
     }
 
     public function checkAllCoupons(){
-        CouponRefUser::where('used', 2)->where('create_date', '<', date("Y-m-d H:i:s", strtotime("-5 minutes")))->delete();
+        $wtf = CouponRefUser::where('used', 2)->where('create_date', '<', date("Y-m-d H:i:s", strtotime("-5 minutes")))->get();
         $coupons = CouponDataMain::where('status', '<>','0')->get();
         foreach($coupons AS $coupon){
             $used_count = CouponRefUser::where('id_coupon_data_main', $coupon->id)->count();
@@ -41,6 +41,7 @@ class CouponsService
                 $coupon->save();
             }
         }
+        return json_encode($wtf);
         
     }
 
