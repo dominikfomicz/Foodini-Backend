@@ -42,9 +42,8 @@ class LocalsController extends Controller
         return $this->service->getFavouriteList($request->id_city_const_type);
     }
 
-    //kom
-    public function addLocal(Request $request){
-        return $this->service->addLocal(json_decode($request->local_data), json_decode($request->tags), json_decode($request->open_hours));
+    public function changeLocal(Request $request){
+        return $this->service->changeLocal($request->id_local_data_main, json_decode($request->local_data), json_decode($request->tags), json_decode($request->open_hours));
     }
 
     public function removeLocal(Request $request){

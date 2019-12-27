@@ -81,10 +81,20 @@ class LocalsService
         return json_encode($locals);
     }
 
-    public function addLocal($local_data, $tags, $open_hours){
+    public function changeLocal($id_local_data_main, $local_data, $tags, $open_hours){
+        
+        if($id_local_data_main == -1){
+            $new_local = new LocalDataMain();
 
-        //why not working
-        $new_local = new LocalDataMain();
+            $hexa = HexaConstType::where('used_local', FALSE)->first();
+            $new_local->hexa_value = $hexa->value;
+
+            $hexa->used_local = TRUE;
+            $hexa->save();
+        }else{
+            $new_local = LocalDataMain::find($id_local_data_main);
+        }
+
         $new_local->name = $local_data->name;
         $new_local->address = $local_data->address;
         $new_local->id_city_const_type = $local_data->id_city_const_type;
@@ -100,13 +110,6 @@ class LocalsService
         $new_local->creditcards_payment = $local_data->creditcards_payment;
         $new_local->contactless_payment = $local_data->contactless_payment;
         $new_local->blik_payment = $local_data->blik_payment;
-
-        $hexa = HexaConstType::where('used_local', FALSE)->first();
-        $new_local->hexa_value = $hexa->value;
-        $new_local->save();
-
-        $hexa->used_local = TRUE;
-        $hexa->save();
 
         foreach($tags AS $tag){
             $this->addTagToLocal($new_local->id, $tag->id, $tag->priority_status);

@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
-    Route::post('addLocal', 'LocalsController@addLocal'); // checked MSC
+    Route::post('changeLocal', 'LocalsController@changeLocal'); // checked MSC
     Route::post('removeLocal', 'LocalsController@removeLocal'); // checked MSC
 
     Route::post('addLocalToFavourite', 'LocalsController@addLocalToFavourite'); // checked MSC
@@ -40,7 +40,7 @@ Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
     Route::post('removeFromFavourite', 'CouponsController@removeFromFavourite'); // checked MSC
 
     Route::get('getList/{id_local_data_main}', 'CouponsController@getList'); // checked MSC
-    
+
     Route::get('getDetails/{id_coupon_data_main}', 'CouponsController@getDetails'); // checked MSC
     Route::get('getFavouriteList', 'CouponsController@getFavouriteList'); // checked MSC
 
