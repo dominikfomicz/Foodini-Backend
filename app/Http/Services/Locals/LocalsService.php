@@ -114,7 +114,7 @@ class LocalsService
 
     public function removeLocal($id_local_data_main){
         $local = LocalDataMain::find($id_local_data_main);
-        $local->delete = true;
+        $local->deleted = true;
         $local->save();
     }
 }
