@@ -142,16 +142,4 @@ class CouponsService
             return -1;
         }
     }
-
-    public function getListForCity($id_city_const_type){
-        $coupons = collect(CouponsRepository::getListForCity($id_city_const_type));
-        $tags = collect(CouponsRepository::getTags());
-        foreach($coupons AS $coupon){
-            $coupon->tags = $tags->where('id_coupon_data_main', $coupon->coupon_id)->where('is_main', 'true')->map(function ($item, $key) {
-                return collect($item)->except(['id_coupon_data_main'])->all();
-            });
-        }
-        return json_encode($coupons);
-
-    }
 }

@@ -42,7 +42,6 @@ Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
     Route::get('getList/{id_local_data_main}', 'CouponsController@getList'); // checked MSC
     Route::get('getDetails/{id_local_ref_coupon}', 'CouponsController@getDetails'); // checked MSC
     Route::get('getFavouriteList', 'CouponsController@getFavouriteList'); // checked MSC
-    Route::get('getListForCity/{id_city_const_type}', 'CouponsController@getList'); // checked DFZ
 
     Route::post('orderCoupon', 'CouponsController@orderCoupon'); // checked MSC
     Route::post('checkCoupon', 'CouponsController@checkCoupon'); // checked MSC
