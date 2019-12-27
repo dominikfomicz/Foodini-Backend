@@ -104,8 +104,8 @@ class CouponsService
 
     public function generateUnique($id_coupon_data_main){
 
-        sprintf('%03X', mt_rand(0, 4095));
-
+        //sprintf('%03X', mt_rand(0, 4095));
+        //kom
         $numbers = range(1, 4095);
         shuffle($numbers);
         foreach ($numbers as $number) {
