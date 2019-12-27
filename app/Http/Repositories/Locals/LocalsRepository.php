@@ -59,7 +59,7 @@ class LocalsRepository
                         ),
                         counter_coupons AS (SELECT
                                         COUNT(*) AS coupons_count
-                                    FROM s_coupons.t_local_ref_coupon
+                                    FROM s_coupons.t_coupon_data_main
                                     WHERE id_local_data_main = {$id_local_data_main}
                         )
                     SELECT 
