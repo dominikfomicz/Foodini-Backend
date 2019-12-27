@@ -93,6 +93,7 @@ class CouponsService
         //to do
     }
 
+    
     public function getFavouriteList(){
         $this->checkAllCoupons();
         $coupons = collect(CouponsRepository::getFavouriteList());
@@ -125,7 +126,7 @@ class CouponsService
         $ref_user->save();
 
         $this->checkAllCoupons();
-        
+
         return $ref_user->unique_number;
     }
 
@@ -135,14 +136,18 @@ class CouponsService
         if($user_type == 1){
             $coupon = CouponRefUser::where('used', 2)->where('unique_number', $unique_number)->where('create_date', '>', DB::raw("CURRENT_TIMESTAMP - interval '5 minute'"))->first();
             if($coupon != null){
+
                 $coupon->used = 1;
                 $coupon->unique_number = NULL;
                 $coupon->save();
+
                 return 1;
             }else{
+
                 return 0;
             }
         }else{
+
             return -1;
         }
     }
