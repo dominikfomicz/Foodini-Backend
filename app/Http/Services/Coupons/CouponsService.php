@@ -7,6 +7,7 @@ use App\Models\s_coupons\CouponRefFavourite;
 
 use App\Http\Repositories\Coupons\CouponsRepository;
 use App\Models\s_coupons\CouponRefUser;
+use App\Models\s_locals\LocalDataMain;
 use App\Models\s_sys\HexaConstType;
 use App\Models\s_tags\CouponRefMain;
 use \Auth;
@@ -86,6 +87,7 @@ class CouponsService
     }
 
     public function orderCoupon($id_coupon_data_main){
+        $coupon = CouponDataMain::find($id_coupon_data_main);
         $id_user = Auth::user()->id;
         
         $ref_user = new CouponRefUser();
@@ -95,8 +97,10 @@ class CouponsService
 
         $ref_user->save();
 
-        $unique_number = (($ref_user->id * 569212223861) % 999999);  
-        $ref_user->unique_number = str_pad($unique_number,  6, "0");
+        $local = LocalDataMain::find($coupon->id_local_data_main);
+        $hexa_id = (($ref_user->id * 345545467) % 4096);  
+        $hexa = HexaConstType::find($hexa_id);
+        $ref_user->unique_number = $local->hexa_value.$hexa->value;
         $ref_user->save();
 
         return $ref_user->unique_number;
