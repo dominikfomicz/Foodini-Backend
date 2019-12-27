@@ -17,6 +17,7 @@ class CouponsService
 
     //kom
     public function getList($id_local_data_main){
+        $this->checkAllCoupons();
         $coupons = collect(CouponsRepository::getList($id_local_data_main));
         $tags = collect(CouponsRepository::getTags());
         foreach($coupons AS $coupon){
@@ -25,6 +26,22 @@ class CouponsService
             });
         }
         return json_encode($coupons);
+    }
+
+    public function checkAllCoupons(){
+        CouponRefUser::where('used', 2)->where('create_date', '<', date("Y-m-d H:i:s", strtotime("-5 minutes")))->delete();
+        $coupons = CouponDataMain::where('status', '<>','0')->get();
+        foreach($coupons AS $coupon){
+            $used_count = CouponRefUser::where('id_coupon_data_main', $coupon->id)->count();
+            if($used_count >= $coupon->amount){
+                $coupon->status = 2;
+                $coupon->save();
+            }else{
+                $coupon->status = 1;
+                $coupon->save();
+            }
+        }
+        
     }
 
     public function addCoupon($id_local_data_main, $coupon_data, $tags){
@@ -76,6 +93,7 @@ class CouponsService
     }
 
     public function getFavouriteList(){
+        $this->checkAllCoupons();
         $coupons = collect(CouponsRepository::getFavouriteList());
         $tags = collect(CouponsRepository::getTags());
         foreach($coupons AS $coupon){
