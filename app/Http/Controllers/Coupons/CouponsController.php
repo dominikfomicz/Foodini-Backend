@@ -49,5 +49,9 @@ class CouponsController extends Controller
     public function checkCoupon(Request $request){
         return $this->service->checkCoupon($request->unique_number);
     }
-    
+
+    public function getListForCity(Request $request){
+        return $this->service->getListForCity($request->id_city_const_type);
+    }
+
 }
