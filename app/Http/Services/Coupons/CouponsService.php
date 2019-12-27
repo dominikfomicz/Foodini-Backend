@@ -114,7 +114,7 @@ class CouponsService
             $coupon->save();
             return 1;
         }else{
-            return -1;
+            return 0;
         }
     }
 }
