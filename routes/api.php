@@ -48,11 +48,11 @@ Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
     Route::post('checkCoupon', 'CouponsController@checkCoupon'); // checked MSC
   });
 
-Route::group(['namespace' => 'Tools', 'prefix' => 'tools'], function() {
+Route::group(array('namespace' => 'Tools', 'prefix' => 'tools'), function() {
     Route::post('getList', 'SelectItemController@getList');
 });
 
-Route::group(['namespace' => 'Tags', 'prefix' => 'tags'], function() {
+Route::group(array('namespace' => 'Tags', 'prefix' => 'tags'), function() {
   Route::post('addTag', 'TagsController@addTag');
 });
 
