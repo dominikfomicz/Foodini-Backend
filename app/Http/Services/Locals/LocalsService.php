@@ -81,7 +81,9 @@ class LocalsService
     }
 
     public function addLocal($local_data, $tags, $open_hours){
-
+        $local_data = collect($local_data)->first();
+        $tags = collect($tags);
+        $open_hours = collect($open_hours);
         //why not working
         $new_local = new LocalDataMain();
         $new_local->name = $local_data->name;
