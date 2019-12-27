@@ -7,7 +7,7 @@ use App\Models\s_locals\LocalRefFavourite;
 use \Auth;
 
 use App\Http\Repositories\Locals\LocalsRepository;
-use App\Models\s_locals\LocalDataMain;
+//use App\Models\s_locals\LocalDataMain;
 
 class LocalsService
 {
@@ -82,7 +82,7 @@ class LocalsService
 
     public function addLocal($local_data, $tags, $open_hours){
 
-        $new_local = new LocalDataMain();
+        $new_local = new App\Models\s_locals\LocalDataMain();
         $new_local->name = $local_data->name;
         $new_local->address = $local_data->address;
         $new_local->id_city_const_type = $local_data->id_city_const_type;
