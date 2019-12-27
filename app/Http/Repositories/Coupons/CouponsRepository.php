@@ -14,7 +14,6 @@ class CouponsRepository
                                 COUNT(*) AS used_counter,
                                 id_coupon_data_main
                             FROM s_coupons.t_coupon_ref_user
-                            WHERE used = 1
                             GROUP BY id_coupon_data_main
                     )
         
