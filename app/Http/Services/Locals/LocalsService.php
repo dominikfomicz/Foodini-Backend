@@ -82,32 +82,33 @@ class LocalsService
 
     public function addLocal($local_data, $tags, $open_hours){
 
-        $new_local = new LocalDataMain();
-        $new_local->name = $local_data->name;
-        $new_local->address = $local_data->address;
-        $new_local->id_city_const_type = $local_data->id_city_const_type;
-        $new_local->phone_number = $local_data->phone_number;
-        $new_local->description = $local_data->description;
-        $new_local->other_info = $local_data->other_info;
-        $new_local->facebook_url = $local_data->facebook_url;
-        $new_local->instagram_url = $local_data->instagram_url;
-        $new_local->delivery = $local_data->delivery;
-        $new_local->eat_in_local = $local_data->eat_in_local;
-        $new_local->pick_up_local = $local_data->pick_up_local;
-        $new_local->cash_payment = $local_data->cash_payment;
-        $new_local->creditcards_payment = $local_data->creditcards_payment;
-        $new_local->contackless_payment = $local_data->contackless_payment;
-        $new_local->blik_payment = $local_data->blik_payment;
+        $new_local = new LocalDataMain::all();
+        // $new_local->name = $local_data->name;
+        // $new_local->address = $local_data->address;
+        // $new_local->id_city_const_type = $local_data->id_city_const_type;
+        // $new_local->phone_number = $local_data->phone_number;
+        // $new_local->description = $local_data->description;
+        // $new_local->other_info = $local_data->other_info;
+        // $new_local->facebook_url = $local_data->facebook_url;
+        // $new_local->instagram_url = $local_data->instagram_url;
+        // $new_local->delivery = $local_data->delivery;
+        // $new_local->eat_in_local = $local_data->eat_in_local;
+        // $new_local->pick_up_local = $local_data->pick_up_local;
+        // $new_local->cash_payment = $local_data->cash_payment;
+        // $new_local->creditcards_payment = $local_data->creditcards_payment;
+        // $new_local->contackless_payment = $local_data->contackless_payment;
+        // $new_local->blik_payment = $local_data->blik_payment;
 
-        $new_local->save();
+        // $new_local->save();
 
-        foreach($tags AS $tag){
-            $this->addTagToLocal($new_local->id, $tag->id, $tag->priority_status);
-        }
+        // foreach($tags AS $tag){
+        //     $this->addTagToLocal($new_local->id, $tag->id, $tag->priority_status);
+        // }
 
-        foreach($open_hours AS $open_hour){
-            $this->changeOpenHoursDay($new_local->id, $open_hour->id_week_day, $open_hour);
-        }
+        // foreach($open_hours AS $open_hour){
+        //     $this->changeOpenHoursDay($new_local->id, $open_hour->id_week_day, $open_hour);
+        // }
+        return $new_local;
     }
 
     public function removeLocal($id_local_data_main){
