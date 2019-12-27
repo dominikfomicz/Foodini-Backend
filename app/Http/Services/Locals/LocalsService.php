@@ -31,7 +31,7 @@ class LocalsService
 
     public function changeOpenHoursDay($id_local_data_main, $week_day_id, $open_data){
 
-        OpenRefMain::where('id_local_data_main', $id_local_data_main)->where('id_week_day_const_type', $week_day_id)->delete();
+        OpenRefMain::where('id_local_data_main', $id_local_data_main)->where('id_weekday_const_type', $week_day_id)->delete();
 
         $new_ref = new OpenRefMain();
         $new_ref->id_local_data_main = $id_local_data_main;
