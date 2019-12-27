@@ -100,4 +100,9 @@ class CouponsService
 
         return $ref_user->unique_number;
     }
+
+    public function generateUnique($id_coupon_data_main){
+
+        return sprintf('%03X', mt_rand(0, 16777215));
+    }
 }
