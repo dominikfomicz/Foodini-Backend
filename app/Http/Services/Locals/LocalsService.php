@@ -108,7 +108,7 @@ class LocalsService
         // foreach($open_hours AS $open_hour){
         //     $this->changeOpenHoursDay($new_local->id, $open_hour->id_week_day, $open_hour);
         // }
-        return $new_local;
+        return json_encode($new_local);
     }
 
     public function removeLocal($id_local_data_main){
