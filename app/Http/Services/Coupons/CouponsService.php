@@ -6,6 +6,7 @@ use App\Models\s_coupons\LocalsRefCoupon;
 use App\Models\s_coupons\CouponRefFavourite;
 
 use App\Http\Repositories\Coupons\CouponsRepository;
+use App\Models\s_coupons\CouponRefUser;
 use App\Models\s_tags\CouponRefMain;
 use \Auth;
 
@@ -81,5 +82,20 @@ class CouponsService
             });
         }
         return json_encode($coupons);
+    }
+
+    public function orderCoupon($id_coupon_data_main){
+        $id_user = Auth::user()->id;
+        
+        $ref_user = new CouponRefUser();
+        $ref_user->id_coupon_data_main = $id_coupon_data_main;
+        $ref_user->id_user = $id_user;
+        $ref_user->used = 2;
+
+        $ref_user->save();
+
+        $unique_number = (($ref_user->id * 569212223861) % 9999999);  
+        $ref_user->unique_number = $unique_number;
+        $ref_user->save();
     }
 }

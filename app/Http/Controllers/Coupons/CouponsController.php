@@ -41,5 +41,9 @@ class CouponsController extends Controller
     public function getFavouriteList(Request $request){
         return $this->service->getFavouriteList();
     }
+
+    public function orderCoupon(Request $request){
+        return $this->service->orderCoupon($request->id_coupon_data_main);
+    }
     
 }
