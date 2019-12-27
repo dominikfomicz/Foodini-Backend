@@ -58,6 +58,7 @@ class CouponsRepository
         return DB::select($query);
     }
 
+    //com
     public static function getDetails($id_coupon_data_main){
         $id_user = Auth::user()->id;
         $query = "
