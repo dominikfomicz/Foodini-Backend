@@ -46,10 +46,12 @@ class LocalsRepository
     }
 
     public static function getDetails($id_local_data_main){
+        
         $day_of_week = date('N');
         if($day_of_week == 7){
             $day_of_week = 0;
         }
+
         $id_user = Auth::user()->id;
         $query = "WITH counter_fav AS (SELECT
                                         COUNT(*) AS favourite_count
