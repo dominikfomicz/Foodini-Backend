@@ -11,6 +11,8 @@ use \Auth;
 
 class CouponsService
 {
+
+    //kom
     public function getList($id_local_data_main){
         $coupons = collect(CouponsRepository::getList($id_local_data_main));
         $tags = collect(CouponsRepository::getTags());
