@@ -124,6 +124,8 @@ class CouponsService
         $ref_user->unique_number = $local->hexa_value.$hexa->value;
         $ref_user->save();
 
+        $this->checkAllCoupons();
+        
         return $ref_user->unique_number;
     }
 
