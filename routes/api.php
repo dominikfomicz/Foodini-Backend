@@ -40,6 +40,7 @@ Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
     Route::post('removeFromFavourite', 'CouponsController@removeFromFavourite'); // checked MSC
 
     Route::get('getList/{id_local_data_main}', 'CouponsController@getList'); // checked MSC
+    
     Route::get('getDetails/{id_coupon_data_main}', 'CouponsController@getDetails'); // checked MSC
     Route::get('getFavouriteList', 'CouponsController@getFavouriteList'); // checked MSC
 
