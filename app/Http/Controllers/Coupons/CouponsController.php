@@ -19,7 +19,7 @@ class CouponsController extends Controller
     }
 
     public function getDetails(Request $request){
-        return $this->service->getDetails($request->id_local_ref_coupon);
+        return $this->service->getDetails($request->id_coupon_data_main);
     }
 
     public function addCoupon(Request $request){

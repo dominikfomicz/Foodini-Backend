@@ -30,13 +30,8 @@ class CouponsService
         $new_coupon->description = $coupon_data->description;
         $new_coupon->amount = $coupon_data->amount;
         $new_coupon->mature = $coupon_data->mature;
+        $new_coupon->id_local_data_main = $id_local_data_main;
         $new_coupon->save();
-
-        $new_ref = new LocalsRefCoupon();
-        $new_ref->id_coupon_data_main = $new_coupon->id;
-        $new_ref->id_local_data_main = $id_local_data_main;
-        $new_ref->amount = $coupon_data->amount;
-        $new_ref->save();
 
         foreach($tags AS $tag){
             $this->addTagToCoupon($new_coupon->id, $tag->id, $tag->priority_status);
@@ -51,23 +46,23 @@ class CouponsService
             $new_ref->save();
     }
 
-    public function getDetails($id_local_ref_coupon){
-        $coupon = collect(CouponsRepository::getDetails($id_local_ref_coupon))->first();
+    public function getDetails($id_coupon_data_main){
+        $coupon = collect(CouponsRepository::getDetails($id_coupon_data_main))->first();
         $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id));
         return json_encode($coupon);
     }
 
-    public function addCouponToFavourite($id_local_ref_coupon){
+    public function addCouponToFavourite($id_coupon_data_main){
         $id_user = Auth::user()->id;
         $favourite = new CouponRefFavourite();
         $favourite->id_user = $id_user;
-        $favourite->id_local_ref_coupon = $id_local_ref_coupon;
+        $favourite->id_coupon_data_main = $id_coupon_data_main;
         $favourite->save();
     }
 
-    public function removeFromFavourite($id_local_ref_coupon){
+    public function removeFromFavourite($id_coupon_data_main){
         $id_user = Auth::user()->id;
-        $favourite = CouponRefFavourite::where('id_user', $id_user)->where('id_local_ref_coupon', $id_local_ref_coupon)->delete();
+        $favourite = CouponRefFavourite::where('id_user', $id_user)->where('id_coupon_data_main', $id_coupon_data_main)->delete();
 
     }
 

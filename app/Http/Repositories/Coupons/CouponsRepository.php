@@ -12,14 +12,13 @@ class CouponsRepository
         $query = "WITH used_counter AS (
                             SELECT
                                 COUNT(*) AS used_counter,
-                                id_local_ref_coupon
+                                id_coupon_data_main
                             FROM s_coupons.t_coupon_ref_user
                             WHERE used = 1
-                            GROUP BY id_local_ref_coupon
+                            GROUP BY id_coupon_data_main
                     )
         
                     SELECT 
-                        r.id AS id_local_ref_coupon,
                         c.id AS coupon_id,
                         l.id AS local_id,
                         c.name AS coupon_name,
@@ -39,12 +38,11 @@ class CouponsRepository
                         ELSE r.amount
                         END AS coupon_left
                     
-                    FROM s_coupons.t_local_ref_coupon r
-                    LEFT JOIN s_coupons.t_coupon_data_main c ON c.id = r.id_coupon_data_main
+                    FROM s_coupons.t_coupon_data_main c
                     LEFT JOIN s_locals.t_local_data_main l ON l.id = r.id_local_data_main
-                    LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_local_ref_coupon = r.id
-                    LEFT JOIN used_counter ON used_counter.id_local_ref_coupon = r.id
-                    WHERE r.id_local_data_main = {$id_local_data_main};
+                    LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
+                    LEFT JOIN used_counter ON used_counter.id_coupon_data_main = c.id
+                    WHERE c.id_local_data_main = {$id_local_data_main};
                     ";
         return DB::select($query);
     }
@@ -60,11 +58,10 @@ class CouponsRepository
         return DB::select($query);
     }
 
-    public static function getDetails($id_local_ref_coupon){
+    public static function getDetails($id_coupon_data_main){
         $id_user = Auth::user()->id;
         $query = "
                     SELECT 
-                        r.id AS id_local_ref_coupon,
                         c.id AS coupon_id,
                         c.description,
                         c.amount,
@@ -72,10 +69,9 @@ class CouponsRepository
                         CASE WHEN f.id IS NOT NULL THEN TRUE
                         ELSE FALSE 
                         END AS is_favouirite
-                    FROM s_coupons.t_local_ref_coupon r  
-                    LEFT JOIN s_coupons.t_coupon_data_main c ON c.id = r.id_coupon_data_main
-                    LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_local_ref_coupon = r.id
-                    WHERE r.id = {$id_local_ref_coupon};
+                    FROM s_coupons.t_coupon_data_main c
+                    LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_coupon_data_main = r.id
+                    WHERE c.id = {$id_coupon_data_main};
                     ";
 
         return DB::select($query);
@@ -95,7 +91,6 @@ class CouponsRepository
     public static function getFavouriteList(){
         $id_user = Auth::user()->id;
         $query = "SELECT 
-                        r.id AS id_local_ref_coupon,
                         c.id AS coupon_id,
                         l.id AS local_id,
                         l.name AS local_name,
@@ -114,8 +109,7 @@ class CouponsRepository
                         END AS status	
                     
                     FROM  s_coupons.t_coupon_ref_favourite f
-                    LEFT JOIN s_coupons.t_local_ref_coupon r ON r.id = f.id_local_ref_coupon
-                    LEFT JOIN s_coupons.t_coupon_data_main c ON c.id = r.id_coupon_data_main
+                    LEFT JOIN s_coupons.t_coupon_data_main c ON c.id = f.id_coupon_data_main
                     LEFT JOIN s_locals.t_local_data_main l ON l.id = r.id_local_data_main
                     WHERE f.id_user = {$id_user};
                     ";
