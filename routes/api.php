@@ -45,7 +45,6 @@ Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
 
     Route::post('orderCoupon', 'CouponsController@orderCoupon'); // checked MSC
     Route::post('checkCoupon', 'CouponsController@checkCoupon'); // checked MSC
-    Route::post('generateUnique', 'CouponsController@generateUnique'); // checked MSC
   });
 
 Route::group(['namespace' => 'Tools', 'prefix' => 'tools'], function() {

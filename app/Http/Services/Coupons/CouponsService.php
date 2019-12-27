@@ -101,17 +101,4 @@ class CouponsService
 
         return $ref_user->unique_number;
     }
-
-    public function generateUnique($id_coupon_data_main){
-
-        //sprintf('%03X', mt_rand(0, 4095));
-        
-        $numbers = range(1, 4095);
-        shuffle($numbers);
-        foreach ($numbers as $number) {
-            $new_hexa = new HexaConstType();
-            $new_hexa->value = sprintf('%03X', $number);
-            $new_hexa->save();
-        }
-    }
 }
