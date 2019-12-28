@@ -129,6 +129,7 @@ class CouponsRepository
                     SELECT
                         c.id AS coupon_id,
                         l.id AS local_id,
+                        l.name AS local_name,
                         c.name AS coupon_name,
                         c.mature,
                         l.delivery,
