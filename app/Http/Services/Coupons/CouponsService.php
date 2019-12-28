@@ -56,7 +56,7 @@ class CouponsService
         // $new_coupon = new CouponDataMain();
 
         // $new_coupon->name = $coupon_data->name;
-        dd($coupon_data);
+        dd($coupon_data['name']);
         // $new_coupon->description = $coupon_data->description;
         // $new_coupon->amount = $coupon_data->amount;
         // $new_coupon->mature = $coupon_data->mature;
