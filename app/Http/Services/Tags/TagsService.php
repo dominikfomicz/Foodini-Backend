@@ -8,9 +8,14 @@ use Auth;
 class TagsService
 {
 
-    public function addTag($name, $description){
+    public function changeTag($id_tag_data_main, $name, $description){
 
-        $new_tag = new TagDataMain();
+        if($id_tag_data_main == -1){
+            $new_tag = new TagDataMain();
+        } else {
+            $new_tag = TagDataMain::find($id_tag_data_main);
+        }
+
         $new_tag->name = $name;
         $new_tag->description = $description;
         $new_tag->save();
