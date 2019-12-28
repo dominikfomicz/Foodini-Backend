@@ -124,7 +124,9 @@ class LocalsRepository
                         o.id_weekday_const_type AS id_day,
                         CONCAT_WS(' - ', to_char(o.local_hour_from, 'HH24:MI'), to_char(o.local_hour_to, 'HH24:MI')) AS open_hours
                     FROM s_locals.t_open_ref_main o
-                    WHERE o.id_local_data_main = {$id_local_data_main};";
+                    LEFT JOIN s_locals.t_weekday_const_type c ON c.id = o.id_weekday_const_type
+                    WHERE o.id_local_data_main = {$id_local_data_main}
+                    ORDER BY c.order_column;";
 
         return DB::select($query);
     }
