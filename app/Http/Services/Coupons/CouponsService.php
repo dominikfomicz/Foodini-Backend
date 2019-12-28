@@ -48,24 +48,25 @@ class CouponsService
 
     public function changeCoupon($id_coupon_data_main, $id_local_data_main, $coupon_data, $tags){
 
-        if($id_coupon_data_main == -1){
-            $new_coupon = new CouponDataMain();
-        }else{
-            $new_coupon = CouponDataMain::find($id_coupon_data_main);
-        }
+        // if($id_coupon_data_main == -1){
+        //     $new_coupon = new CouponDataMain();
+        // }else{
+        //     $new_coupon = CouponDataMain::find($id_coupon_data_main);
+        // }
 
-        $new_coupon->name = $coupon_data->name;
-        $new_coupon->description = $coupon_data->description;
-        $new_coupon->amount = $coupon_data->amount;
-        $new_coupon->mature = $coupon_data->mature;
-        $new_coupon->id_local_data_main = $id_local_data_main;
-        $new_coupon->save();
+        // $new_coupon->name = $coupon_data->name;
+        // $new_coupon->description = $coupon_data->description;
+        // $new_coupon->amount = $coupon_data->amount;
+        // $new_coupon->mature = $coupon_data->mature;
+        // $new_coupon->id_local_data_main = $id_local_data_main;
+        // $new_coupon->save();
 
-        CouponRefMain::where('id_coupon_data_main', $new_coupon->id)->delete();
+        // CouponRefMain::where('id_coupon_data_main', $new_coupon->id)->delete();
 
-        foreach($tags AS $tag){
-            $this->addTagToCoupon($new_coupon->id, $tag->id, $tag->priority_status);
-        }
+        // foreach($tags AS $tag){
+        //     $this->addTagToCoupon($new_coupon->id, $tag->id, $tag->priority_status);
+        // }
+        dd($id_local_data_main);
     }
 
     public function addTagToCoupon($id_coupon_data_main, $id_tag_data_main, $priority_status){
