@@ -134,7 +134,7 @@ class CouponsService
     public function checkCoupon($unique_number){
         $user_type = Auth::user()->user_type;
 
-        if($user_type == 1){
+        if($user_type == 2){
             $coupon = CouponRefUser::where('used', 2)->where('unique_number', $unique_number)->where('create_date', '>', DB::raw("CURRENT_TIMESTAMP - interval '5 minute'"))->first();
             if($coupon != null){
 
