@@ -126,7 +126,7 @@ class LocalsRepository
                     FROM s_locals.t_open_ref_main o
                     LEFT JOIN s_locals.t_weekday_const_type c ON c.id = o.id_weekday_const_type
                     WHERE o.id_local_data_main = {$id_local_data_main}
-                    ORDER BY c.order_column;";
+                    ORDER BY c.order_column DESC;";
 
         return DB::select($query);
     }
