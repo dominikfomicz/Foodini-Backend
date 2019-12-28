@@ -46,9 +46,13 @@ class CouponsService
 
     }
 
-    public function addCoupon($id_local_data_main, $coupon_data, $tags){
+    public function changeCoupon($id_coupon_data_main, $id_local_data_main, $coupon_data, $tags){
 
-        $new_coupon = new CouponDataMain();
+        if($id_local_data_main == -1){
+            $new_coupon = new CouponDataMain();
+        }else{
+            $new_coupon = CouponDataMain::find($id_coupon_data_main);
+        }
 
         $new_coupon->name = $coupon_data->name;
         $new_coupon->description = $coupon_data->description;
@@ -56,6 +60,8 @@ class CouponsService
         $new_coupon->mature = $coupon_data->mature;
         $new_coupon->id_local_data_main = $id_local_data_main;
         $new_coupon->save();
+
+        CouponRefMain::where('id_coupon_data_main', $new_coupon->id)->delete();
 
         foreach($tags AS $tag){
             $this->addTagToCoupon($new_coupon->id, $tag->id, $tag->priority_status);

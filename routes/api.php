@@ -34,7 +34,7 @@ Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
   });
 
   Route::group(array('namespace' => 'Coupons', 'prefix' => 'coupons'), function() {
-    Route::post('addCoupon', 'CouponsController@addCoupon'); // checked MSC
+    Route::post('changeCoupon', 'CouponsController@changeCoupon'); // checked MSC
     Route::post('removeCoupon', 'CouponsController@removeCoupon'); // checked MSC
 
     Route::post('addCouponToFavourite', 'CouponsController@addCouponToFavourite'); // checked MSC
