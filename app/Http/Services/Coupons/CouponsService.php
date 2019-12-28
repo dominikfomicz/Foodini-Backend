@@ -121,7 +121,7 @@ class CouponsService
         $ref_user->save();
 
         $local = LocalDataMain::find($coupon->id_local_data_main);
-        $hexa_id = (($ref_user->id * 345545467) % 4096);
+        $hexa_id = (($ref_user->id * 345545467) % 4093);
         $hexa = HexaConstType::find($hexa_id);
         $ref_user->unique_number = $local->hexa_value.$hexa->value;
         $ref_user->save();
