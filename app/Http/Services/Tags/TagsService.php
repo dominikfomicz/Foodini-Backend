@@ -19,7 +19,7 @@ class TagsService
 
     public function getList(){
 
-        $tags = TagDataMain()->all();
+        $tags = TagDataMain::all();
 
         return $tags;
 
