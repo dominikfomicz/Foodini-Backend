@@ -151,7 +151,7 @@ class CouponsRepository
                     LEFT JOIN s_coupons.t_coupon_data_main c ON l.id = c.id_local_data_main
                     LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
                     LEFT JOIN used_counter ON used_counter.id_coupon_data_main = c.id
-                    WHERE l.id_city_const_type = {$id_city_const_type};
+                    WHERE l.id_city_const_type = {$id_city_const_type} AND c.status = 1;
                     ";
         return DB::select($query);
     }
