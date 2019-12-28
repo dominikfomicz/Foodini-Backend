@@ -20,9 +20,9 @@ class CouponsService
     public function getList($id_local_data_main){
         $this->checkAllCoupons();
         $coupons = collect(CouponsRepository::getList($id_local_data_main));
-        $tags = collect(CouponsRepository::getTags());
+        $tags = collect(CouponsRepository::getMainTags());
         foreach($coupons AS $coupon){
-            $coupon->tags = $tags->where('id_coupon_data_main', $coupon->coupon_id)->where('is_main', 'true')->map(function ($item, $key) {
+            $coupon->tags = $tags->where('id_coupon_data_main', $coupon->coupon_id)->map(function ($item, $key) {
                 return collect($item)->except(['id_coupon_data_main'])->all();
             });
         }
@@ -98,7 +98,7 @@ class CouponsService
     public function getFavouriteList(){
         $this->checkAllCoupons();
         $coupons = collect(CouponsRepository::getFavouriteList());
-        $tags = collect(CouponsRepository::getTags());
+        $tags = collect(CouponsRepository::getMainTags());
         foreach($coupons AS $coupon){
             $coupon->tags = $tags->where('id_coupon_data_main', $coupon->coupon_id)->map(function ($item, $key) {
                 return collect($item)->except(['id_coupon_data_main'])->all();
@@ -156,9 +156,9 @@ class CouponsService
     public function getCouponsByCity($id_city_const_type){
         $this->checkAllCoupons();
         $coupons = collect(CouponsRepository::getCouponsByCity($id_city_const_type));
-        $tags = collect(CouponsRepository::getTags());
+        $tags = collect(CouponsRepository::getMainTags());
         foreach($coupons AS $coupon){
-            $coupon->tags = $tags->where('id_coupon_data_main', $coupon->coupon_id)->where('is_main', 'true')->map(function ($item, $key) {
+            $coupon->tags = $tags->where('id_coupon_data_main', $coupon->coupon_id)->map(function ($item, $key) {
                 return collect($item)->except(['id_coupon_data_main'])->all();
             });
         }

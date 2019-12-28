@@ -46,14 +46,14 @@ class CouponsRepository
         return DB::select($query);
     }
 
-    public static function getTags(){
+    public static function getMainTags(){
         $query = "SELECT
                         r.id_coupon_data_main,
                         t.id,
-                        t.name,
-                        r.priority_status AS is_main
+                        t.name
                     FROM s_tags.t_coupon_ref_main r
-                    LEFT JOIN s_tags.t_tag_data_main t ON t.id = r.id_tag_data_main;";
+                    LEFT JOIN s_tags.t_tag_data_main t ON t.id = r.id_tag_data_main
+                    WHERE r.priority_status = TRUE;";
         return DB::select($query);
     }
 
