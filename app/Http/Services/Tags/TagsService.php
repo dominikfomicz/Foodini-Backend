@@ -16,4 +16,12 @@ class TagsService
         $new_tag->save();
 
     }
+
+    public function getList(){
+
+        $tags = TagDataMain()->all();
+
+        return $tags;
+
+    }
 }
