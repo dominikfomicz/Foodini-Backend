@@ -55,7 +55,7 @@ Route::group(array('namespace' => 'Tools', 'prefix' => 'tools'), function() {
 });
 
 Route::group(array('namespace' => 'Tags', 'prefix' => 'tags'), function() {
-  Route::post('addTag', 'TagsController@addTag');
+  Route::post('changeTag', 'TagsController@addTag');
 
   Route::get('getList', 'TagsController@getList'); // checked DFZ
 });
