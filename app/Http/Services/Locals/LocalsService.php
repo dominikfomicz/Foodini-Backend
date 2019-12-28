@@ -128,4 +128,9 @@ class LocalsService
         $local->deleted = true;
         $local->save();
     }
+
+    public function getMapList($id_city_const_type){
+        $locals = collect(LocalsRepository::getMapList($id_city_const_type));
+        return json_encode($locals);
+    }
 }

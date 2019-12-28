@@ -30,6 +30,7 @@ Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
     Route::get('getList/{id_city_const_type}', 'LocalsController@getList'); // checked MSC
     Route::get('getDetails/{id_local_data_main}', 'LocalsController@getDetails'); // checked MSC
     Route::get('getFavouriteList/{id_city_const_type}', 'LocalsController@getFavouriteList'); // checked MSC
+    Route::get('getMapList/{id_city_const_type}', 'LocalsController@getMapList'); // checked MSC
   });
 
   Route::group(array('namespace' => 'Coupons', 'prefix' => 'coupons'), function() {

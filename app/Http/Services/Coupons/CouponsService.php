@@ -29,6 +29,7 @@ class CouponsService
         return json_encode($coupons);
     }
 
+    
     public function checkAllCoupons(){
         CouponRefUser::where('used', 2)->where('create_date', '<', DB::raw("CURRENT_TIMESTAMP - interval '5 minute'"))->delete();
         $coupons = CouponDataMain::where('status', '<>','0')->get();

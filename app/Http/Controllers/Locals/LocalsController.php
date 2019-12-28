@@ -49,5 +49,9 @@ class LocalsController extends Controller
     public function removeLocal(Request $request){
         return $this->service->removeLocal($request->id_local_data_main);
     }
+
+    public function getMapList(Request $request){
+        return $this->service->getMapList($request->id_city_const_type);
+    }
     
 }

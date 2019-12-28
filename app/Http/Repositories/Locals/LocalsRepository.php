@@ -157,4 +157,15 @@ class LocalsRepository
                     ";
         return DB::select($query);
     }
+
+    public static function getMapList($id_city_const_type){
+        $query = "SELECT
+                        l.id AS local_id,
+                        l.latitude,
+                        l.longitude
+                    FROM s_locals.t_local_data_main l
+                    WHERE l.id_city_const_type = {$id_city_const_type} AND l.deleted = FALSE                                      ;
+                    ";
+        return DB::select($query);
+    }
 }
