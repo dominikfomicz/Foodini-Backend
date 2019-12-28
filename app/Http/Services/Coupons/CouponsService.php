@@ -61,7 +61,7 @@ class CouponsService
         $new_coupon->id_local_data_main = $id_local_data_main;
         $new_coupon->save();
 
-        // CouponRefMain::where('id_coupon_data_main', $new_coupon->id)->delete();
+        CouponRefMain::where('id_coupon_data_main', $new_coupon->id)->delete();
 
         foreach($tags AS $tag){
             $this->addTagToCoupon($new_coupon->id, $tag->id, $tag->priority_status);
