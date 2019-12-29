@@ -29,7 +29,7 @@ class CouponsService
         return json_encode($coupons);
     }
 
-    
+
     public function checkAllCoupons(){
         CouponRefUser::where('used', 2)->where('create_date', '<', DB::raw("CURRENT_TIMESTAMP - interval '5 minute'"))->delete();
         $coupons = CouponDataMain::where('status', '<>','0')->get();
@@ -48,7 +48,7 @@ class CouponsService
 
     public function changeCoupon($id_coupon_data_main, $id_local_data_main, $coupon_data, $tags){
 
-        if($id_local_data_main == -1){
+        if($id_coupon_data_main == -1){
             $new_coupon = new CouponDataMain();
         }else{
             $new_coupon = CouponDataMain::find($id_coupon_data_main);

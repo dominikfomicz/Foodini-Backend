@@ -14,8 +14,12 @@ class TagsController extends Controller
         $this->service = $service;
     }
 
-    public function addTag(Request $request){
-        return $this->service->addTag($request->name, $request->description);
+    public function changeTag(Request $request){
+        return $this->service->changeTag($request->id_tag_data_main, $request->name, $request->description);
     }
-    
+
+    public function getList(){
+        return $this->service->getList();
+    }
+
 }
