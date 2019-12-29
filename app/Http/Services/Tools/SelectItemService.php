@@ -53,7 +53,7 @@ class SelectItemService {
     }
 
     private function getTagDataMain($input_array) {
-        $list = TagDataMain::where('id_tag_const_category'. $input_array['id_tag_const_category'])->select("id", "name")->get();
+        $list = TagDataMain::where('id_tag_const_category', $input_array['id_tag_const_category'])->select("id", "name")->get();
         return $this->convertToReturnArray($list, "id", "name");
     }
 
