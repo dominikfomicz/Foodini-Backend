@@ -8,7 +8,7 @@ use Auth;
 class TagsService
 {
 
-    public function changeTag($id_tag_data_main, $name, $description){
+    public function changeTag($id_tag_data_main, $name, $description, $id_tag_const_category){
 
         if($id_tag_data_main == -1){
             $new_tag = new TagDataMain();
@@ -18,6 +18,7 @@ class TagsService
 
         $new_tag->name = $name;
         $new_tag->description = $description;
+        $new_tag->id_tag_const_category = $id_tag_const_category;
         $new_tag->save();
 
     }

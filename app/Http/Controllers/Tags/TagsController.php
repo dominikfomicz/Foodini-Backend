@@ -15,7 +15,7 @@ class TagsController extends Controller
     }
 
     public function changeTag(Request $request){
-        return $this->service->changeTag($request->id_tag_data_main, $request->name, $request->description);
+        return $this->service->changeTag($request->id_tag_data_main, $request->name, $request->description, $request->id_tag_const_category);
     }
 
     public function getList(){
