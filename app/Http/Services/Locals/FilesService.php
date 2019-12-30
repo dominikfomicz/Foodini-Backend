@@ -10,7 +10,7 @@ class FilesService
     public function addLogo($id_local_data_main, $file){
         $doc = New DocumentDataMain();
         $doc->id_document_const_type = 1;
-        $doc->file_name = $file->getClientOrginalName();
+        $doc->file_name = $file->getClientOriginalName();
         $doc->save();
 
         $ref = new LocalRefDocument();
