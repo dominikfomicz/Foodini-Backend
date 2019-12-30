@@ -13,6 +13,8 @@ class FilesService
 
         $image = imagepng(imagecreatefromstring(file_get_contents($file)), $file_name);
 
+        $image = resize_image($image, 128, 128);
+
         $doc = New DocumentDataMain();
         $doc->id_document_const_type = 1;
         $doc->file_name = $file_name;
