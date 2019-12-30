@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class LocalRefDocument extends Model {
     
-    protected $table = "s_locals.t_document_ref_document";
+    protected $table = "s_locals.t_local_ref_document";
     public $timestamps = false;
     
     protected $fillable = [
