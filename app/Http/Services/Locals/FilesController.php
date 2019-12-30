@@ -5,9 +5,9 @@ namespace App\Http\Services\Locals;
 use App\Models\s_locals\LocalRefDocument;
 use App\Models\s_sys\DocumentDataMain;
 
-class FilesController
+class FilesService
 {
-    public function getList($id_local_data_main, $file){
+    public function addLogo($id_local_data_main, $file){
         $doc = New DocumentDataMain();
         $doc->id_document_const_type = 1;
         $doc->file_name = $file->getClientOrginalName();
