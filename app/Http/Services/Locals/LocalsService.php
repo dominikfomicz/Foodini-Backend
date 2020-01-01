@@ -14,7 +14,7 @@ class LocalsService
 {
     public function getList($id_city_const_type){
         $locals = collect(LocalsRepository::getList($id_city_const_type));
-        $tags = collect(LocalsRepositoryy::getTags());
+        $tags = collect(LocalsRepository::getTags());
         foreach($locals AS $local){
             $local->tags = $tags->where('id_local_data_main', $local->local_id)->where('is_main', 'true')->map(function ($item, $key) {
                 return collect($item)->except(['id_local_data_main'])->all();
