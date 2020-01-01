@@ -14,7 +14,7 @@ class LocalsService
 {
     public function getList($id_city_const_type){
         $locals = collect(LocalsRepository::getList($id_city_const_type));
-        $tags = collect(LocalsRepository::getTags());
+        $tags = collect(LocalsRepositoryy::getTags());
         foreach($locals AS $local){
             $local->tags = $tags->where('id_local_data_main', $local->local_id)->where('is_main', 'true')->map(function ($item, $key) {
                 return collect($item)->except(['id_local_data_main'])->all();
@@ -82,7 +82,7 @@ class LocalsService
     }
 
     public function changeLocal($id_local_data_main, $local_data, $tags, $open_hours){
-        
+
         if($id_local_data_main == -1){
             $new_local = new LocalDataMain();
 
