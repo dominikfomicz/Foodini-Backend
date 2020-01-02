@@ -27,7 +27,7 @@ class FilesService
         $ref->id_document_data_main = $doc->id;
         $ref->save();
 
-        $filePath = "locals/".$id_local_data_main."/".$file_name;
+        $filePath = "public/locals/".$id_local_data_main."/".$file_name;
         Storage::disk('local')->put($filePath, $image);
         return "locals/files/getLogo/".$id_local_data_main."/".$file_name;
     }
