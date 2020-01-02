@@ -38,7 +38,7 @@ class FilesService
         });
 
         $doc = New DocumentDataMain();
-        $doc->id_document_const_type = 1;
+        $doc->id_document_const_type = 2;
         $doc->file_name = $file_name;
         $doc->save();
 
