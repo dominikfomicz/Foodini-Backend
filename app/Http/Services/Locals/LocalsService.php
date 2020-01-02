@@ -111,6 +111,7 @@ class LocalsService
         $new_local->creditcards_payment = $local_data->creditcards_payment;
         $new_local->contactless_payment = $local_data->contactless_payment;
         $new_local->blik_payment = $local_data->blik_payment;
+        $new_local->delivery_range = $local_data->delivery_range;
         $new_local->save();
 
         LocalRefMain::where('id_local_data_main', $new_local->id)->delete();
