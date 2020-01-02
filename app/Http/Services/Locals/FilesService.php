@@ -13,7 +13,7 @@ class FilesService
         $file_name = uniqid().".png";
 
         // $image = imagepng(imagecreatefromstring(file_get_contents($file)), $file_name);
-        // $image_png = file_get_contents($file);
+        $image = file_get_contents($file);
 
         // $image = $this->resize_image($image_png, 128, 128);
 
@@ -28,7 +28,7 @@ class FilesService
         $ref->save();
 
         $filePath = "locals/".$id_local_data_main."/".$file_name;
-        Storage::disk('local')->put($filePath, $file);
+        Storage::disk('local')->put($filePath, $image);
         return "locals/files/getLogo/".$id_local_data_main."/".$file_name;
     }
 
