@@ -19,6 +19,6 @@ class FilesController extends Controller
     }
 
     public function getLogo(Request $request){
-        return $this->service->addLogo($request->id_local_data_main, $request->file_name);
+        return $this->service->getLogo($request->id_local_data_main, $request->file_name);
     }
 }
