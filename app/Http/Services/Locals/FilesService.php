@@ -28,5 +28,6 @@ class FilesService
 
         $filePath = "locals/".$id_local_data_main."/".$file_name;
         Storage::disk('local')->put($filePath, file_get_contents($image));
+        return $file_name;
     }
 }
