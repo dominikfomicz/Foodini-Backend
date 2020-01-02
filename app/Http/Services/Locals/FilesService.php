@@ -40,7 +40,7 @@ class FilesService
 
         // save image
         ob_start();
-        imagepng($output, null, 80);
+        ImageJPEG($output, null, 80);
         $contents = ob_get_contents();
         ob_end_clean();
         // return resized image
