@@ -13,9 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/user', function () {
+    // authenticated user. Use User::find() to get the user from db by id
+    return app()->request()->user();
+})->middleware('auth:api');
 
 Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
     Route::post('changeLocal', 'LocalsController@changeLocal'); // checked MSC
