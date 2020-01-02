@@ -134,7 +134,7 @@ class CouponsService
 
         $this->checkAllCoupons();
 
-        return $ref_user->unique_number;
+        return json_encode($ref_user->unique_number);
     }
 
     public function checkCoupon($unique_number){
