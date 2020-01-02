@@ -9,7 +9,8 @@ class FilesService
     public function addLogo($id_local_data_main, $file){
         $file_name = uniqid().".png";
 
-        $img = imagescale( file_get_contents($file), 64, 64 ); 
+
+        $img = imagescale( imagecreatefromstring(file_get_contents($file)), 64, 64 ); 
 
 
         $doc = New DocumentDataMain();
