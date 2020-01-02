@@ -23,6 +23,6 @@ class FilesService
         $ref->id_document_data_main = $doc->id;
         $ref->save();
         $filePath = "public/locals/".$id_local_data_main."/".$file_name;
-        Storage::disk('local')->put($filePath, $img);
+        Storage::disk('local')->put($filePath, file_get_contents($img));
     }
 }
