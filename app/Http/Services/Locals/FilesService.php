@@ -29,7 +29,12 @@ class FilesService
 
         $filePath = "locals/".$id_local_data_main."/".$file_name;
         Storage::disk('local')->put($filePath, $file);
-        return $filePath;
+        return "locals/files/getLogo/".$id_local_data_main."/".$file_name;
+    }
+
+    public function getLogo($id_local_data_main, $file_name){
+        $file_path = "locals/".$id_local_data_main."/".$file_name;
+        return Storage::disk('local')->get($file_path);
     }
 
     public function resize_image($file, $w, $h, $crop=FALSE) {
