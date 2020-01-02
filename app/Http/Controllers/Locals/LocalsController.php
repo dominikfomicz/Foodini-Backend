@@ -43,7 +43,7 @@ class LocalsController extends Controller
     }
 
     public function changeLocal(Request $request){
-        return $this->service->changeLocal($request->id_local_data_main, json_decode($request->local_data), json_decode($request->tags), json_decode($request->open_hours));
+        return $this->service->changeLocal($request->id_local_data_main, json_decode($request->local_data), json_decode($request->tags), json_decode($request->open_hours), $request->file('image'));
     }
 
     public function removeLocal(Request $request){
@@ -53,5 +53,5 @@ class LocalsController extends Controller
     public function getMapList(Request $request){
         return $this->service->getMapList($request->id_city_const_type);
     }
-    
+
 }

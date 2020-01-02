@@ -8,6 +8,7 @@ use App\Models\s_locals\LocalRefFavourite;
 use App\Http\Repositories\Locals\LocalsRepository;
 use App\Models\s_locals\LocalDataMain;
 use App\Models\s_sys\HexaConstType;
+use App\Http\Services\Locals\FilesService;
 use Auth;
 
 class LocalsService
@@ -81,7 +82,7 @@ class LocalsService
         return json_encode($locals);
     }
 
-    public function changeLocal($id_local_data_main, $local_data, $tags, $open_hours){
+    public function changeLocal($id_local_data_main, $local_data, $tags, $open_hours, $file){
 
         if($id_local_data_main == -1){
             $new_local = new LocalDataMain();
@@ -120,6 +121,8 @@ class LocalsService
         foreach($open_hours AS $open_hour){
             $this->changeOpenHoursDay($new_local->id, $open_hour->id_week_day, $open_hour);
         }
+
+        return FilesService::addLogo($new_local->id, $file);
         //return json_encode($new_local);
     }
 
