@@ -11,9 +11,7 @@ class FilesService
 
         $image = Image::make($file);
 
-        $image->fit(64, 64, function ($constraint) {
-            $constraint->aspectRatio();
-        });
+        $image->resize(64, 64);
         //kom
 
         $doc = New DocumentDataMain();
