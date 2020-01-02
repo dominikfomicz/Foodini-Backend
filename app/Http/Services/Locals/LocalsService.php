@@ -122,7 +122,10 @@ class LocalsService
             $this->changeOpenHoursDay($new_local->id, $open_hour->id_week_day, $open_hour);
         }
 
-        return FilesService::addLogo($new_local->id, $file);
+        $this->FilesService::addLogo($new_local->id, $file);
+        $files = new FilesService();
+        $file = $files->addLogo($new_local->id, $file);
+
         //return json_encode($new_local);
     }
 
