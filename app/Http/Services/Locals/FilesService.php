@@ -13,9 +13,9 @@ class FilesService
         $file_name = uniqid().".png";
 
         // $image = imagepng(imagecreatefromstring(file_get_contents($file)), $file_name);
-        $image_png = file_get_contents($file);
+        // $image_png = file_get_contents($file);
 
-        $image = $this->resize_image($image_png, 128, 128);
+        // $image = $this->resize_image($image_png, 128, 128);
 
         $doc = New DocumentDataMain();
         $doc->id_document_const_type = 1;
@@ -28,7 +28,7 @@ class FilesService
         $ref->save();
 
         $filePath = "locals/".$id_local_data_main."/".$file_name;
-        Storage::disk('local')->put($filePath, $image);
+        Storage::disk('local')->put($filePath, $file);
         return $filePath;
     }
 
