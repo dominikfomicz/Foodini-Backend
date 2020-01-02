@@ -34,7 +34,8 @@ class FilesService
 
     public function getLogo($id_local_data_main, $file_name){
         $file_path = "locals/".$id_local_data_main."/".$file_name;
-        return Storage::disk('local')->get($file_path);
+        $base64 = base64_encode(Storage::disk('local')->get($file_path));
+        return base64_decode($base64);
 
     }
 
