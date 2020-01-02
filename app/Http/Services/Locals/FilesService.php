@@ -14,6 +14,7 @@ class FilesService
         $image->fit(64, 64, function ($constraint) {
             $constraint->aspectRatio();
         });
+        //kom
 
         $doc = New DocumentDataMain();
         $doc->id_document_const_type = 1;
