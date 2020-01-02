@@ -14,8 +14,8 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/user', function () {
-    // authenticated user. Use User::find() to get the user from db by id
-    return app()->request()->user();
+    $current_user = Auth::user();
+    return $current_user;
 })->middleware('auth:api');
 
 Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
