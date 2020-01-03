@@ -10,6 +10,7 @@ use App\Models\s_coupons\CouponRefUser;
 use App\Models\s_locals\LocalDataMain;
 use App\Models\s_sys\HexaConstType;
 use App\Models\s_tags\CouponRefMain;
+use App\Http\Services\Coupons\FilesService;
 use \Auth;
 use DB;
 
@@ -46,7 +47,7 @@ class CouponsService
 
     }
 
-    public function changeCoupon($id_coupon_data_main, $id_local_data_main, $coupon_data, $tags){
+    public function changeCoupon($id_coupon_data_main, $id_local_data_main, $coupon_data, $tags, $file_logo){
 
         if($id_coupon_data_main == -1){
             $new_coupon = new CouponDataMain();
@@ -66,6 +67,10 @@ class CouponsService
         foreach($tags AS $tag){
             $this->addTagToCoupon($new_coupon->id, $tag->id, $tag->priority_status);
         }
+
+        $files = new FilesService();
+        $file_logo = $files->addLogo($new_coupon->id, $file_logo);
+
     }
 
     public function addTagToCoupon($id_coupon_data_main, $id_tag_data_main, $priority_status){
