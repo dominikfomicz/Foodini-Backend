@@ -43,7 +43,7 @@ class LocalsController extends Controller
     }
 
     public function changeLocal(Request $request){
-        return $this->service->changeLocal($request->id_local_data_main, json_decode($request->local_data), json_decode($request->tags), json_decode($request->open_hours), $request->file('image'));
+        return $this->service->changeLocal($request->id_local_data_main, json_decode($request->local_data), json_decode($request->tags), json_decode($request->open_hours), $request->file('file_logo'), $request->file('file_background'));
     }
 
     public function removeLocal(Request $request){
