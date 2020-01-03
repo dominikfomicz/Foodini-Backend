@@ -7,7 +7,8 @@ use Storage;
 class FilesService
 {
     public function addLogo($id_local_data_main, $file){
-        $file_name = uniqid().".png";
+        // $file_name = uniqid().".png";
+        $file_name = "logo.png";
 
         $image = Image::make($file);
 
@@ -29,7 +30,8 @@ class FilesService
     }
 
     public function addBackground($id_local_data_main, $file){
-        $file_name = uniqid().".png";
+        // $file_name = uniqid().".png";
+        $file_name = "background.png";
 
         $image = Image::make($file);
 
