@@ -9,7 +9,7 @@ use Storage;
 class FilesService
 {
     public function addLogo($id_coupon_data_main, $file){
-        $file_name = uniqid().".png";
+        $file_name = uniqid().".svg";
         $doc = New DocumentDataMain();
         $doc->id_document_const_type = 1;
         $doc->file_name = $file_name;
