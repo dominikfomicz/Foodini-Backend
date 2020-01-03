@@ -54,6 +54,10 @@ Route::group(array('namespace' => 'Coupons', 'prefix' => 'coupons'), function() 
 
     Route::post('orderCoupon', 'CouponsController@orderCoupon'); // checked MSC
     Route::post('checkCoupon', 'CouponsController@checkCoupon'); // checked MSC
+
+    Route::group(array('prefix' => 'files'), function() {
+      Route::post('addLogo', 'FilesController@addLogo');
+  });
 });
 
 Route::group(array('namespace' => 'Tools', 'prefix' => 'tools'), function() {
