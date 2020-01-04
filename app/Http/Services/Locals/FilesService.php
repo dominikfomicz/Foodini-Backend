@@ -35,7 +35,7 @@ class FilesService
 
         $image = Image::make($file);
 
-        $image->resize(400, null, function ($constraint) {
+        $image->resize(500, null, function ($constraint) {
             $constraint->aspectRatio();
         });
 
