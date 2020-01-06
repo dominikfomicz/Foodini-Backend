@@ -155,13 +155,18 @@ class CouponsService
                     $coupon->used = 1;
                     $coupon->unique_number = NULL;
                     $coupon->save();
+                    return 1;
+
+                }else{
+                    
+                    return 0;
                 }
                 
 
-                return 1;
+                
             }else{
 
-                return 0;
+                
             }
         }else{
 
