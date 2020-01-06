@@ -50,13 +50,12 @@ class AuthApiController extends Controller
 		$this->validate($request, [
 			'uuid' => 'required',
 			]);
-		if (Auth::attempt([
-			'uuid' => $request->uuid])
-		){
-			$user = User::where('user_type', 0)
-				->where('uuid', $request->uuid)
-				->first()
-			;
+		$user = User::where('user_type', 0)
+			->where('uuid', $request->uuid)
+			->first()
+		;
+		if ($user){
+			Auth::login($user);
 			$token = $user->createToken($user->email.'-'.now());
 
 			return $token->accessToken;
