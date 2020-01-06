@@ -20,7 +20,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         '/auth-api/register',
-        '/auth-api/registerUuid'
-
+        '/auth-api/registerUuid',
+        '/auth-api/loginUuid'
     ];
 }
