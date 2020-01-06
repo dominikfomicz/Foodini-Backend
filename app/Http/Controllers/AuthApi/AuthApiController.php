@@ -36,9 +36,7 @@ class AuthApiController extends Controller
 
 	public function registerUuid(Request $request){
 		$request->validate([
-            'name' => 'required',
-            'email' => 'required',
-			'password' => 'required'
+            'uuid' => 'required'
 		]);
 
 
