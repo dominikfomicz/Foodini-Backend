@@ -126,7 +126,7 @@ class CouponsService
         $this->checkAllCoupons();
         $coupons = collect(CouponsRepository::getFavouriteList());
         foreach($coupons AS $coupon){
-            $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id));
+            $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id))->where('is_main', TRUE);
         }
         return json_encode($coupons);
     }
