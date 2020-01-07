@@ -25,5 +25,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(array('namespace' => 'AuthApi', 'prefix' => 'auth-api'), function() {
     Route::post('register', 'AuthApiController@register');
     Route::post('registerUuid', 'AuthApiController@registerUuid');
-    Route::post('loginUuid', 'AuthApiController@loginUuid');
+    Route::post('registerWorker', 'AuthApiController@registerWorker');
 });
