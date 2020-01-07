@@ -98,6 +98,7 @@ class CouponsRepository
 
     public static function getAvailableHours($id_coupon_data_main){
 
+        //
         $query = "SELECT
                         d.id_weekday_const_type AS id_day,
                         to_char(d.hour_from, 'HH24:MI') AS hour_from,
