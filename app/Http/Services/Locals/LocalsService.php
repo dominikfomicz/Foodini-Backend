@@ -27,7 +27,9 @@ class LocalsService
     public function getDetails($id_local_data_main){
         $local = collect(LocalsRepository::getDetails($id_local_data_main))->first();
         $local->work_hours = collect(LocalsRepository::getWorkHours($local->local_id));
-        $local->tags = collect(LocalsRepository::getTagsByLocal($local->local_id));
+        $tags = collect(LocalsRepository::getTagsByLocal($local->local_id));
+        $local->main_tags = $tags->where('is_main', TRUE);
+        $local->secondary_tags = $tags->where('is_main', FALSE);
         return json_encode($local);
     }
 
@@ -139,5 +141,20 @@ class LocalsService
     public function getMapList($id_city_const_type){
         $locals = collect(LocalsRepository::getMapList($id_city_const_type));
         return json_encode($locals);
+    }
+
+    public function getLocalsByManager(){
+        $user = Auth::user();
+        if($user->user_type == 3){
+            $locals = collect(LocalsRepository::getLocalsByManager($user->id));
+            $tags = collect(LocalsRepository::getTags());
+            foreach($locals AS $local){
+                $local->tags = $tags->where('id_local_data_main', $local->local_id)->where('is_main', 'true')->map(function ($item, $key) {
+                    return collect($item)->except(['id_local_data_main'])->all();
+                });
+            }
+            return json_encode($locals);
+        }
+        
     }
 }
