@@ -135,7 +135,8 @@ class CouponsService
         $coupon = CouponDataMain::find($id_coupon_data_main);
         $id_user = Auth::user()->id;
 
-        $already_used = CouponRefUser::where('used', 1)->where('id_coupon_data_main', $id_coupon_data_main)->where('id_user', $id_user);
+        $already_used = CouponRefUser::where('used', 1)->where('id_coupon_data_main', $id_coupon_data_main)
+                                        ->where('id_user', $id_user)->where('create_date', '>', DB::raw("CURRENT_TIMESTAMP - interval '1 day'"));
         If($already_used != null){
             return -1;
         }else{
