@@ -2,7 +2,6 @@
 
 namespace App\Http\Services\Coupons;
 use App\Models\s_coupons\CouponDataMain;
-use App\Models\s_coupons\LocalsRefCoupon;
 use App\Models\s_coupons\CouponRefFavourite;
 
 use App\Http\Repositories\Coupons\CouponsRepository;
