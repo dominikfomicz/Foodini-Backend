@@ -50,20 +50,25 @@ class AuthApiController extends Controller
 	}
 
 	public function registerWorker(Request $request){
+		
 		$request->validate([
             'name' => 'required',
             'email' => 'required',
 			'password' => 'required'
 		]);
 
+		$user_type = Auth::user()->user_type;
+		if($user_type == 3){
+			$user = User::create([
+				'name' => $request->name,
+				'email' => $request->email,
+				'password' => bcrypt($request->password),
+				'user_type' => 2
+			]);
+	
+			return 0;
+		}
 
-		$user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-			'password' => bcrypt($request->password),
-			'user_type' => 2
-		]);
-
-        return 0;
+		
 	}
 }
