@@ -72,5 +72,6 @@ Route::group(array('namespace' => 'Tags', 'prefix' => 'tags'), function() {
 
 Route::group(array('namespace' => 'Manager', 'prefix' => 'manager'), function() {
   Route::post('registerWorker', 'ManagerController@registerWorker');
+  Route::get('getLocalsByManager', 'ManagerController@getLocalsByManager'); // checked MSC
 });
 
