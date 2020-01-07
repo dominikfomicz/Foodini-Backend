@@ -11,6 +11,7 @@ use App\Models\s_locals\LocalDataMain;
 use App\Models\s_sys\HexaConstType;
 use App\Models\s_tags\CouponRefMain;
 use App\Http\Services\Coupons\FilesService;
+use App\Models\s_coupons\AvailableDayRef;
 use App\Models\s_locals\WorkerRefUser;
 use \Auth;
 use DB;
@@ -22,11 +23,8 @@ class CouponsService
     public function getList($id_local_data_main){
         $this->checkAllCoupons();
         $coupons = collect(CouponsRepository::getList($id_local_data_main));
-        $tags = collect(CouponsRepository::getMainTags());
         foreach($coupons AS $coupon){
-            $coupon->tags = $tags->where('id_coupon_data_main', $coupon->coupon_id)->map(function ($item, $key) {
-                return collect($item)->except(['id_coupon_data_main'])->all();
-            });
+            $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id));
         }
         return json_encode($coupons);
     }
@@ -36,19 +34,33 @@ class CouponsService
         CouponRefUser::where('used', 2)->where('create_date', '<', DB::raw("CURRENT_TIMESTAMP - interval '5 minute'"))->delete();
         $coupons = CouponDataMain::where('status', '<>','0')->get();
         foreach($coupons AS $coupon){
-            $used_count = CouponRefUser::where('id_coupon_data_main', $coupon->id)->count();
-            if($used_count >= $coupon->amount){
-                $coupon->status = 2;
-                $coupon->save();
-            }else{
-                $coupon->status = 1;
-                $coupon->save();
+            if($coupon->amount > 0){
+                $used_count = CouponRefUser::where('id_coupon_data_main', $coupon->id)->count();
+                if($used_count >= $coupon->amount){
+                    $coupon->status = 2;
+                    $coupon->save();
+                }else{
+                    $coupon->status = 1;
+                    $coupon->save();
+                }
             }
         }
 
     }
 
-    public function changeCoupon($id_coupon_data_main, $id_local_data_main, $coupon_data, $tags, $file_logo){
+    public function changeAvailableHours($id_coupon_data_main, $week_day_id, $open_data){
+
+        AvailableDayRef::where('id_coupon_data_main', $id_coupon_data_main)->where('id_weekday_const_type', $week_day_id)->delete();
+
+        $new_ref = new AvailableDayRef();
+        $new_ref->id_coupon_data_main = $id_coupon_data_main;
+        $new_ref->id_weekday_const_type = $week_day_id;
+        $new_ref->hour_from = $open_data->hour_from;
+        $new_ref->hour_to = $open_data->hour_to;
+        $new_ref->save();
+    }
+
+    public function changeCoupon($id_coupon_data_main, $id_local_data_main, $coupon_data, $tags, $file_logo, $open_hours){
 
         if($id_coupon_data_main == -1){
             $new_coupon = new CouponDataMain();
@@ -67,6 +79,10 @@ class CouponsService
 
         foreach($tags AS $tag){
             $this->addTagToCoupon($new_coupon->id, $tag->id, $tag->priority_status);
+        }
+
+        foreach($open_hours AS $open_hour){
+            $this->changeAvailableHours($new_coupon->id, $open_hour->id_week_day, $open_hour);
         }
 
         $files = new FilesService();

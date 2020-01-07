@@ -15,11 +15,8 @@ class LocalsService
 {
     public function getList($id_city_const_type){
         $locals = collect(LocalsRepository::getList($id_city_const_type));
-        $tags = collect(LocalsRepository::getTags());
         foreach($locals AS $local){
-            $local->tags = $tags->where('id_local_data_main', $local->local_id)->where('is_main', 'true')->map(function ($item, $key) {
-                return collect($item)->except(['id_local_data_main'])->all();
-            });
+            $local->tags = collect(ManagerRepository::getTagsByLocal($local->local_id));
         }
         return json_encode($locals);
     }
@@ -75,11 +72,8 @@ class LocalsService
 
     public function getFavouriteList($id_city_const_type){
         $locals = collect(LocalsRepository::getFavouriteList($id_city_const_type));
-        $tags = collect(LocalsRepository::getTags());
         foreach($locals AS $local){
-            $local->tags = $tags->where('id_local_data_main', $local->local_id)->where('is_main', 'true')->map(function ($item, $key) {
-                return collect($item)->except(['id_local_data_main'])->all();
-            });
+            $local->tags = collect(ManagerRepository::getTagsByLocal($local->local_id));
         }
         return json_encode($locals);
     }
@@ -149,9 +143,7 @@ class LocalsService
             $locals = collect(LocalsRepository::getLocalsByManager($user->id));
             $tags = collect(LocalsRepository::getTags());
             foreach($locals AS $local){
-                $local->tags = $tags->where('id_local_data_main', $local->local_id)->where('is_main', 'true')->map(function ($item, $key) {
-                    return collect($item)->except(['id_local_data_main'])->all();
-                });
+                $local->tags = collect(ManagerRepository::getTagsByLocal($local->local_id));
             }
             return json_encode($locals);
         }

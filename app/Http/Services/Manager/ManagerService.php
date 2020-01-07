@@ -12,7 +12,7 @@ class ManagerService
         if($user->user_type == 3){
             $locals = collect(ManagerRepository::getLocalsByManager($user->id));
             foreach($locals AS $local){
-                $local->tags = collect(ManagerRepository::getTagsByLocal($local->local_id))->first();
+                $local->tags = collect(ManagerRepository::getTagsByLocal($local->local_id));
             }
             return json_encode($locals);
         }

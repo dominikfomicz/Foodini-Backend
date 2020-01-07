@@ -23,7 +23,12 @@ class CouponsController extends Controller
     }
 
     public function changeCoupon(Request $request){
-        return $this->service->changeCoupon($request->id_coupon_data_main, $request->id_local_data_main, json_decode($request->coupon_data), json_decode($request->tags), $request->file('file_logo'));
+        return $this->service->changeCoupon($request->id_coupon_data_main,
+                                            $request->id_local_data_main,
+                                            json_decode($request->coupon_data), 
+                                            json_decode($request->tags), 
+                                            $request->file('file_logo'),
+                                            json_decode($request->open_hours));
 
     }
 
