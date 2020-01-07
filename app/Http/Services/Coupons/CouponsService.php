@@ -100,6 +100,7 @@ class CouponsService
     public function getDetails($id_coupon_data_main){
         $coupon = collect(CouponsRepository::getDetails($id_coupon_data_main))->first();
         $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id));
+        $coupon->available_hours = collect(CouponsRepository::getAvailableHours($coupon->coupon_id));
         return json_encode($coupon);
     }
 

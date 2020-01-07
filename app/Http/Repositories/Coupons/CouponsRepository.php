@@ -92,6 +92,20 @@ class CouponsRepository
         return DB::select($query);
     }
 
+    public static function getAvailableHours($id_coupon_data_main){
+
+        $query = "SELECT
+                        d.id_weekday_const_type AS id_day,
+                        to_char(d.hour_from, 'HH24:MI') AS hour_from,
+                        to_char(d.hour_to, 'HH24:MI') AS hour_to
+                    FROM s_coupons.t_available_day_ref d
+                    LEFT JOIN s_locals.t_weekday_const_type c ON c.id = o.id_weekday_const_type
+                    WHERE d.id_coupon_data_main = {$id_coupon_data_main}
+                    ORDER BY c.order_column;";
+
+        return DB::select($query);
+    }
+
     public static function getFavouriteList(){
         $id_user = Auth::user()->id;
         $query = "SELECT
