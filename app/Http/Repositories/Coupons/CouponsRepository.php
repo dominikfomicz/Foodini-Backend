@@ -103,7 +103,7 @@ class CouponsRepository
                         to_char(d.hour_from, 'HH24:MI') AS hour_from,
                         to_char(d.hour_to, 'HH24:MI') AS hour_to
                     FROM s_coupons.t_available_day_ref d
-                    LEFT JOIN s_locals.t_weekday_const_type c ON c.id = o.id_weekday_const_type
+                    LEFT JOIN s_locals.t_weekday_const_type c ON c.id = d.id_weekday_const_type
                     WHERE d.id_coupon_data_main = {$id_coupon_data_main}
                     ORDER BY c.order_column;";
 
