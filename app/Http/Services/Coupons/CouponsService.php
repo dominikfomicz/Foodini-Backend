@@ -135,7 +135,6 @@ class CouponsService
         $coupon = CouponDataMain::find($id_coupon_data_main);
         $id_user = Auth::user()->id;
 
-        $used_already = 
 
         CouponRefUser::where('used', 2)->where('id_coupon_data_main', $id_coupon_data_main)->where('id_user', $id_user)->delete();
 
