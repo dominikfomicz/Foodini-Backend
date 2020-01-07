@@ -8,6 +8,10 @@ use \Auth;
 class CouponsRepository
 {
     public static function getList($id_local_data_main){
+        $day_of_week = date('N');
+        if($day_of_week == 7){
+            $day_of_week = 0;
+        }
         $id_user = Auth::user()->id;
         $query = "WITH used_counter AS (
                             SELECT

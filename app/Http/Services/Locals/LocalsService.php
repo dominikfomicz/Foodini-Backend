@@ -16,7 +16,7 @@ class LocalsService
     public function getList($id_city_const_type){
         $locals = collect(LocalsRepository::getList($id_city_const_type));
         foreach($locals AS $local){
-            $local->tags = collect(LocalsRepository::getTagsByLocal($local->local_id));
+            $local->tags = collect(LocalsRepository::getTagsByLocal($local->local_id))->where('is_main', true);
         }
         return json_encode($locals);
     }

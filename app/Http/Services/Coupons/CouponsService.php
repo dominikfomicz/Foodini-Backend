@@ -126,11 +126,8 @@ class CouponsService
     public function getFavouriteList(){
         $this->checkAllCoupons();
         $coupons = collect(CouponsRepository::getFavouriteList());
-        $tags = collect(CouponsRepository::getMainTags());
         foreach($coupons AS $coupon){
-            $coupon->tags = $tags->where('id_coupon_data_main', $coupon->coupon_id)->map(function ($item, $key) {
-                return collect($item)->except(['id_coupon_data_main'])->all();
-            });
+            $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id));
         }
         return json_encode($coupons);
     }
@@ -138,6 +135,8 @@ class CouponsService
     public function orderCoupon($id_coupon_data_main){
         $coupon = CouponDataMain::find($id_coupon_data_main);
         $id_user = Auth::user()->id;
+
+        $used_already = 
 
         CouponRefUser::where('used', 2)->where('id_coupon_data_main', $id_coupon_data_main)->where('id_user', $id_user)->delete();
 
@@ -193,11 +192,8 @@ class CouponsService
     public function getCouponsByCity($id_city_const_type){
         $this->checkAllCoupons();
         $coupons = collect(CouponsRepository::getCouponsByCity($id_city_const_type));
-        $tags = collect(CouponsRepository::getMainTags());
         foreach($coupons AS $coupon){
-            $coupon->tags = $tags->where('id_coupon_data_main', $coupon->coupon_id)->map(function ($item, $key) {
-                return collect($item)->except(['id_coupon_data_main'])->all();
-            });
+            $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id));
         }
         return json_encode($coupons);
     }
