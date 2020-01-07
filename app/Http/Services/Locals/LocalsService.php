@@ -16,7 +16,7 @@ class LocalsService
     public function getList($id_city_const_type){
         $locals = collect(LocalsRepository::getList($id_city_const_type));
         foreach($locals AS $local){
-            $local->tags = collect(ManagerRepository::getTagsByLocal($local->local_id));
+            $local->tags = collect(LocalsRepository::getTagsByLocal($local->local_id));
         }
         return json_encode($locals);
     }
@@ -73,7 +73,7 @@ class LocalsService
     public function getFavouriteList($id_city_const_type){
         $locals = collect(LocalsRepository::getFavouriteList($id_city_const_type));
         foreach($locals AS $local){
-            $local->tags = collect(ManagerRepository::getTagsByLocal($local->local_id));
+            $local->tags = collect(LocalsRepository::getTagsByLocal($local->local_id));
         }
         return json_encode($locals);
     }
@@ -135,18 +135,5 @@ class LocalsService
     public function getMapList($id_city_const_type){
         $locals = collect(LocalsRepository::getMapList($id_city_const_type));
         return json_encode($locals);
-    }
-
-    public function getLocalsByManager(){
-        $user = Auth::user();
-        if($user->user_type == 3){
-            $locals = collect(LocalsRepository::getLocalsByManager($user->id));
-            $tags = collect(LocalsRepository::getTags());
-            foreach($locals AS $local){
-                $local->tags = collect(ManagerRepository::getTagsByLocal($local->local_id));
-            }
-            return json_encode($locals);
-        }
-        
     }
 }
