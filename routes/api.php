@@ -70,3 +70,7 @@ Route::group(array('namespace' => 'Tags', 'prefix' => 'tags'), function() {
   Route::get('getList', 'TagsController@getList'); // checked DFZ
 });
 
+Route::group(array('namespace' => 'Manager', 'prefix' => 'manager'), function() {
+  Route::post('registerWorker', 'ManagerController@registerWorker');
+});
+
