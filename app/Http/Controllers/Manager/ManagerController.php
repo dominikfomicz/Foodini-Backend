@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\Manager\ManagerService;
 use Illuminate\Http\Request;
 
-class LocalsController extends Controller
+class ManagerController extends Controller
 {
     private $service;
 
