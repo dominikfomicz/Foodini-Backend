@@ -135,25 +135,30 @@ class CouponsService
         $coupon = CouponDataMain::find($id_coupon_data_main);
         $id_user = Auth::user()->id;
 
+        $already_used = CouponRefUser::where('used', 1)->where('id_coupon_data_main', $id_coupon_data_main)->where('id_user', $id_user);
+        If($already_used != null){
+            return -1;
+        }else{
+            CouponRefUser::where('used', 2)->where('id_coupon_data_main', $id_coupon_data_main)->where('id_user', $id_user)->delete();
 
-        CouponRefUser::where('used', 2)->where('id_coupon_data_main', $id_coupon_data_main)->where('id_user', $id_user)->delete();
-
-        $ref_user = new CouponRefUser();
-        $ref_user->id_coupon_data_main = $id_coupon_data_main;
-        $ref_user->id_user = $id_user;
-        $ref_user->used = 2;
-
-        $ref_user->save();
-
-        $local = LocalDataMain::find($coupon->id_local_data_main);
-        $hexa_id = (($ref_user->id * 345545467) % 4093);
-        $hexa = HexaConstType::find($hexa_id);
-        $ref_user->unique_number = $local->hexa_value.$hexa->value;
-        $ref_user->save();
-
-        $this->checkAllCoupons();
-
-        return json_encode($ref_user->unique_number);
+            $ref_user = new CouponRefUser();
+            $ref_user->id_coupon_data_main = $id_coupon_data_main;
+            $ref_user->id_user = $id_user;
+            $ref_user->used = 2;
+    
+            $ref_user->save();
+    
+            $local = LocalDataMain::find($coupon->id_local_data_main);
+            $hexa_id = (($ref_user->id * 345545467) % 4093);
+            $hexa = HexaConstType::find($hexa_id);
+            $ref_user->unique_number = $local->hexa_value.$hexa->value;
+            $ref_user->save();
+    
+            $this->checkAllCoupons();
+    
+            return json_encode($ref_user->unique_number);
+        }
+        
     }
 
     public function checkCoupon($unique_number){
