@@ -37,6 +37,7 @@ Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
       Route::post('addLogo', 'FilesController@addLogo');
       Route::post('addBackground', 'FilesController@addBackground');
       Route::post('addMenuPhoto', 'FilesController@addMenuPhoto');
+      Route::post('addMapLogo', 'FilesController@addMapLogo');
   });
 });
 

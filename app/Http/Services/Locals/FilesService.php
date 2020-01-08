@@ -70,4 +70,22 @@ class FilesService
         Storage::disk('local')->put($filePath, file_get_contents($file));
 
     }
+
+    public function addMapLogo($id_local_data_main, $file){
+        // $file_name = uniqid().".png";
+        $file_name = "menu.png";
+
+        $doc = New DocumentDataMain();
+        $doc->id_document_const_type = 5;
+        $doc->file_name = $file_name;
+        $doc->save();
+
+        $ref = new LocalRefDocument();
+        $ref->id_local_data_main = $id_local_data_main;
+        $ref->id_document_data_main = $doc->id;
+        $ref->save();
+        $filePath = "public/locals/".$id_local_data_main."/".$file_name;
+        Storage::disk('local')->put($filePath, file_get_contents($file));
+
+    }
 }
