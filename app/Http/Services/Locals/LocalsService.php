@@ -78,7 +78,7 @@ class LocalsService
         return json_encode($locals);
     }
 
-    public function changeLocal($id_local_data_main, $local_data, $tags, $open_hours, $file_logo, $file_background){
+    public function changeLocal($id_local_data_main, $local_data, $tags, $open_hours, $file_logo, $file_background, $file_menu){
 
         if($id_local_data_main == -1){
             $new_local = new LocalDataMain();
@@ -120,9 +120,9 @@ class LocalsService
         }
 
         $files = new FilesService();
-        $file_logo = $files->addLogo($new_local->id, $file_logo);
-        $file_background = $files->addBackground($new_local->id, $file_background);
-
+        $files->addLogo($new_local->id, $file_logo);
+        $files->addBackground($new_local->id, $file_background);
+        $files->addMenuPhoto($new_local->id, $file_menu);
         //return json_encode($new_local);
     }
 

@@ -21,4 +21,8 @@ class FilesController extends Controller
     public function addBackground(Request $request){
         return $this->service->addBackground($request->id_local_data_main, $request->file('image'));
     }
+
+    public function addMenuPhoto(Request $request){
+        return $this->service->addMenuPhoto($request->id_local_data_main, $request->file('image'));
+    }
 }
