@@ -67,6 +67,10 @@ class CouponsRepository
 
     //com
     public static function getDetails($id_coupon_data_main){
+        $day_of_week = date('N');
+        if($day_of_week == 7){
+            $day_of_week = 0;
+        }
         $id_user = Auth::user()->id;
         $query = "
                     SELECT
@@ -76,9 +80,16 @@ class CouponsRepository
                         c.name,
                         CASE WHEN f.id IS NOT NULL THEN TRUE
                         ELSE FALSE
-                        END AS is_favouirite
+                        END AS is_favouirite,
+                        CASE WHEN o.id IS NOT NULL THEN TRUE
+                        ELSE FALSE
+                        END AS as_available
                     FROM s_coupons.t_coupon_data_main c
                     LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_coupon_data_main = c.id
+                    LEFT JOIN s_coupons.t_available_day_ref o ON o.id_coupon_data_main = c.id
+                                                            AND o.id_weekday_const_type = {$day_of_week}
+                                                            AND hour_from <= current_time
+                                                            AND hour_to >= current_time
                     WHERE c.id = {$id_coupon_data_main};
                     ";
 
@@ -140,6 +151,10 @@ class CouponsRepository
     }
 
     public static function getCouponsByCity($id_city_const_type){
+        $day_of_week = date('N');
+        if($day_of_week == 7){
+            $day_of_week = 0;
+        }
         $id_user = Auth::user()->id;
         $query = "WITH used_counter AS (
                             SELECT
