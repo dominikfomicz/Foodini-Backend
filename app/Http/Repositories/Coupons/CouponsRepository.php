@@ -174,7 +174,11 @@ class CouponsRepository
                     LEFT JOIN s_coupons.t_coupon_data_main c ON l.id = c.id_local_data_main
                     LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
                     LEFT JOIN used_counter ON used_counter.id_coupon_data_main = c.id
-                    WHERE l.id_city_const_type = {$id_city_const_type} AND c.status = 1;
+                    LEFT JOIN s_coupons.t_available_day_ref o ON o.id_coupon_data_main = c.id
+                                                            AND o.id_weekday_const_type = {$day_of_week}
+                                                            AND hour_from <= current_time
+                                                            AND hour_to >= current_time
+                    WHERE l.id_city_const_type = {$id_city_const_type} AND c.status = 1 AND o.id IS NOT NULL;
                     ";
         return DB::select($query);
     }
