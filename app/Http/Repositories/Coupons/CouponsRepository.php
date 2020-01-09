@@ -83,8 +83,12 @@ class CouponsRepository
                         END AS is_favouirite,
                         CASE WHEN o.id IS NOT NULL THEN TRUE
                         ELSE FALSE
-                        END AS as_available
+                        END AS as_available,
+                        l.delivery,
+                        l.eat_in_local,
+                        l.pick_up_local
                     FROM s_coupons.t_coupon_data_main c
+                    LEFT JOIN s_locals.t_local_data_main l ON l.id = c.id_local_data_main
                     LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
                     LEFT JOIN s_coupons.t_available_day_ref o ON o.id_coupon_data_main = c.id
                                                             AND o.id_weekday_const_type = {$day_of_week}
