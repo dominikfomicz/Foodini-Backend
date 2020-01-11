@@ -73,6 +73,10 @@ class CouponsRepository
         }
         $id_user = Auth::user()->id;
         $query = "
+                WITH favourite_count AS (SELECT COUNT(*) AS favourite_count
+                                        FROM s_coupons.t_coupon_ref_favourite f
+                                        WHERE f.id_coupon_data_main = {$id_coupon_data_main}
+                                        LIMIT 1)
                     SELECT
                         c.id AS coupon_id,
                         c.description,
@@ -86,7 +90,8 @@ class CouponsRepository
                         END AS as_available,
                         l.delivery,
                         l.eat_in_local,
-                        l.pick_up_local
+                        l.pick_up_local,
+                        favourite_count.favourite_count
                     FROM s_coupons.t_coupon_data_main c
                     LEFT JOIN s_locals.t_local_data_main l ON l.id = c.id_local_data_main
                     LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
@@ -94,7 +99,9 @@ class CouponsRepository
                                                             AND o.id_weekday_const_type = {$day_of_week}
                                                             AND hour_from <= current_time
                                                             AND hour_to >= current_time
-                    WHERE c.id = {$id_coupon_data_main};
+                    LEFT JOIN favourite_count ON 0=0
+                    WHERE c.id = {$id_coupon_data_main}
+                    LIMIT 1;
                     ";
 
         return DB::select($query);
