@@ -185,7 +185,7 @@ class CouponsService
 
                 
             }else{
-
+                return -1;
                 
             }
         }else{
