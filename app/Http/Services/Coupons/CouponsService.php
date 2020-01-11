@@ -167,7 +167,7 @@ class CouponsService
         $user_type = Auth::user()->user_type;
         $id_user = Auth::user()->id;
         if($user_type == 2){
-            $coupon = CouponRefUser::where('used', 2)->where('unique_number', $unique_number)->where('create_date', '>', DB::raw("CURRENT_TIMESTAMP - interval '5 minute'"))->first();
+            $coupon = CouponRefUser::where('used', 2)->where('unique_number', DB::raw("UPPER('{$unique_number}')"))->where('create_date', '>', DB::raw("CURRENT_TIMESTAMP - interval '5 minute'"))->first();
             if($coupon != null){
                 $coupon_data = CouponDataMain::find($coupon->id_coupon_data_main);
                 $user_ref_local = WorkerRefUser::where('id_local_data_main', $coupon_data->id_local_data_main)->where('id_user', $id_user)->first();
