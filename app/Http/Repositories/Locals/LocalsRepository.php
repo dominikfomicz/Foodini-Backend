@@ -180,7 +180,7 @@ class LocalsRepository
 
     public static function getDetailsTEST($id_local_data_main, $date){
         $date_time = strtotime($date);
-        if(date("h", $date_time) < 06 ){
+        if(date("H", $date_time) < 06 ){
             $day_of_week = date('N', $date_time) - 1;
         }else{
             $day_of_week = date('N', $date_time);
@@ -188,7 +188,7 @@ class LocalsRepository
                 $day_of_week = 0;
             }
         }
-        $time = date('h:i:s', $date_time);
+        $time = date('H:i:s', $date_time);
 
         $id_user = Auth::user()->id;
         $query = "WITH counter_fav AS (SELECT
