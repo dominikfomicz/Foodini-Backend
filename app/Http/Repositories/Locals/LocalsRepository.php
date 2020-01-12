@@ -180,7 +180,7 @@ class LocalsRepository
 
     public static function getDetailsTEST($id_local_data_main, $date){
         $date_time = strtotime($date);
-        if(date("h") < 06 ){
+        if(date("h", $date_time) < 06 ){
             $day_of_week = date('N', $date_time) - 1;
         }else{
             $day_of_week = date('N', $date_time);
