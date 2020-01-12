@@ -106,6 +106,11 @@ class CouponsService
         $coupon = collect(CouponsRepository::getDetails($id_coupon_data_main))->first();
         $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id));
         $coupon->available_hours = collect(CouponsRepository::getAvailableHours($coupon->coupon_id));
+
+        $stats_coupon = CouponDataMain::find($id_coupon_data_main);
+        $stats_coupon->show_detail_count = $stats_coupon->show_detail_count + 1;
+        $stats_coupon->save();
+
         return json_encode($coupon);
     }
 
