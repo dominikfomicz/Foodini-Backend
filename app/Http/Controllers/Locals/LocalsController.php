@@ -64,8 +64,8 @@ class LocalsController extends Controller
         return $this->service->getLocalsByManager();
     }
 
-    public function getDetailsTEST(Request $request){
-        return $this->service->getDetailsTEST($request->id_local_data_main, $request->date);
+    public function getDetailsEdit(Request $request){
+        return $this->service->getDetailsEdit($request->id_local_data_main);
     }
 
 }

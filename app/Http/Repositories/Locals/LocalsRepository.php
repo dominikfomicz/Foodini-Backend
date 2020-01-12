@@ -178,74 +178,21 @@ class LocalsRepository
         return DB::select($query);
     }
 
-    public static function getDetailsTEST($id_local_data_main, $date){
-        $date_time = strtotime($date);
-        if(date("H", $date_time) < 06 ){
-            $day_of_week = date('N', $date_time) - 1;
-        }else{
-            $day_of_week = date('N', $date_time);
-            if($day_of_week == 7){
-                $day_of_week = 0;
-            }
-        }
-        $time = date('H:i:s', $date_time);
+    public static function getAllWorkHours($id_local_data_main){
 
-        $id_user = Auth::user()->id;
-        $query = "WITH counter_fav AS (SELECT
-                                        COUNT(*) AS favourite_count
-                                    FROM s_locals.t_local_ref_favourite
-                                    WHERE id_local_data_main = {$id_local_data_main}
+        $query = "SELECT
+                        o.id_weekday_const_type AS id_day,
+                        to_char(o.local_hour_from, 'HH24:MI') AS local_hour_from,
+                        to_char(o.local_hour_to, 'HH24:MI') AS local_hour_from,
+                        to_char(o.kitchen_hour_from, 'HH24:MI') AS kitchen_hour_from,
+                        to_char(o.kitchen_hour_to, 'HH24:MI') AS kitchen_hour_from,
+                        to_char(o.delivery_hour_from, 'HH24:MI') AS delivery_hour_from,
+                        to_char(o.delivery_hour_to, 'HH24:MI') AS delivery_hour_from
+                    FROM s_locals.t_open_ref_main o
+                    LEFT JOIN s_locals.t_weekday_const_type c ON c.id = o.id_weekday_const_type
+                    WHERE o.id_local_data_main = {$id_local_data_main}
+                    ORDER BY c.order_column;";
 
-                        ),
-                        counter_coupons AS (SELECT
-                                        COUNT(*) AS coupons_count
-                                    FROM s_coupons.t_coupon_data_main
-                                    WHERE id_local_data_main = {$id_local_data_main}
-                        )
-                    SELECT
-                        l.name,
-                        l.id AS local_id,
-                        CASE WHEN '{$time}'::time < '06:00'::time AND o.local_hour_to > '{$time}'::time THEN TRUE
-                        	WHEN o.local_hour_from < '{$time}'::time AND (o.local_hour_to > '{$time}'::time OR o.local_hour_to < '06:00') THEN TRUE
-                        ELSE FALSE
-                        END AS local_open_status,
-                        CASE WHEN '{$time}'::time < '06:00'::time AND o.kitchen_hour_to > '{$time}'::time THEN TRUE
-                        	WHEN o.kitchen_hour_from < '{$time}'::time AND (o.kitchen_hour_to > '{$time}'::time OR o.kitchen_hour_to < '06:00') THEN TRUE
-                        ELSE FALSE
-                        END AS kitchen_open_status,
-                        CASE WHEN '{$time}'::time < '06:00'::time AND o.delivery_hour_to > '{$time}'::time THEN TRUE
-                        	WHEN o.delivery_hour_from < '{$time}'::time AND (o.delivery_hour_to > '{$time}'::time OR o.delivery_hour_to < '06:00') THEN TRUE
-                        ELSE FALSE
-                        END AS delivery_open_status,
-                        o.status_closed AS is_closed,
-                        CASE WHEN f.id IS NOT NULL THEN TRUE
-                        ELSE FALSE
-                        END AS is_favouirite,
-                        l.delivery,
-                        l.eat_in_local,
-                        l.pick_up_local,
-                        l.address,
-                        l.description,
-                        l.other_info,
-                        l.facebook_url,
-                        l.instagram_url,
-                        counter_fav.favourite_count,
-                        counter_coupons.coupons_count,
-                        l.cash_payment,
-                        l.creditcards_payment,
-                        l.contactless_payment,
-                        l.blik_payment,
-                        l.phone_number
-                    FROM s_locals.t_local_data_main l
-                    LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
-                                                            AND id_weekday_const_type = {$day_of_week}
-                    LEFT JOIN counter_fav ON 0=0
-                    LEFT JOIN counter_coupons ON 0=0
-                    LEFT JOIN s_locals.t_local_ref_favourite f ON f.id_user = {$id_user} AND f.id_local_data_main = l.id
-                    WHERE l.id = {$id_local_data_main};
-                    ";
-        //return $query;
-        
         return DB::select($query);
     }
 }
