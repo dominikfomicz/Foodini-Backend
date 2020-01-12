@@ -7,9 +7,13 @@ use \Auth;
 class LocalsRepository
 {
     public static function getList($id_city_const_type){
-        $day_of_week = date('N');
-        if($day_of_week == 7){
-            $day_of_week = 0;
+        if(date("h") < 06 ){
+            $day_of_week = date('N') - 1;
+        }else{
+            $day_of_week = date('N');
+            if($day_of_week == 7){
+                $day_of_week = 0;
+            }
         }
         $id_user = Auth::user()->id;
         $query = "SELECT
@@ -139,9 +143,13 @@ class LocalsRepository
     }
 
     public static function getFavouriteList($id_city_const_type){
-        $day_of_week = date('N');
-        if($day_of_week == 7){
-            $day_of_week = 0;
+        if(date("h") < 06 ){
+            $day_of_week = date('N') - 1;
+        }else{
+            $day_of_week = date('N');
+            if($day_of_week == 7){
+                $day_of_week = 0;
+            }
         }
         $id_user = Auth::user()->id;
         $query = "SELECT

@@ -8,9 +8,13 @@ use \Auth;
 class CouponsRepository
 {
     public static function getList($id_local_data_main){
-        $day_of_week = date('N');
-        if($day_of_week == 7){
-            $day_of_week = 0;
+        if(date("h") < 06 ){
+            $day_of_week = date('N') - 1;
+        }else{
+            $day_of_week = date('N');
+            if($day_of_week == 7){
+                $day_of_week = 0;
+            }
         }
         $id_user = Auth::user()->id;
         $query = "WITH used_counter AS (
@@ -47,8 +51,10 @@ class CouponsRepository
                     LEFT JOIN used_counter ON used_counter.id_coupon_data_main = c.id
                     LEFT JOIN s_coupons.t_available_day_ref o ON o.id_coupon_data_main = c.id
                                                             AND o.id_weekday_const_type = {$day_of_week}
-                                                            AND hour_from <= current_time
-                                                            AND hour_to >= current_time
+                                                            AND (CASE WHEN CURRENT_TIME < '06:00' AND o.hour_from > CURRENT_TIME THEN TRUE
+                                                                    WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN TRUE
+                                                                ELSE FALSE
+                                                                END) = TRUE
                     WHERE c.id_local_data_main = {$id_local_data_main} AND o.id IS NOT NULL;
                     ";
         return DB::select($query);
@@ -87,7 +93,7 @@ class CouponsRepository
                         END AS is_favouirite,
                         CASE WHEN o.id IS NOT NULL THEN TRUE
                         ELSE FALSE
-                        END AS as_available,
+                        END AS is_available,
                         l.delivery,
                         l.eat_in_local,
                         l.pick_up_local,
@@ -97,8 +103,10 @@ class CouponsRepository
                     LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
                     LEFT JOIN s_coupons.t_available_day_ref o ON o.id_coupon_data_main = c.id
                                                             AND o.id_weekday_const_type = {$day_of_week}
-                                                            AND hour_from <= current_time
-                                                            AND hour_to >= current_time
+                                                            AND (CASE WHEN CURRENT_TIME < '06:00' AND o.hour_from > CURRENT_TIME THEN TRUE
+                                                                    WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN TRUE
+                                                                ELSE FALSE
+                                                                END) = TRUE
                     LEFT JOIN favourite_count ON 0=0
                     WHERE c.id = {$id_coupon_data_main}
                     LIMIT 1;
@@ -202,8 +210,10 @@ class CouponsRepository
                     LEFT JOIN used_counter ON used_counter.id_coupon_data_main = c.id
                     LEFT JOIN s_coupons.t_available_day_ref o ON o.id_coupon_data_main = c.id
                                                             AND o.id_weekday_const_type = {$day_of_week}
-                                                            AND hour_from <= current_time
-                                                            AND hour_to >= current_time
+                                                            AND (CASE WHEN CURRENT_TIME < '06:00' AND o.hour_from > CURRENT_TIME THEN TRUE
+                                                                    WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN TRUE
+                                                                ELSE FALSE
+                                                                END) = TRUE
                     WHERE l.id_city_const_type = {$id_city_const_type} AND c.status = 1 AND o.id IS NOT NULL;
                     ";
         return DB::select($query);
