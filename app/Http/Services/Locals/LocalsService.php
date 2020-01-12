@@ -139,10 +139,6 @@ class LocalsService
 
     public function getDetailsTEST($id_local_data_main, $date){
         $local = collect(LocalsRepository::getDetailsTEST($id_local_data_main, $date))->first();
-        $local->work_hours = collect(LocalsRepository::getWorkHours($local->local_id));
-        $tags = collect(LocalsRepository::getTagsByLocal($local->local_id));
-        $local->main_tags = $tags->where('is_main', TRUE);
-        $local->secondary_tags = $tags->where('is_main', FALSE);
         return json_encode($local);
     }
 }
