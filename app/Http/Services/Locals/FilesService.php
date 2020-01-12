@@ -4,6 +4,8 @@ use App\Models\s_locals\LocalRefDocument;
 use App\Models\s_sys\DocumentDataMain;
 use Image;
 use Storage;
+use \Auth;
+
 class FilesService
 {
     public function addLogo($id_local_data_main, $file){
