@@ -187,15 +187,16 @@ class LocalsRepository
     }
 
     public static function getAllWorkHours($id_local_data_main){
-
+        // kom
+        
         $query = "SELECT
                         o.id_weekday_const_type AS id_day,
                         to_char(o.local_hour_from, 'HH24:MI') AS local_hour_from,
-                        to_char(o.local_hour_to, 'HH24:MI') AS local_hour_from,
+                        to_char(o.local_hour_to, 'HH24:MI') AS local_hour_to,
                         to_char(o.kitchen_hour_from, 'HH24:MI') AS kitchen_hour_from,
-                        to_char(o.kitchen_hour_to, 'HH24:MI') AS kitchen_hour_from,
+                        to_char(o.kitchen_hour_to, 'HH24:MI') AS kitchen_hour_to,
                         to_char(o.delivery_hour_from, 'HH24:MI') AS delivery_hour_from,
-                        to_char(o.delivery_hour_to, 'HH24:MI') AS delivery_hour_from
+                        to_char(o.delivery_hour_to, 'HH24:MI') AS delivery_hour_to
                     FROM s_locals.t_open_ref_main o
                     LEFT JOIN s_locals.t_weekday_const_type c ON c.id = o.id_weekday_const_type
                     WHERE o.id_local_data_main = {$id_local_data_main}
