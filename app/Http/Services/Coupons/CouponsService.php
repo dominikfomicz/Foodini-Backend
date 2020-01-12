@@ -48,53 +48,58 @@ class CouponsService
     }
 
     public function changeAvailableHours($id_coupon_data_main, $week_day_id, $open_data){
+        If (Auth::user()->user_type == -1){
+            AvailableDayRef::where('id_coupon_data_main', $id_coupon_data_main)->where('id_weekday_const_type', $week_day_id)->delete();
 
-        AvailableDayRef::where('id_coupon_data_main', $id_coupon_data_main)->where('id_weekday_const_type', $week_day_id)->delete();
-
-        $new_ref = new AvailableDayRef();
-        $new_ref->id_coupon_data_main = $id_coupon_data_main;
-        $new_ref->id_weekday_const_type = $week_day_id;
-        $new_ref->hour_from = $open_data->hour_from;
-        $new_ref->hour_to = $open_data->hour_to;
-        $new_ref->save();
+            $new_ref = new AvailableDayRef();
+            $new_ref->id_coupon_data_main = $id_coupon_data_main;
+            $new_ref->id_weekday_const_type = $week_day_id;
+            $new_ref->hour_from = $open_data->hour_from;
+            $new_ref->hour_to = $open_data->hour_to;
+            $new_ref->save();
+        }
+        
     }
 
     public function changeCoupon($id_coupon_data_main, $id_local_data_main, $coupon_data, $tags, $file_logo, $open_hours){
-
-        if($id_coupon_data_main == -1){
-            $new_coupon = new CouponDataMain();
-        }else{
-            $new_coupon = CouponDataMain::find($id_coupon_data_main);
+        If (Auth::user()->user_type == -1){
+            if($id_coupon_data_main == -1){
+                $new_coupon = new CouponDataMain();
+            }else{
+                $new_coupon = CouponDataMain::find($id_coupon_data_main);
+            }
+    
+            $new_coupon->name = $coupon_data->name;
+            $new_coupon->description = $coupon_data->description;
+            $new_coupon->amount = $coupon_data->amount;
+            $new_coupon->mature = $coupon_data->mature;
+            $new_coupon->id_local_data_main = $id_local_data_main;
+            $new_coupon->save();
+    
+            CouponRefMain::where('id_coupon_data_main', $new_coupon->id)->delete();
+    
+            foreach($tags AS $tag){
+                $this->addTagToCoupon($new_coupon->id, $tag->id, $tag->priority_status);
+            }
+    
+            foreach($open_hours AS $open_hour){
+                $this->changeAvailableHours($new_coupon->id, $open_hour->id_week_day, $open_hour);
+            }
+    
+            $files = new FilesService();
+            $file_logo = $files->addLogo($new_coupon->id, $file_logo);
         }
-
-        $new_coupon->name = $coupon_data->name;
-        $new_coupon->description = $coupon_data->description;
-        $new_coupon->amount = $coupon_data->amount;
-        $new_coupon->mature = $coupon_data->mature;
-        $new_coupon->id_local_data_main = $id_local_data_main;
-        $new_coupon->save();
-
-        CouponRefMain::where('id_coupon_data_main', $new_coupon->id)->delete();
-
-        foreach($tags AS $tag){
-            $this->addTagToCoupon($new_coupon->id, $tag->id, $tag->priority_status);
-        }
-
-        foreach($open_hours AS $open_hour){
-            $this->changeAvailableHours($new_coupon->id, $open_hour->id_week_day, $open_hour);
-        }
-
-        $files = new FilesService();
-        $file_logo = $files->addLogo($new_coupon->id, $file_logo);
-
     }
 
     public function addTagToCoupon($id_coupon_data_main, $id_tag_data_main, $priority_status){
+        If (Auth::user()->user_type == -1){
             $new_ref = new CouponRefMain();
             $new_ref->id_coupon_data_main = $id_coupon_data_main;
             $new_ref->id_tag_data_main = $id_tag_data_main;
             $new_ref->priority_status = $priority_status;
             $new_ref->save();
+        }
+            
     }
 
     public function getDetails($id_coupon_data_main){
@@ -120,6 +125,8 @@ class CouponsService
 
     public function removeCoupon($id_coupon_data_main){
         //to do
+        If (Auth::user()->user_type == -1){
+        }
     }
 
 
