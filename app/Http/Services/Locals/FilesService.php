@@ -12,7 +12,7 @@ class FilesService
 
         $image = Image::make($file);
 
-        $image->resize(80, 80);
+        $image->resize(160, 160);
         //kom
 
         $doc = New DocumentDataMain();

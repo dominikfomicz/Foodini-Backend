@@ -33,6 +33,8 @@ Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
     Route::get('getFavouriteList/{id_city_const_type}', 'LocalsController@getFavouriteList'); // checked MSC
     Route::get('getMapList/{id_city_const_type}', 'LocalsController@getMapList'); // checked MSC
 
+    Route::get('getDetailsTEST/{id_local_data_main}', 'LocalsController@getDetailsTEST'); // checked MSC
+
     Route::group(array('prefix' => 'files'), function() {
       Route::post('addLogo', 'FilesController@addLogo');
       Route::post('addBackground', 'FilesController@addBackground');
