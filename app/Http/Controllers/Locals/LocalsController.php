@@ -60,10 +60,6 @@ class LocalsController extends Controller
         return $this->service->getMapList($request->id_city_const_type);
     }
 
-    public function getLocalsByManager(Request $request){
-        return $this->service->getLocalsByManager();
-    }
-
     public function getDetailsEdit(Request $request){
         return $this->service->getDetailsEdit($request->id_local_data_main);
     }
