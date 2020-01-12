@@ -245,6 +245,7 @@ class LocalsRepository
                     WHERE l.id = {$id_local_data_main};
                     ";
         //return $query;
+        
         return DB::select($query);
     }
 }
