@@ -27,6 +27,11 @@ class LocalsService
         $tags = collect(LocalsRepository::getTagsByLocal($local->local_id));
         $local->main_tags = $tags->where('is_main', TRUE);
         $local->secondary_tags = $tags->where('is_main', FALSE);
+        
+        $stats_local = LocalDataMain::find($id_local_data_main);
+        $stats_local->show_detail_count = $stats_local->show_detail_count + 1;
+        $stats_local->save();
+        
         return json_encode($local);
     }
 
