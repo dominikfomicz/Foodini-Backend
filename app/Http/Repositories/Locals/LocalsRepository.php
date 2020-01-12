@@ -244,7 +244,7 @@ class LocalsRepository
                     LEFT JOIN s_locals.t_local_ref_favourite f ON f.id_user = {$id_user} AND f.id_local_data_main = l.id
                     WHERE l.id = {$id_local_data_main};
                     ";
-        return $query;
-        //return DB::select($query);
+        //return $query;
+        return DB::select($query);
     }
 }
