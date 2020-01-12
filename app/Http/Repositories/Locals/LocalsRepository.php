@@ -205,16 +205,16 @@ class LocalsRepository
                     SELECT
                         l.name,
                         l.id AS local_id,
-                        CASE WHEN '{$time}' < '06:00' AND o.local_hour_to > '{$time}' THEN TRUE
-                        	WHEN o.local_hour_from < '{$time}' AND (o.local_hour_to > '{$time}' OR o.local_hour_to < '06:00') THEN TRUE
+                        CASE WHEN '{$time}'::time < '06:00'::time AND o.local_hour_to > '{$time}'::time THEN TRUE
+                        	WHEN o.local_hour_from < '{$time}'::time AND (o.local_hour_to > '{$time}'::time OR o.local_hour_to < '06:00') THEN TRUE
                         ELSE FALSE
                         END AS local_open_status,
-                        CASE WHEN '{$time}' < '06:00' AND o.kitchen_hour_to > '{$time}' THEN TRUE
-                        	WHEN o.kitchen_hour_from < '{$time}' AND (o.kitchen_hour_to > '{$time}' OR o.kitchen_hour_to < '06:00') THEN TRUE
+                        CASE WHEN '{$time}'::time < '06:00'::time AND o.kitchen_hour_to > '{$time}'::time THEN TRUE
+                        	WHEN o.kitchen_hour_from < '{$time}'::time AND (o.kitchen_hour_to > '{$time}'::time OR o.kitchen_hour_to < '06:00') THEN TRUE
                         ELSE FALSE
                         END AS kitchen_open_status,
-                        CASE WHEN '{$time}' < '06:00' AND o.delivery_hour_to > '{$time}' THEN TRUE
-                        	WHEN o.delivery_hour_from < '{$time}' AND (o.delivery_hour_to > '{$time}' OR o.delivery_hour_to < '06:00') THEN TRUE
+                        CASE WHEN '{$time}'::time < '06:00'::time AND o.delivery_hour_to > '{$time}'::time THEN TRUE
+                        	WHEN o.delivery_hour_from < '{$time}'::time AND (o.delivery_hour_to > '{$time}'::time OR o.delivery_hour_to < '06:00') THEN TRUE
                         ELSE FALSE
                         END AS delivery_open_status,
                         o.status_closed AS is_closed,
