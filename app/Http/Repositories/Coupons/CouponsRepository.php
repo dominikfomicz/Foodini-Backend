@@ -97,6 +97,7 @@ class CouponsRepository
                         l.delivery,
                         l.eat_in_local,
                         l.pick_up_local,
+                        c.mature,
                         favourite_count.favourite_count
                     FROM s_coupons.t_coupon_data_main c
                     LEFT JOIN s_locals.t_local_data_main l ON l.id = c.id_local_data_main

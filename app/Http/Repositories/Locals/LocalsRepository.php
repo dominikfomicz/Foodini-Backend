@@ -104,7 +104,8 @@ class LocalsRepository
                         l.creditcards_payment,
                         l.contactless_payment,
                         l.blik_payment,
-                        l.phone_number
+                        l.phone_number,
+                        l.id_city_const_type
                     FROM s_locals.t_local_data_main l
                     LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
                                                             AND id_weekday_const_type = {$day_of_week}
@@ -190,7 +191,7 @@ class LocalsRepository
         // kom
         
         $query = "SELECT
-                        o.id_weekday_const_type AS id_day,
+                        o.id_weekday_const_type AS id_week_day,
                         to_char(o.local_hour_from, 'HH24:MI') AS local_hour_from,
                         to_char(o.local_hour_to, 'HH24:MI') AS local_hour_to,
                         to_char(o.kitchen_hour_from, 'HH24:MI') AS kitchen_hour_from,
