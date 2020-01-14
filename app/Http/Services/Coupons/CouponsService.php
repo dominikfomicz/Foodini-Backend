@@ -250,4 +250,9 @@ class CouponsService
 
         return json_encode($coupon);
     }
+
+    public function getSupportCouponsByCity($id_city_const_type){
+        $coupons = collect(CouponsRepository::getSupportCouponsByCity($id_city_const_type));
+        return json_encode($coupons);
+    }
 }

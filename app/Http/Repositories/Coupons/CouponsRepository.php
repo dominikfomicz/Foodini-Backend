@@ -255,4 +255,14 @@ class CouponsRepository
 
         return DB::select($query);
     }
+
+    public static function getSupportCouponsByCity($id_city_const_type){
+        $query = "SELECT
+                        l.id AS id_local_data_main,
+                        l.name
+                    FROM s_locals.t_local_data_main l 
+                    WHERE l.id_city_const_type = {$id_city_const_type};
+                    ";
+        return DB::select($query);
+    }
 }
