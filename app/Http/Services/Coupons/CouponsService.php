@@ -150,7 +150,7 @@ class CouponsService
             $new_statics = new  DeletedCouponStatistics();
             $new_statics->id_local_data_main = $local->id;
             $new_statics->local_name = $local->name;
-            $new_statics->used_coupon_counter = $count_used;
+            $new_statics->used_coupons_count = $count_used;
             $new_statics->id_city_const_type = $local->id_city_const_type;
             $new_statics->coupon_name = $coupon->name;
             $new_statics->save();
