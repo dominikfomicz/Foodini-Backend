@@ -3,6 +3,7 @@
 namespace App\Http\Services\Manager;
 use App\Http\Repositories\Manager\ManagerRepository;
 use App\Models\s_locals\WorkerRefUser;
+use App\Models\s_locals\ManagerRefUser;
 use Auth;
 use App\User;
 
@@ -22,8 +23,12 @@ class ManagerService
     }
 
     public function registerWorker($id_local_data_main, $uuid){
+        $id_user = Auth::user()->id;
         $user_type = Auth::user()->user_type;
-		if($user_type == 3){
+
+        $manager = ManagerRefUser::where('id_user', $id_user)->where('id_local_data_main', $id_local_data_main)->first();
+
+		if($user_type == 3 && $manager != NULL){
             $user = User::where('email', $uuid)->first();
             $user->user_type = 2;
             $user->save();
