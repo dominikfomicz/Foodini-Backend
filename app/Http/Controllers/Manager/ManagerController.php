@@ -18,9 +18,7 @@ class ManagerController extends Controller
     public function registerWorker(Request $request){
 
 		$request->validate([
-            'name' => 'required',
-            'email' => 'required',
-			'password' => 'required'
+            'uuid' => 'required'
 		]);
 
 		$user_type = Auth::user()->user_type;
