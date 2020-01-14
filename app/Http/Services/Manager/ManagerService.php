@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\Manager;
 use App\Http\Repositories\Manager\ManagerRepository;
+use App\Models\s_locals\WorkerRefUser;
 use Auth;
 
 class ManagerService
@@ -16,6 +17,22 @@ class ManagerService
             }
             return json_encode($locals);
         }
-        
+
+    }
+
+    public function registerWorker($id_local_data_main, $uuid){
+        $user_type = Auth::user()->user_type;
+		if($user_type == 3){
+            $user = User::where('email', $uuid)->first();
+            $user->user_type = 2;
+            $user->save();
+
+            $worker = New WorkerRefUser();
+            $worker->id_user = $user->id;
+            $worker->id_local_data_main = $id_local_data_main;
+            $worker->save();
+
+			return json_encode(0);
+        }
     }
 }
