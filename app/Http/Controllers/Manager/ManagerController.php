@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use App\Http\Services\Manager\ManagerService;
 use App\Models\s_locals\WorkerRefUser;
+use Auth;
 use Illuminate\Http\Request;
 
 class ManagerController extends Controller
