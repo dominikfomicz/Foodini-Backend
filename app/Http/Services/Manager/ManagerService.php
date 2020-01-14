@@ -4,6 +4,7 @@ namespace App\Http\Services\Manager;
 use App\Http\Repositories\Manager\ManagerRepository;
 use App\Models\s_locals\WorkerRefUser;
 use Auth;
+use App\User;
 
 class ManagerService
 {
