@@ -258,9 +258,10 @@ class CouponsRepository
 
     public static function getSupportCouponsByCity($id_city_const_type){
         $query = "SELECT
-                        l.id AS id_local_data_main,
-                        l.name
-                    FROM s_locals.t_local_data_main l 
+                        c.id AS id_coupon_data_main,
+                        c.name
+                    FROM s_locals.t_coupon_data_main l 
+                    LEFT JOIN s_locals.t_local_data_main l ON l.id = c.id_local_data_main
                     WHERE l.id_city_const_type = {$id_city_const_type};
                     ";
         return DB::select($query);
