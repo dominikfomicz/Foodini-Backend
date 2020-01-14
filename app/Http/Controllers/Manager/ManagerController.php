@@ -34,7 +34,7 @@ class ManagerController extends Controller
             $worker->id_local_data_main = $request->id_local_data_main;
             $worker->save();
 
-			return 0;
+			return json_encode(0);
 		}
 
 
