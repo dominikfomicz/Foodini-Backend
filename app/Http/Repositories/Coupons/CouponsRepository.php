@@ -260,7 +260,7 @@ class CouponsRepository
         $query = "SELECT
                         c.id AS id_coupon_data_main,
                         c.name
-                    FROM s_locals.t_coupon_data_main l 
+                    FROM s_locals.t_coupon_data_main c 
                     LEFT JOIN s_locals.t_local_data_main l ON l.id = c.id_local_data_main
                     WHERE l.id_city_const_type = {$id_city_const_type};
                     ";
