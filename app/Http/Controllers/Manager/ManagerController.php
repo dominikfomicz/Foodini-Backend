@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Http\Services\Manager\ManagerService;
+use App\Models\s_locals\WorkerRefUser;
 use Illuminate\Http\Request;
 
 class ManagerController extends Controller
@@ -15,7 +16,7 @@ class ManagerController extends Controller
     }
 
     public function registerWorker(Request $request){
-		
+
 		$request->validate([
             'name' => 'required',
             'email' => 'required',
@@ -24,17 +25,25 @@ class ManagerController extends Controller
 
 		$user_type = Auth::user()->user_type;
 		if($user_type == 3){
-			$user = User::create([
-				'name' => $request->name,
-				'email' => $request->email,
-				'password' => bcrypt($request->password),
-				'user_type' => 2
-			]);
-	
+			// $user = User::create([
+			// 	'name' => $request->name,
+			// 	'email' => $request->email,
+			// 	'password' => bcrypt($request->password),
+			// 	'user_type' => 2
+			// ]);
+            $user = User::where('email', $request->uuid);
+            $user->user_type = 2;
+            $user->save();
+
+            $worker = New WorkerRefUser();
+            $worker->id_user = $user->id;
+            $worker->id_local_data_main = $request->id_local_data_main;
+            $worker->save();
+
 			return 0;
 		}
 
-		
+
 	}
 
     public function getLocalsByManager(Request $request){
