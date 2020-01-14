@@ -159,8 +159,8 @@ class LocalsService
     public function getDetailsEdit($id_local_data_main){
         If (Auth::user()->user_type == -1){
             $local = collect(LocalsRepository::getDetailsEdit($id_local_data_main))->first();
-            $local->work_hours = collect(LocalsRepository::getAllWorkHours($local->local_id));
-            $tags = collect(LocalsRepository::getTagsByLocal($local->local_id));
+            $local->work_hours = collect(LocalsRepository::getAllWorkHours($local->id_local_data_main));
+            $tags = collect(LocalsRepository::getTagsByLocal($local->id_local_data_main));
             $local->main_tags = $tags->where('is_main', TRUE);
             $local->secondary_tags = $tags->where('is_main', FALSE);
             return json_encode($local);

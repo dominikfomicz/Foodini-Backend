@@ -218,8 +218,8 @@ class CouponsService
 
     public function getDetailsEdit($id_coupon_data_main){
         $coupon = collect(CouponsRepository::getDetailsEdit($id_coupon_data_main))->first();
-        $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id));
-        $coupon->available_hours = collect(CouponsRepository::getAvailableHoursEdit($coupon->coupon_id));
+        $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->id_coupon_data_main));
+        $coupon->available_hours = collect(CouponsRepository::getAvailableHoursEdit($coupon->id_coupon_data_main));
 
 
         return json_encode($coupon);
