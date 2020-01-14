@@ -60,4 +60,8 @@ class CouponsController extends Controller
         return $this->service->getCouponsByCity($request->id_city_const_type);
     }
 
+    public function getDetailsEdit(Request $request){
+        return $this->service->getDetailsEdit($request->id_coupon_data_main);
+    }
+
 }
