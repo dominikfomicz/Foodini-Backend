@@ -25,12 +25,6 @@ class ManagerController extends Controller
 
 		$user_type = Auth::user()->user_type;
 		if($user_type == 3){
-			// $user = User::create([
-			// 	'name' => $request->name,
-			// 	'email' => $request->email,
-			// 	'password' => bcrypt($request->password),
-			// 	'user_type' => 2
-			// ]);
             $user = User::where('email', $request->uuid);
             $user->user_type = 2;
             $user->save();
