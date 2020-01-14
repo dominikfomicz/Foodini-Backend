@@ -11,7 +11,10 @@ use App\Models\s_sys\HexaConstType;
 use App\Models\s_tags\CouponRefMain;
 use App\Http\Services\Coupons\FilesService;
 use App\Models\s_coupons\AvailableDayRef;
+use App\Models\s_coupons\CouponRefDocument;
+use App\Models\s_coupons\DeletedCouponStatistics;
 use App\Models\s_locals\WorkerRefUser;
+use App\Models\s_sys\DocumentDataMain;
 use \Auth;
 use DB;
 
@@ -131,6 +134,29 @@ class CouponsService
     public function removeCoupon($id_coupon_data_main){
         //to do
         If (Auth::user()->user_type == -1){
+            $coupon = CouponDataMain::find($id_coupon_data_main);
+            $local = LocalDataMain::find($coupon->id_local_data_main);
+            $document_refs = CouponRefDocument::where('id_coupon_data_main', $id_coupon_data_main)->get();
+            foreach($document_refs AS $document_ref ){
+                DocumentDataMain::find($document_ref->id_document_data_main)->delete();
+                $document_ref->delete();
+            }
+
+            AvailableDayRef::where('id_coupon_data_main', $id_coupon_data_main)->delete();
+            CouponRefMain::where('id_coupon_data_main', $id_coupon_data_main)->delete();
+
+            $count_used = CouponRefUser::where('id_coupon_data_main', $id_coupon_data_main)->where('used', 1)->count();
+
+            $new_statics = new  DeletedCouponStatistics();
+            $new_statics->id_local_data_main = $local->id;
+            $new_statics->local_name = $local->name;
+            $new_statics->used_coupon_counter = $count_used;
+            $new_statics->id_city_const_type = $local->id_city_const_type;
+            $new_statics->coupon_name = $coupon->name;
+            $new_statics->save();
+
+            CouponRefUser::where('id_coupon_data_main', $id_coupon_data_main)->where('used', 1)->delete();
+            $coupon->delete();
         }
     }
 

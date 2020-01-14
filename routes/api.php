@@ -61,6 +61,8 @@ Route::group(array('namespace' => 'Coupons', 'prefix' => 'coupons'), function() 
 
     Route::get('getDetailsEdit/{id_coupon_data_main}', 'CouponsController@getDetailsEdit'); // checked MSC
 
+    Route::post('removeCoupon', 'CouponsController@removeCoupon'); // checked MSC
+
     Route::group(array('prefix' => 'files'), function() {
       Route::post('addLogo', 'FilesController@addLogo');
   });
