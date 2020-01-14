@@ -49,4 +49,15 @@ class AuthApiController extends Controller
         return 0;
 	}
 
+	public function getUserStatus(Request $request){
+		$request->validate([
+            'uuid' => 'required'
+		]);
+
+
+		$user_type = User::where('email', $request->uuid)->first()->user_type;
+
+        return $user_type;
+	}
+
 }
