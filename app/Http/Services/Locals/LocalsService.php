@@ -27,11 +27,11 @@ class LocalsService
         $tags = collect(LocalsRepository::getTagsByLocal($local->local_id));
         $local->main_tags = $tags->where('is_main', TRUE);
         $local->secondary_tags = $tags->where('is_main', FALSE);
-        
+
         $stats_local = LocalDataMain::find($id_local_data_main);
         $stats_local->show_detail_count = $stats_local->show_detail_count + 1;
         $stats_local->save();
-        
+
         return json_encode($local);
     }
 
@@ -52,7 +52,7 @@ class LocalsService
             $new_ref->delivery_hour_to = $open_data->delivery_hour_to;
             $new_ref->save();
         }
-        
+
     }
 
     public function addTagToLocal($id_local_data_main, $id_tag_data_main, $priority_status){
@@ -63,7 +63,7 @@ class LocalsService
             $new_ref->priority_status = $priority_status;
             $new_ref->save();
         }
-        
+
     }
 
     public function addLocalToFavourite($id_local_data_main){
@@ -88,20 +88,20 @@ class LocalsService
         return json_encode($locals);
     }
 
-    public function changeLocal($id_local_data_main, $local_data, $tags, $open_hours, $file_logo, $file_background, $file_menu){
+    public function changeLocal($id_local_data_main, $local_data, $tags, $open_hours, $file_logo, $file_background, $file_menu, $file_map){
         If (Auth::user()->user_type == -1){
             if($id_local_data_main == -1){
                 $new_local = new LocalDataMain();
-    
+
                 $hexa = HexaConstType::where('used_local', FALSE)->first();
                 $new_local->hexa_value = $hexa->value;
-    
+
                 $hexa->used_local = TRUE;
                 $hexa->save();
             }else{
                 $new_local = LocalDataMain::find($id_local_data_main);
             }
-    
+
             $new_local->name = $local_data->name;
             $new_local->address = $local_data->address;
             $new_local->id_city_const_type = $local_data->id_city_const_type;
@@ -118,27 +118,28 @@ class LocalsService
             $new_local->contactless_payment = $local_data->contactless_payment;
             $new_local->blik_payment = $local_data->blik_payment;
             $new_local->delivery_range = $local_data->delivery_range;
-            
+
             $new_local->longitude = $local_data->longitude;
             $new_local->latitude = $local_data->latitude;
             $new_local->save();
-    
+
             LocalRefMain::where('id_local_data_main', $new_local->id)->delete();
             foreach($tags AS $tag){
                 $this->addTagToLocal($new_local->id, $tag->id, $tag->priority_status);
             }
-    
+
             foreach($open_hours AS $open_hour){
                 $this->changeOpenHoursDay($new_local->id, $open_hour->id_week_day, $open_hour);
             }
-    
+
             $files = new FilesService();
             $files->addLogo($new_local->id, $file_logo);
             $files->addBackground($new_local->id, $file_background);
             $files->addMenuPhoto($new_local->id, $file_menu);
+            $files->addMapLogo($new_local->id, $file_map);
             //return json_encode($new_local);
         }
-        
+
     }
 
     public function removeLocal($id_local_data_main){
@@ -147,7 +148,7 @@ class LocalsService
             $local->deleted = true;
             $local->save();
         }
-        
+
     }
 
     public function getMapList($id_city_const_type){
@@ -164,6 +165,6 @@ class LocalsService
             $local->secondary_tags = $tags->where('is_main', FALSE);
             return json_encode($local);
         }
-        
+
     }
 }
