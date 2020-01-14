@@ -39,7 +39,7 @@ class ManagerController extends Controller
 
 	}
 
-    public function getLocalsByManager(Request $request){
+    public function getLocalsByManager(){
         return $this->service->getLocalsByManager();
     }
 
