@@ -118,6 +118,9 @@ class LocalsService
             $new_local->contactless_payment = $local_data->contactless_payment;
             $new_local->blik_payment = $local_data->blik_payment;
             $new_local->delivery_range = $local_data->delivery_range;
+            
+            $new_local->longitude = $local_data->longitude;
+            $new_local->latitude = $local_data->latitude;
             $new_local->save();
     
             LocalRefMain::where('id_local_data_main', $new_local->id)->delete();
@@ -154,7 +157,7 @@ class LocalsService
 
     public function getDetailsEdit($id_local_data_main){
         If (Auth::user()->user_type == -1){
-            $local = collect(LocalsRepository::getDetails($id_local_data_main))->first();
+            $local = collect(LocalsRepository::getDetailsEdit($id_local_data_main))->first();
             $local->work_hours = collect(LocalsRepository::getAllWorkHours($local->local_id));
             $tags = collect(LocalsRepository::getTagsByLocal($local->local_id));
             $local->main_tags = $tags->where('is_main', TRUE);

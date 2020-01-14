@@ -205,4 +205,35 @@ class LocalsRepository
 
         return DB::select($query);
     }
+
+    public static function getDetailsEdit($id_local_data_main){
+
+        $id_user = Auth::user()->id;
+        $query = "
+                    SELECT
+                        l.id AS id_local_data_main,
+                        l.name,
+                        l.address,
+                        l.id_city_const_type,
+                        l.phone_number,
+                        l.description,
+                        l.other_info,
+                        l.facebook_url,
+                        l.instagram_url,
+                        l.delivery,
+                        l.eat_in_local,
+                        l.pick_up_local,
+                        l.cash_payment,
+                        l.creditcards_payment,
+                        l.contactless_payment,
+                        l.blik_payment,
+                        l.delivery_range,
+                        l.longitude,
+                        l.latitude
+                    FROM s_locals.t_local_data_main l
+                    WHERE l.id = {$id_local_data_main};
+                    ";
+
+        return DB::select($query);
+    }
 }

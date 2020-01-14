@@ -236,43 +236,19 @@ class CouponsRepository
     }
 
     public static function getDetailsEdit($id_coupon_data_main){
-        $day_of_week = date('N');
-        if($day_of_week == 7){
-            $day_of_week = 0;
-        }
-        $id_user = Auth::user()->id;
         $query = "
-                WITH favourite_count AS (SELECT COUNT(*) AS favourite_count
-                                        FROM s_coupons.t_coupon_ref_favourite f
-                                        WHERE f.id_coupon_data_main = {$id_coupon_data_main}
-                                        LIMIT 1)
                     SELECT
                         c.id AS id_coupon_data_main,
                         c.description,
                         c.amount,
                         c.name,
-                        CASE WHEN f.id IS NOT NULL THEN TRUE
-                        ELSE FALSE
-                        END AS is_favouirite,
-                        CASE WHEN o.id IS NOT NULL THEN TRUE
-                        ELSE FALSE
-                        END AS is_available,
                         l.delivery,
                         l.eat_in_local,
                         l.pick_up_local,
                         c.mature,
-                        favourite_count.favourite_count,
                         c.id_local_data_main
                     FROM s_coupons.t_coupon_data_main c
                     LEFT JOIN s_locals.t_local_data_main l ON l.id = c.id_local_data_main
-                    LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
-                    LEFT JOIN s_coupons.t_available_day_ref o ON o.id_coupon_data_main = c.id
-                                                            AND o.id_weekday_const_type = {$day_of_week}
-                                                            AND (CASE WHEN CURRENT_TIME < '06:00' AND o.hour_from > CURRENT_TIME THEN TRUE
-                                                                    WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN TRUE
-                                                                ELSE FALSE
-                                                                END) = TRUE
-                    LEFT JOIN favourite_count ON 0=0
                     WHERE c.id = {$id_coupon_data_main}
                     LIMIT 1;
                     ";
