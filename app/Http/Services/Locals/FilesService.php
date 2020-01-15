@@ -103,6 +103,11 @@ class FilesService
         If (Auth::user()->user_type == -1){
             // $file_name = uniqid().".png";
             $file_name = "map.png";
+            $image = Image::make($file);
+
+            $image->resize(40, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
 
             $ref = LocalRefDocument::where('id_local_data_main', $id_local_data_main)->where('id_document_const_type', 5)->first();
             if($ref == null){
@@ -120,7 +125,7 @@ class FilesService
 
 
             $filePath = "public/locals/".$id_local_data_main."/".$file_name;
-            Storage::disk('local')->put($filePath, file_get_contents($file));
+            Storage::disk('local')->put($filePath, $image->encode());
         }
 
 
