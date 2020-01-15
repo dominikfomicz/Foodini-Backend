@@ -30,12 +30,12 @@ class FilesService
                 $ref->id_document_const_type = 1;
                 $ref->save();
             }
-            
+
 
             $filePath = "public/locals/".$id_local_data_main."/".$file_name;
             Storage::disk('local')->put($filePath, $image->encode());
         }
-        
+
 
     }
 
@@ -69,7 +69,7 @@ class FilesService
             $filePath = "public/locals/".$id_local_data_main."/".$file_name;
             Storage::disk('local')->put($filePath, $image->encode());
         }
-        
+
 
     }
 
@@ -95,35 +95,40 @@ class FilesService
             $filePath = "public/locals/".$id_local_data_main."/".$file_name;
             Storage::disk('local')->put($filePath, file_get_contents($file));
         }
-        
+
 
     }
 
     public function addMapLogo($id_local_data_main, $file){
         If (Auth::user()->user_type == -1){
             // $file_name = uniqid().".png";
-            $file_name = "menu.png";
-            
+            $file_name = "map.png";
+            $image = Image::make($file);
+
+            $image->resize(75, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
             $ref = LocalRefDocument::where('id_local_data_main', $id_local_data_main)->where('id_document_const_type', 5)->first();
             if($ref == null){
                 $doc = New DocumentDataMain();
                 $doc->id_document_const_type = 5;
                 $doc->file_name = $file_name;
                 $doc->save();
-    
+
                 $ref = new LocalRefDocument();
                 $ref->id_local_data_main = $id_local_data_main;
                 $ref->id_document_data_main = $doc->id;
                 $ref->id_document_const_type = 5;
                 $ref->save();
             }
-            
+
 
             $filePath = "public/locals/".$id_local_data_main."/".$file_name;
-            Storage::disk('local')->put($filePath, file_get_contents($file));
+            Storage::disk('local')->put($filePath, $image->encode());
         }
 
-        
+
 
     }
 }
