@@ -44,18 +44,18 @@ class CouponsRepository
                         CASE WHEN c.amount = -1 THEN c.amount
                             WHEN used_counter.used_counter IS NOT NULL THEN c.amount - used_counter.used_counter
                         ELSE c.amount
-                        END AS coupon_left
+                        END AS coupon_left,
+                        CASE WHEN CURRENT_TIME < '06:00' AND o.hour_to < '06:00' AND o.hour_to > CURRENT_TIME THEN TRUE
+                             WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN TRUE
+                             ELSE FALSE
+                        END AS is_available
                     FROM s_coupons.t_coupon_data_main c
                     LEFT JOIN s_locals.t_local_data_main l ON l.id = c.id_local_data_main
                     LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
                     LEFT JOIN used_counter ON used_counter.id_coupon_data_main = c.id
                     LEFT JOIN s_coupons.t_available_day_ref o ON o.id_coupon_data_main = c.id
                                                             AND o.id_weekday_const_type = {$day_of_week}
-                                                            AND (CASE WHEN CURRENT_TIME < '06:00' AND o.hour_to < '06:00' AND o.hour_to > CURRENT_TIME THEN TRUE
-                                                                    WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN TRUE
-                                                                ELSE FALSE
-                                                                END) = TRUE
-                    WHERE c.id_local_data_main = {$id_local_data_main} AND o.id IS NOT NULL;
+                    WHERE c.id_local_data_main = {$id_local_data_main};
                     ";
         return DB::select($query);
     }
@@ -143,6 +143,14 @@ class CouponsRepository
     }
 
     public static function getFavouriteList(){
+        if(date("h") < 06 ){
+            $day_of_week = date('N') - 1;
+        }else{
+            $day_of_week = date('N');
+            if($day_of_week == 7){
+                $day_of_week = 0;
+            }
+        }
         $id_user = Auth::user()->id;
         $query = "SELECT
                         c.id AS coupon_id,
@@ -161,19 +169,28 @@ class CouponsRepository
                         CASE WHEN c.status = 1 THEN TRUE
                         ELSE FALSE
                         END AS status
-
+                        CASE WHEN CURRENT_TIME < '06:00' AND o.hour_to < '06:00' AND o.hour_to > CURRENT_TIME THEN TRUE
+                             WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN TRUE
+                             ELSE FALSE
+                        END AS is_available
                     FROM  s_coupons.t_coupon_ref_favourite f
                     LEFT JOIN s_coupons.t_coupon_data_main c ON c.id = f.id_coupon_data_main
                     LEFT JOIN s_locals.t_local_data_main l ON l.id = c.id_local_data_main
+                    LEFT JOIN s_coupons.t_available_day_ref o ON o.id_coupon_data_main = c.id
+                                                            AND o.id_weekday_const_type = {$day_of_week}
                     WHERE f.id_user = {$id_user};
                     ";
         return DB::select($query);
     }
 
     public static function getCouponsByCity($id_city_const_type){
-        $day_of_week = date('N');
-        if($day_of_week == 7){
-            $day_of_week = 0;
+        if(date("h") < 06 ){
+            $day_of_week = date('N') - 1;
+        }else{
+            $day_of_week = date('N');
+            if($day_of_week == 7){
+                $day_of_week = 0;
+            }
         }
         $id_user = Auth::user()->id;
         $query = "WITH used_counter AS (
@@ -204,18 +221,18 @@ class CouponsRepository
                         CASE WHEN c.amount = -1 THEN c.amount
                             WHEN used_counter.used_counter IS NOT NULL THEN c.amount - used_counter.used_counter
                         ELSE c.amount
-                        END AS coupon_left
+                        END AS coupon_left,
+                        CASE WHEN CURRENT_TIME < '06:00' AND o.hour_to < '06:00' AND o.hour_to > CURRENT_TIME THEN TRUE
+                             WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN TRUE
+                             ELSE FALSE
+                        END AS is_available
                     FROM s_locals.t_local_data_main l 
                     LEFT JOIN s_coupons.t_coupon_data_main c ON l.id = c.id_local_data_main
                     LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
                     LEFT JOIN used_counter ON used_counter.id_coupon_data_main = c.id
                     LEFT JOIN s_coupons.t_available_day_ref o ON o.id_coupon_data_main = c.id
                                                             AND o.id_weekday_const_type = {$day_of_week}
-                                                            AND (CASE WHEN CURRENT_TIME < '06:00' AND o.hour_to < '06:00' AND o.hour_to > CURRENT_TIME THEN TRUE
-                                                                    WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN TRUE
-                                                                ELSE FALSE
-                                                                END) = TRUE
-                    WHERE l.id_city_const_type = {$id_city_const_type} AND c.status = 1 AND o.id IS NOT NULL;
+                    WHERE l.id_city_const_type = {$id_city_const_type} AND c.status = 1;
                     ";
         return DB::select($query);
     }

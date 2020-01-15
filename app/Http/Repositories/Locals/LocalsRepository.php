@@ -19,6 +19,10 @@ class LocalsRepository
         $query = "SELECT
                         l.name,
                         l.id AS local_id,
+                        CASE WHEN CURRENT_TIME < '06:00' AND o.local_hour_to < '06:00' AND o.local_hour_to > CURRENT_TIME THEN TRUE
+                        	WHEN o.local_hour_from < CURRENT_TIME AND (o.local_hour_to > CURRENT_TIME OR o.local_hour_to < '06:00') THEN TRUE
+                        ELSE FALSE
+                        END AS is_closed_now,
                         to_char(o.local_hour_from, 'HH24:MI') AS open_from,
                         to_char(o.local_hour_to, 'HH24:MI') AS open_to,
                         o.status_closed AS is_closed,
@@ -28,24 +32,12 @@ class LocalsRepository
                         l.delivery,
                         l.eat_in_local,
                         l.pick_up_local
-
                     FROM s_locals.t_local_data_main l
                     LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
                                                             AND id_weekday_const_type = {$day_of_week}
                     LEFT JOIN s_locals.t_local_ref_favourite f ON f.id_user = {$id_user} AND f.id_local_data_main = l.id
                     WHERE l.id_city_const_type = {$id_city_const_type} AND l.deleted = FALSE                                      ;
                     ";
-        return DB::select($query);
-    }
-
-    public static function getTags(){
-        $query = "SELECT
-                        r.id_local_data_main,
-                        t.id,
-                        t.name,
-                        r.priority_status AS is_main
-                    FROM s_tags.t_local_ref_main r
-                    LEFT JOIN s_tags.t_tag_data_main t ON t.id = r.id_tag_data_main;";
         return DB::select($query);
     }
 
@@ -164,7 +156,11 @@ class LocalsRepository
                         END AS is_favouirite,
                         l.delivery,
                         l.eat_in_local,
-                        l.pick_up_local
+                        l.pick_up_local,
+                        CASE WHEN CURRENT_TIME < '06:00' AND o.local_hour_to < '06:00' AND o.local_hour_to > CURRENT_TIME THEN TRUE
+                        	WHEN o.local_hour_from < CURRENT_TIME AND (o.local_hour_to > CURRENT_TIME OR o.local_hour_to < '06:00') THEN TRUE
+                        ELSE FALSE
+                        END AS is_open_now,
 
                     FROM  s_locals.t_local_ref_favourite f
                     LEFT JOIN s_locals.t_local_data_main l ON f.id_local_data_main = l.id
