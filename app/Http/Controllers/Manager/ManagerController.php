@@ -24,4 +24,8 @@ class ManagerController extends Controller
         return $this->service->getLocalsByManager();
     }
 
+    public function getLocalStatistics(Request $request){
+        return $this->service->getLocalStatistics($request->id_local_data_main);
+	}
+
 }

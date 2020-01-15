@@ -41,4 +41,34 @@ class ManagerRepository
                     ";
         return DB::select($query);
     }
+
+    public static function getLocalStatistics($id_local_data_main){
+        $query = "WITH fav_count AS (
+                                SELECT
+                                    COUNT(*) AS fav_count
+                                FROM s_locals.t_local_ref_favourite
+                                WHERE id_local_data_main = {$id_local_data_main}
+                    ),
+                users_count AS (
+                            SELECT
+                                COUNT(*) AS users_count
+                            FROM users
+                            WHERE last_login_date >= date_trunc('month', current_date - interval '1' month)
+                    )
+                    
+                SELECT	
+                l.show_detail_count,
+                l.show_facebook_count,
+                l.show_menu_count,
+                l.show_instagram_count,
+                l.show_phonenumber_count,
+                fav_count.fav_count,
+                users_count.users_count
+                FROM s_locals.t_local_data_main l
+                LEFT JOIN fav_count ON 0=0
+                LEFT JOIN users_count ON 0=0
+                WHERE l.id = {$id_local_data_main}
+                    ";
+        return DB::select($query);
+    }
 }

@@ -41,4 +41,13 @@ class ManagerService
 			return json_encode(0);
         }
     }
+
+    public function getLocalStatistics($id_local_data_main){
+        $user = Auth::user();
+        if($user->user_type == -1){
+            $locals = collect(ManagerRepository::getLocalStatistics($id_local_data_main));
+            return json_encode($locals);
+        }
+
+    }
 }

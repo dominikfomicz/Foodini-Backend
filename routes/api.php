@@ -73,13 +73,14 @@ Route::group(array('namespace' => 'Tools', 'prefix' => 'tools'), function() {
 });
 
 Route::group(array('namespace' => 'Tags', 'prefix' => 'tags'), function() {
-  Route::post('changeTag', 'TagsController@changeTag');
+    Route::post('changeTag', 'TagsController@changeTag');
 
-  Route::get('getList', 'TagsController@getList'); // checked DFZ
+    Route::get('getList', 'TagsController@getList'); // checked DFZ
 });
 
 Route::group(array('namespace' => 'Manager', 'prefix' => 'manager'), function() {
-  Route::post('registerWorker', 'ManagerController@registerWorker');
-  Route::get('getLocalsByManager', 'ManagerController@getLocalsByManager'); // checked MSC
+    Route::post('registerWorker', 'ManagerController@registerWorker');
+    Route::get('getLocalsByManager', 'ManagerController@getLocalsByManager'); // checked MSC
+    Route::get('getLocalStatistics/{id_local_data_main}', 'ManagerController@getLocalStatistics'); // checked MSC
 });
 
