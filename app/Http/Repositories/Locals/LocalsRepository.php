@@ -160,8 +160,7 @@ class LocalsRepository
                         CASE WHEN CURRENT_TIME < '06:00' AND o.local_hour_to < '06:00' AND o.local_hour_to > CURRENT_TIME THEN TRUE
                         	WHEN o.local_hour_from < CURRENT_TIME AND (o.local_hour_to > CURRENT_TIME OR o.local_hour_to < '06:00') THEN TRUE
                         ELSE FALSE
-                        END AS is_open_now,
-
+                        END AS is_open_now
                     FROM  s_locals.t_local_ref_favourite f
                     LEFT JOIN s_locals.t_local_data_main l ON f.id_local_data_main = l.id
                     LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
