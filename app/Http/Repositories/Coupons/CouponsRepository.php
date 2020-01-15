@@ -168,7 +168,7 @@ class CouponsRepository
                         l.name AS local_name,
                         CASE WHEN c.status = 1 THEN TRUE
                         ELSE FALSE
-                        END AS status
+                        END AS status,
                         CASE WHEN CURRENT_TIME < '06:00' AND o.hour_to < '06:00' AND o.hour_to > CURRENT_TIME THEN TRUE
                              WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN TRUE
                              ELSE FALSE
