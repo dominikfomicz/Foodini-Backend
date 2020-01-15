@@ -17,16 +17,21 @@ class FilesService
 
             $image->resize(160, 160);
             //kom
+            $ref = LocalRefDocument::where('id_local_data_main', $id_local_data_main)->where('id_document_const_type', 1)->first();
+            if($ref == null){
+                $doc = New DocumentDataMain();
+                $doc->id_document_const_type = 1;
+                $doc->file_name = $file_name;
+                $doc->save();
 
-            $doc = New DocumentDataMain();
-            $doc->id_document_const_type = 1;
-            $doc->file_name = $file_name;
-            $doc->save();
+                $ref = new LocalRefDocument();
+                $ref->id_local_data_main = $id_local_data_main;
+                $ref->id_document_data_main = $doc->id;
+                $ref->id_document_const_type = 1;
+                $ref->save();
+            }
+            
 
-            $ref = new LocalRefDocument();
-            $ref->id_local_data_main = $id_local_data_main;
-            $ref->id_document_data_main = $doc->id;
-            $ref->save();
             $filePath = "public/locals/".$id_local_data_main."/".$file_name;
             Storage::disk('local')->put($filePath, $image->encode());
         }
@@ -45,15 +50,22 @@ class FilesService
                 $constraint->aspectRatio();
             });
 
-            $doc = New DocumentDataMain();
-            $doc->id_document_const_type = 2;
-            $doc->file_name = $file_name;
-            $doc->save();
+            $ref = LocalRefDocument::where('id_local_data_main', $id_local_data_main)->where('id_document_const_type', 2)->first();
+            if($ref == null){
 
-            $ref = new LocalRefDocument();
-            $ref->id_local_data_main = $id_local_data_main;
-            $ref->id_document_data_main = $doc->id;
-            $ref->save();
+                $doc = New DocumentDataMain();
+                $doc->id_document_const_type = 2;
+                $doc->file_name = $file_name;
+                $doc->save();
+
+                $ref = new LocalRefDocument();
+                $ref->id_local_data_main = $id_local_data_main;
+                $ref->id_document_data_main = $doc->id;
+                $ref->id_document_const_type = 2;
+                $ref->save();
+
+            }
+
             $filePath = "public/locals/".$id_local_data_main."/".$file_name;
             Storage::disk('local')->put($filePath, $image->encode());
         }
@@ -66,15 +78,20 @@ class FilesService
             // $file_name = uniqid().".png";
             $file_name = "menu.png";
 
-            $doc = New DocumentDataMain();
-            $doc->id_document_const_type = 3;
-            $doc->file_name = $file_name;
-            $doc->save();
+            $ref = LocalRefDocument::where('id_local_data_main', $id_local_data_main)->where('id_document_const_type', 3)->first();
+            if($ref == null){
+                $doc = New DocumentDataMain();
+                $doc->id_document_const_type = 3;
+                $doc->file_name = $file_name;
+                $doc->save();
 
-            $ref = new LocalRefDocument();
-            $ref->id_local_data_main = $id_local_data_main;
-            $ref->id_document_data_main = $doc->id;
-            $ref->save();
+                $ref = new LocalRefDocument();
+                $ref->id_local_data_main = $id_local_data_main;
+                $ref->id_document_data_main = $doc->id;
+                $ref->id_document_const_type = 3;
+                $ref->save();
+            }
+
             $filePath = "public/locals/".$id_local_data_main."/".$file_name;
             Storage::disk('local')->put($filePath, file_get_contents($file));
         }
@@ -86,16 +103,22 @@ class FilesService
         If (Auth::user()->user_type == -1){
             // $file_name = uniqid().".png";
             $file_name = "menu.png";
+            
+            $ref = LocalRefDocument::where('id_local_data_main', $id_local_data_main)->where('id_document_const_type', 5)->first();
+            if($ref == null){
+                $doc = New DocumentDataMain();
+                $doc->id_document_const_type = 5;
+                $doc->file_name = $file_name;
+                $doc->save();
+    
+                $ref = new LocalRefDocument();
+                $ref->id_local_data_main = $id_local_data_main;
+                $ref->id_document_data_main = $doc->id;
+                $ref->id_document_const_type = 5;
+                $ref->save();
+            }
+            
 
-            $doc = New DocumentDataMain();
-            $doc->id_document_const_type = 5;
-            $doc->file_name = $file_name;
-            $doc->save();
-
-            $ref = new LocalRefDocument();
-            $ref->id_local_data_main = $id_local_data_main;
-            $ref->id_document_data_main = $doc->id;
-            $ref->save();
             $filePath = "public/locals/".$id_local_data_main."/".$file_name;
             Storage::disk('local')->put($filePath, file_get_contents($file));
         }
