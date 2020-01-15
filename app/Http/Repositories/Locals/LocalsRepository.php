@@ -74,15 +74,15 @@ class LocalsRepository
                     SELECT
                         l.name,
                         l.id AS local_id,
-                        CASE WHEN CURRENT_TIME < '06:00' AND o.local_hour_to > CURRENT_TIME THEN TRUE
+                        CASE WHEN CURRENT_TIME < '06:00' AND o.local_hour_to < '06:00' AND o.local_hour_to > CURRENT_TIME THEN TRUE
                         	WHEN o.local_hour_from < CURRENT_TIME AND (o.local_hour_to > CURRENT_TIME OR o.local_hour_to < '06:00') THEN TRUE
                         ELSE FALSE
                         END AS local_open_status,
-                        CASE WHEN CURRENT_TIME < '06:00' AND o.kitchen_hour_to > CURRENT_TIME THEN TRUE
+                        CASE WHEN CURRENT_TIME < '06:00' AND o.kitchen_hour_to < '06:00' AND o.kitchen_hour_to > CURRENT_TIME THEN TRUE
                         	WHEN o.kitchen_hour_from < CURRENT_TIME AND (o.kitchen_hour_to > CURRENT_TIME OR o.kitchen_hour_to < '06:00') THEN TRUE
                         ELSE FALSE
                         END AS kitchen_open_status,
-                        CASE WHEN CURRENT_TIME < '06:00' AND o.delivery_hour_to > CURRENT_TIME THEN TRUE
+                        CASE WHEN CURRENT_TIME < '06:00' AND o.delivery_hour_to < '06:00' AND o.delivery_hour_to > CURRENT_TIME THEN TRUE
                         	WHEN o.delivery_hour_from < CURRENT_TIME AND (o.delivery_hour_to > CURRENT_TIME OR o.delivery_hour_to < '06:00') THEN TRUE
                         ELSE FALSE
                         END AS delivery_open_status,
