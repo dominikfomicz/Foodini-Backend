@@ -45,7 +45,9 @@ class ManagerService
     public function getLocalStatistics($id_local_data_main){
         $user = Auth::user();
         if($user->user_type == -1){
-            $locals = collect(ManagerRepository::getLocalStatistics($id_local_data_main));
+            $locals = collect(ManagerRepository::getLocalStatistics($id_local_data_main))->first();
+            $locals->used_city_count = collect(ManagerRepository::getUsedCouponsCity($locals->id_city_const_type))->first()->city_count;
+            $locals->coupons = collect(ManagerRepository::getCouponStatistics($id_local_data_main));
             return json_encode($locals);
         }
 

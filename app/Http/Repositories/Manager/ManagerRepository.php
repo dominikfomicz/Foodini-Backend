@@ -57,17 +57,47 @@ class ManagerRepository
                     )
                     
                 SELECT	
-                l.show_detail_count,
-                l.show_facebook_count,
-                l.show_menu_count,
-                l.show_instagram_count,
-                l.show_phonenumber_count,
-                fav_count.fav_count,
-                users_count.users_count
+                    l.show_detail_count,
+                    l.show_facebook_count,
+                    l.show_menu_count,
+                    l.show_instagram_count,
+                    l.show_phonenumber_count,
+                    fav_count.fav_count,
+                    users_count.users_count,
+                    l.id_city_const_type
                 FROM s_locals.t_local_data_main l
                 LEFT JOIN fav_count ON 0=0
                 LEFT JOIN users_count ON 0=0
                 WHERE l.id = {$id_local_data_main}
+                LIMIT 1
+                    ";
+        return DB::select($query);
+    }
+
+    public static function getUsedCouponsCity($id_city_const_type){
+        $query = "SELECT
+                        COUNT(*) AS city_count
+                    FROM s_locals.t_local_data_main l
+                    LEFT JOIN s_coupons.t_coupon_data_main c ON c.id_local_data_main = l.id
+                    LEFT JOIN s_coupons.t_coupon_ref_user r ON r.id_coupon_data_main = c.id AND r.used = 1
+                    WHERE l.id_city_const_type = {$id_city_const_type} AND r.id IS NOT NULL ";
+        return DB::select($query);
+    }
+
+    public static function getCouponStatistics($id_local_data_main){
+        $query = "WITH coupons AS (SELECT *
+                        FROM  s_coupons.t_coupon_data_main c
+                        WHERE c.id_local_data_main = 76), 
+                coupon_count AS  (
+                            SELECT COUNT(*) AS count_used,  
+                                    r.id_coupon_data_main                   
+                            FROM coupons
+                            LEFT JOIN s_coupons.t_coupon_ref_user r ON r.id_coupon_data_main = coupons.id
+                            WHERE r.id IS NOT NULL
+                            GROUP BY r.id_coupon_data_main)
+                SELECT * 	
+                FROM coupons
+                LEFT JOIN coupon_count ON coupon_count.id_coupon_data_main = coupons.id
                     ";
         return DB::select($query);
     }
