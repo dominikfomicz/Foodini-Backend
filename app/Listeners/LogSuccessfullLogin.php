@@ -2,10 +2,11 @@
 
 namespace App\Listeners;
 
+use App\User;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
 
-class LogSuccessfulLogin
+class LogSuccessfullLogin
 {
     /**
      * Create the event listener.
@@ -26,7 +27,7 @@ class LogSuccessfulLogin
      */
     public function handle(Login $event)
     {
-        $user = $event->user;
+        $user = User::find($event->userId);
         $user->last_login_date = date('Y-m-d H:i:s');
         $user->save();
     }
