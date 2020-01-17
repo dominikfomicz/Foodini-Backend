@@ -178,7 +178,11 @@ class CouponsRepository
                     LEFT JOIN s_locals.t_local_data_main l ON l.id = c.id_local_data_main
                     LEFT JOIN s_coupons.t_available_day_ref o ON o.id_coupon_data_main = c.id
                                                             AND o.id_weekday_const_type = {$day_of_week}
-                    WHERE f.id_user = {$id_user};
+                    WHERE f.id_user = {$id_user}
+                    ORDER BY (CASE WHEN CURRENT_TIME < '06:00' AND o.hour_to < '06:00' AND o.hour_to > CURRENT_TIME THEN 1
+                             WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN 1
+                             ELSE 0
+                        END) DESC;
                     ";
         return DB::select($query);
     }
