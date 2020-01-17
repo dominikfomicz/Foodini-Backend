@@ -85,7 +85,10 @@ class ManagerRepository
     }
 
     public static function getCouponStatistics($id_local_data_main){
-        $query = "WITH coupons AS (SELECT *
+        $query = "WITH coupons AS (SELECT c.name,
+                                            c.id,
+                                            c.description,
+                                            c.show_detail_count
                         FROM  s_coupons.t_coupon_data_main c
                         WHERE c.id_local_data_main = {$id_local_data_main}), 
                 coupon_count AS  (
