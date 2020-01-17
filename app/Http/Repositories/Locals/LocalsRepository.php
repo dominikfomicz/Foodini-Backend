@@ -22,7 +22,7 @@ class LocalsRepository
                         CASE WHEN CURRENT_TIME < '06:00' AND o.local_hour_to < '06:00' AND o.local_hour_to > CURRENT_TIME THEN TRUE
                         	WHEN o.local_hour_from < CURRENT_TIME AND (o.local_hour_to > CURRENT_TIME OR o.local_hour_to < '06:00') THEN TRUE
                         ELSE FALSE
-                        END AS is_closed_now,
+                        END AS is_open_now,
                         to_char(o.local_hour_from, 'HH24:MI') AS open_from,
                         to_char(o.local_hour_to, 'HH24:MI') AS open_to,
                         o.status_closed AS is_closed,
@@ -184,7 +184,7 @@ class LocalsRepository
 
     public static function getAllWorkHours($id_local_data_main){
         // kom
-        
+
         $query = "SELECT
                         o.id_weekday_const_type AS id_week_day,
                         to_char(o.local_hour_from, 'HH24:MI') AS local_hour_from,
