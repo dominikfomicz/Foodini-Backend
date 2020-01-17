@@ -36,7 +36,11 @@ class LocalsRepository
                     LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
                                                             AND id_weekday_const_type = {$day_of_week}
                     LEFT JOIN s_locals.t_local_ref_favourite f ON f.id_user = {$id_user} AND f.id_local_data_main = l.id
-                    WHERE l.id_city_const_type = {$id_city_const_type} AND l.deleted = FALSE                                      ;
+                    WHERE l.id_city_const_type = {$id_city_const_type} AND l.deleted = FALSE    
+                    ORDER BY (CASE WHEN CURRENT_TIME < '06:00' AND o.local_hour_to < '06:00' AND o.local_hour_to > CURRENT_TIME THEN 1
+                        	WHEN o.local_hour_from < CURRENT_TIME AND (o.local_hour_to > CURRENT_TIME OR o.local_hour_to < '06:00') THEN 1
+                        ELSE 0
+                        END)                                  ;
                     ";
         return DB::select($query);
     }
