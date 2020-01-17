@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\User;
-use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\AccessTokenCreated;
 use Illuminate\Http\Request;
 
 class LogSuccessfullLogin
@@ -25,7 +25,7 @@ class LogSuccessfullLogin
      * @param  Login  $event
      * @return void
      */
-    public function handle(Login $event)
+    public function handle(AccessTokenCreated $event)
     {
         $user = User::find($event->userId);
         $user->last_login_date = date('Y-m-d H:i:s');
