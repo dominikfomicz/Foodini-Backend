@@ -98,7 +98,8 @@ class ManagerRepository
                             LEFT JOIN s_coupons.t_coupon_ref_user r ON r.id_coupon_data_main = coupons.id AND r.used = 1 
                             WHERE r.id IS NOT NULL
                             GROUP BY r.id_coupon_data_main)
-                SELECT * 	
+                SELECT coupons.* ,
+                coupon_count.count_used
                 FROM coupons
                 LEFT JOIN coupon_count ON coupon_count.id_coupon_data_main = coupons.id
                     ";
