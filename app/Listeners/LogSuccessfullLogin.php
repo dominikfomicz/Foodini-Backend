@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\User;
-use Illuminate\Auth\Events\AccessTokenCreated;
+use Laravel\Passport\Events\AccessTokenCreated;
 use Illuminate\Http\Request;
 
 class LogSuccessfullLogin
