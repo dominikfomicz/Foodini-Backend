@@ -40,7 +40,7 @@ class LocalsRepository
                     ORDER BY (CASE WHEN CURRENT_TIME < '06:00' AND o.local_hour_to < '06:00' AND o.local_hour_to > CURRENT_TIME THEN 1
                         	WHEN o.local_hour_from < CURRENT_TIME AND (o.local_hour_to > CURRENT_TIME OR o.local_hour_to < '06:00') THEN 1
                         ELSE 0
-                        END)                                  ;
+                        END) DESC                                 ;
                     ";
         return DB::select($query);
     }
