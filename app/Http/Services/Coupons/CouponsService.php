@@ -13,6 +13,7 @@ use App\Http\Services\Coupons\FilesService;
 use App\Models\s_coupons\AvailableDayRef;
 use App\Models\s_coupons\CouponRefDocument;
 use App\Models\s_coupons\DeletedCouponStatistics;
+use App\Models\s_locals\ManagerRefUser;
 use App\Models\s_locals\WorkerRefUser;
 use App\Models\s_sys\DocumentDataMain;
 use \Auth;
@@ -204,12 +205,13 @@ class CouponsService
     public function checkCoupon($unique_number){
         $user_type = Auth::user()->user_type;
         $id_user = Auth::user()->id;
-        if($user_type == 2){
+        if($user_type == 2 || $user_type == 3){
             $coupon = CouponRefUser::where('used', 2)->where('unique_number', DB::raw("UPPER('{$unique_number}')"))->where('create_date', '>', DB::raw("CURRENT_TIMESTAMP - interval '5 minute'"))->first();
             if($coupon != null){
                 $coupon_data = CouponDataMain::find($coupon->id_coupon_data_main);
                 $user_ref_local = WorkerRefUser::where('id_local_data_main', $coupon_data->id_local_data_main)->where('id_user', $id_user)->first();
-                if($user_ref_local != null){
+                $user_ref_menago = ManagerRefUser::where('id_local_data_main', $coupon_data->id_local_data_main)->where('id_user', $id_user)->first();
+                if($user_ref_local != null || $user_ref_menago != null){
                     $coupon->used = 1;
                     $coupon->unique_number = NULL;
                     $coupon->save();
