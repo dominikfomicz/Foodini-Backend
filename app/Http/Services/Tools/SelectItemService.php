@@ -43,7 +43,7 @@ class SelectItemService {
     }
 
     private function getCityConstType() {
-        $list = CityConstType::select("id", "name")->get();
+        $list = CityConstType::where('visible', true)->select("id", "name")->get();
         return $this->convertToReturnArray($list, "id", "name");
     }
 
