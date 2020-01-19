@@ -240,7 +240,7 @@ class CouponsRepository
                     LEFT JOIN used_counter ON used_counter.id_coupon_data_main = c.id
                     LEFT JOIN s_coupons.t_available_day_ref o ON o.id_coupon_data_main = c.id
                                                             AND o.id_weekday_const_type = {$day_of_week}
-                    WHERE l.id_city_const_type = {$id_city_const_type} AND c.status = 1
+                    WHERE l.id_city_const_type = {$id_city_const_type} AND l.deleted = FALSE AND c.status = 1
                     ORDER BY (CASE WHEN CURRENT_TIME < '06:00' AND o.hour_to < '06:00' AND o.hour_to > CURRENT_TIME THEN 1
                              WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN 1
                              ELSE 0
