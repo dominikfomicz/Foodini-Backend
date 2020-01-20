@@ -7,14 +7,6 @@ use \Auth;
 class LocalsRepository
 {
     public static function getList($id_city_const_type){
-        if(date("h") < 06 ){
-            $day_of_week = date('N') - 1;
-        }else{
-            $day_of_week = date('N');
-            if($day_of_week == 7){
-                $day_of_week = 0;
-            }
-        }
         $id_user = Auth::user()->id;
         $query = "SELECT
                         l.name,
@@ -34,7 +26,9 @@ class LocalsRepository
                         l.pick_up_local
                     FROM s_locals.t_local_data_main l
                     LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
-                                                            AND id_weekday_const_type = {$day_of_week}
+                                                            AND id_weekday_const_type = CASE WHEN CURRENT_TIME < '06:00' THEN extract(dow from CURRENT_TIME) - 1
+                                                                                            ELSE extract(dow from CURRENT_TIME)
+                                                                                            END
                     LEFT JOIN s_locals.t_local_ref_favourite f ON f.id_user = {$id_user} AND f.id_local_data_main = l.id
                     WHERE l.id_city_const_type = {$id_city_const_type} AND l.deleted = FALSE    
                     ORDER BY (CASE WHEN CURRENT_TIME < '06:00' AND o.local_hour_to < '06:00' AND o.local_hour_to > CURRENT_TIME THEN 1
@@ -46,14 +40,6 @@ class LocalsRepository
     }
 
     public static function getDetails($id_local_data_main){
-        if(date("h") < 06 ){
-            $day_of_week = date('N') - 1;
-        }else{
-            $day_of_week = date('N');
-            if($day_of_week == 7){
-                $day_of_week = 0;
-            }
-        }
 
         $id_user = Auth::user()->id;
         $query = "WITH counter_fav AS (SELECT
@@ -104,7 +90,9 @@ class LocalsRepository
                         l.id_city_const_type
                     FROM s_locals.t_local_data_main l
                     LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
-                                                            AND id_weekday_const_type = {$day_of_week}
+                                                            AND id_weekday_const_type = CASE WHEN CURRENT_TIME < '06:00' THEN extract(dow from CURRENT_TIMESTAMP) - 1
+                                                                                        ELSE extract(dow from CURRENT_TIMESTAMP)
+                                                                                        END
                     LEFT JOIN counter_fav ON 0=0
                     LEFT JOIN counter_coupons ON 0=0
                     LEFT JOIN s_locals.t_local_ref_favourite f ON f.id_user = {$id_user} AND f.id_local_data_main = l.id
@@ -140,14 +128,6 @@ class LocalsRepository
     }
 
     public static function getFavouriteList($id_city_const_type){
-        if(date("h") < 06 ){
-            $day_of_week = date('N') - 1;
-        }else{
-            $day_of_week = date('N');
-            if($day_of_week == 7){
-                $day_of_week = 0;
-            }
-        }
         $id_user = Auth::user()->id;
         $query = "SELECT
                         l.name,
@@ -168,7 +148,9 @@ class LocalsRepository
                     FROM  s_locals.t_local_ref_favourite f
                     LEFT JOIN s_locals.t_local_data_main l ON f.id_local_data_main = l.id
                     LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
-                                                            AND o.id_weekday_const_type = {$day_of_week}
+                                                            AND o.id_weekday_const_type = CASE WHEN CURRENT_TIME < '06:00' THEN extract(dow from CURRENT_TIMESTAMP) - 1
+                                                                                            ELSE extract(dow from CURRENT_TIMESTAMP)
+                                                                                            END
 
                     WHERE f.id_user = {$id_user} AND l.id_city_const_type = {$id_city_const_type} AND l.deleted = FALSE;
                     ";

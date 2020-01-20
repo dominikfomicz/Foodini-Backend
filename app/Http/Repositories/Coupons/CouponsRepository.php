@@ -8,14 +8,6 @@ use \Auth;
 class CouponsRepository
 {
     public static function getList($id_local_data_main){
-        if(date("h") < 06 ){
-            $day_of_week = date('N') - 1;
-        }else{
-            $day_of_week = date('N');
-            if($day_of_week == 7){
-                $day_of_week = 0;
-            }
-        }
         $id_user = Auth::user()->id;
         $query = "WITH used_counter AS (
                             SELECT
@@ -54,7 +46,9 @@ class CouponsRepository
                     LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
                     LEFT JOIN used_counter ON used_counter.id_coupon_data_main = c.id
                     LEFT JOIN s_coupons.t_available_day_ref o ON o.id_coupon_data_main = c.id
-                                                            AND o.id_weekday_const_type = {$day_of_week}
+                                                            AND o.id_weekday_const_type = CASE WHEN CURRENT_TIME < '06:00' THEN extract(dow from CURRENT_TIMESTAMP) - 1
+                                                                                            ELSE extract(dow from CURRENT_TIMESTAMP)
+                                                                                            END
                     WHERE c.id_local_data_main = {$id_local_data_main}
                     ORDER BY (CASE WHEN CURRENT_TIME < '06:00' AND o.hour_to < '06:00' AND o.hour_to > CURRENT_TIME THEN 1
                              WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN 1
@@ -77,10 +71,6 @@ class CouponsRepository
 
     //com
     public static function getDetails($id_coupon_data_main){
-        $day_of_week = date('N');
-        if($day_of_week == 7){
-            $day_of_week = 0;
-        }
         $id_user = Auth::user()->id;
         $query = "
                 WITH favourite_count AS (SELECT COUNT(*) AS favourite_count
@@ -107,7 +97,9 @@ class CouponsRepository
                     LEFT JOIN s_locals.t_local_data_main l ON l.id = c.id_local_data_main
                     LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
                     LEFT JOIN s_coupons.t_available_day_ref o ON o.id_coupon_data_main = c.id
-                                                            AND o.id_weekday_const_type = {$day_of_week}
+                                                            AND o.id_weekday_const_type = CASE WHEN CURRENT_TIME < '06:00' THEN extract(dow from CURRENT_TIMESTAMP) - 1
+                                                                                            ELSE extract(dow from CURRENT_TIMESTAMP)
+                                                                                            END
                                                             AND (CASE WHEN CURRENT_TIME < '06:00' AND o.hour_to < '06:00' AND o.hour_to > CURRENT_TIME THEN TRUE
                                                                     WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN TRUE
                                                                 ELSE FALSE
@@ -147,14 +139,6 @@ class CouponsRepository
     }
 
     public static function getFavouriteList(){
-        if(date("h") < 06 ){
-            $day_of_week = date('N') - 1;
-        }else{
-            $day_of_week = date('N');
-            if($day_of_week == 7){
-                $day_of_week = 0;
-            }
-        }
         $id_user = Auth::user()->id;
         $query = "SELECT
                         c.id AS coupon_id,
@@ -181,7 +165,9 @@ class CouponsRepository
                     LEFT JOIN s_coupons.t_coupon_data_main c ON c.id = f.id_coupon_data_main
                     LEFT JOIN s_locals.t_local_data_main l ON l.id = c.id_local_data_main
                     LEFT JOIN s_coupons.t_available_day_ref o ON o.id_coupon_data_main = c.id
-                                                            AND o.id_weekday_const_type = {$day_of_week}
+                                                            AND o.id_weekday_const_type = CASE WHEN CURRENT_TIME < '06:00' THEN extract(dow from CURRENT_TIMESTAMP) - 1
+                                                                                            ELSE extract(dow from CURRENT_TIMESTAMP)
+                                                                                            END
                     WHERE f.id_user = {$id_user}
                     ORDER BY (CASE WHEN CURRENT_TIME < '06:00' AND o.hour_to < '06:00' AND o.hour_to > CURRENT_TIME THEN 1
                              WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN 1
@@ -192,14 +178,6 @@ class CouponsRepository
     }
 
     public static function getCouponsByCity($id_city_const_type){
-        if(date("h") < 06 ){
-            $day_of_week = date('N') - 1;
-        }else{
-            $day_of_week = date('N');
-            if($day_of_week == 7){
-                $day_of_week = 0;
-            }
-        }
         $id_user = Auth::user()->id;
         $query = "WITH used_counter AS (
                             SELECT
@@ -239,7 +217,9 @@ class CouponsRepository
                     LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
                     LEFT JOIN used_counter ON used_counter.id_coupon_data_main = c.id
                     LEFT JOIN s_coupons.t_available_day_ref o ON o.id_coupon_data_main = c.id
-                                                            AND o.id_weekday_const_type = {$day_of_week}
+                                                            AND o.id_weekday_const_type = CASE WHEN CURRENT_TIME < '06:00' THEN extract(dow from CURRENT_TIMESTAMP) - 1
+                                                                                            ELSE extract(dow from CURRENT_TIMESTAMP)
+                                                                                            END
                     WHERE l.id_city_const_type = {$id_city_const_type} AND l.deleted = FALSE AND c.status = 1
                     ORDER BY (CASE WHEN CURRENT_TIME < '06:00' AND o.hour_to < '06:00' AND o.hour_to > CURRENT_TIME THEN 1
                              WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN 1
