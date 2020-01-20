@@ -26,8 +26,8 @@ class LocalsRepository
                         l.pick_up_local
                     FROM s_locals.t_local_data_main l
                     LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
-                                                            AND id_weekday_const_type = CASE WHEN CURRENT_TIME < '06:00' THEN extract(dow from CURRENT_TIME) - 1
-                                                                                            ELSE extract(dow from CURRENT_TIME)
+                                                            AND id_weekday_const_type = CASE WHEN CURRENT_TIME < '06:00' THEN extract(dow from CURRENT_TIMESTAMP) - 1
+                                                                                            ELSE extract(dow from CURRENT_TIMESTAMP)
                                                                                             END
                     LEFT JOIN s_locals.t_local_ref_favourite f ON f.id_user = {$id_user} AND f.id_local_data_main = l.id
                     WHERE l.id_city_const_type = {$id_city_const_type} AND l.deleted = FALSE    
