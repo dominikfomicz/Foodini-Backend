@@ -55,7 +55,13 @@ class AuthApiController extends Controller
 		]);
 
 
-		$user_type = User::where('email', $request->uuid)->first()->user_type;
+		$user= User::where('email', $request->uuid)->first();
+
+		if($user != null){
+			$user_type = $user->user_type;
+		}else{
+			$user_type = 0;
+		}
 
         return $user_type;
 	}
