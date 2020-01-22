@@ -22,7 +22,7 @@ class AuthApiController extends Controller
             'email' => 'required|email|unique:users,email',
 			'password' => 'required'
 		]);
-		//check
+		//mail like msc@msc is correct
 
 		$user = User::create([
             'name' => $request->name,
