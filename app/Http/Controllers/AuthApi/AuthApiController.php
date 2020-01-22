@@ -17,12 +17,15 @@ class AuthApiController extends Controller
 
 
 	public function register(Request $request){
-		$request->validate([
+		$validate = $request->validate([
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email|unique:users,email',
 			'password' => 'required'
 		]);
 
+		If($validate->fails()){
+			return "Error";
+		}
 
 		$user = User::create([
             'name' => $request->name,
