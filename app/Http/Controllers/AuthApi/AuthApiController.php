@@ -35,10 +35,13 @@ class AuthApiController extends Controller
 	}
 
 	public function registerUuid(Request $request){
-		$request->validate([
+		$validate = $request->validate([
             'uuid' => 'required|unique:users,email'
 		]);
-
+		
+		if($validate->fails()){
+			return -1;
+		}
 
 		$user = User::create([
             'name' => $request->uuid,
