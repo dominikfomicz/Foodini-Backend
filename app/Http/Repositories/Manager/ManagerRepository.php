@@ -20,9 +20,9 @@ class ManagerRepository
 
     public static function getLocalsByManager($id_user){
         $day_of_week = date('N');
-        if($day_of_week == 7){
-            $day_of_week = 0;
-        }
+        // if($day_of_week == 7){
+        //     $day_of_week = 0;
+        // }
         $query = "SELECT
                         l.name,
                         l.id AS local_id,
@@ -55,8 +55,8 @@ class ManagerRepository
                             FROM users
                             WHERE last_login_date >= date_trunc('month', current_date - interval '1' month)
                     )
-                    
-                SELECT	
+
+                SELECT
                     l.show_detail_count,
                     l.show_facebook_count,
                     l.show_menu_count,
@@ -90,12 +90,12 @@ class ManagerRepository
                                             c.description,
                                             c.show_detail_count
                         FROM  s_coupons.t_coupon_data_main c
-                        WHERE c.id_local_data_main = {$id_local_data_main}), 
+                        WHERE c.id_local_data_main = {$id_local_data_main}),
                 coupon_count AS  (
-                            SELECT COUNT(*) AS count_used,  
-                                    r.id_coupon_data_main                   
+                            SELECT COUNT(*) AS count_used,
+                                    r.id_coupon_data_main
                             FROM coupons
-                            LEFT JOIN s_coupons.t_coupon_ref_user r ON r.id_coupon_data_main = coupons.id AND r.used = 1 
+                            LEFT JOIN s_coupons.t_coupon_ref_user r ON r.id_coupon_data_main = coupons.id AND r.used = 1
                             WHERE r.id IS NOT NULL
                             GROUP BY r.id_coupon_data_main)
                 SELECT coupons.* ,
