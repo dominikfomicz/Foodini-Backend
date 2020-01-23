@@ -19,10 +19,6 @@ class ManagerRepository
     }
 
     public static function getLocalsByManager($id_user){
-        $day_of_week = date('N');
-        if($day_of_week == 7){
-            $day_of_week = 0;
-        }
         $query = "SELECT
                         l.name,
                         l.id AS local_id,
@@ -36,7 +32,9 @@ class ManagerRepository
                     FROM s_locals.t_manager_ref_user r
                     LEFT JOIN s_locals.t_local_data_main l ON l.id = r.id_local_data_main
                     LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
-                                                            AND id_weekday_const_type = {$day_of_week}
+                                                            AND o.id_weekday_const_type = CASE WHEN CURRENT_TIME < '06:00' THEN extract(dow from CURRENT_TIMESTAMP) - 1
+                                                                                            ELSE extract(dow from CURRENT_TIMESTAMP)
+                                                                                            END
                     WHERE r.id_user = {$id_user};
                     ";
         return DB::select($query);
