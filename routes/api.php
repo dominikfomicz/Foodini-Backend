@@ -87,5 +87,6 @@ Route::group(array('namespace' => 'Manager', 'prefix' => 'manager'), function() 
     Route::post('registerWorker', 'ManagerController@registerWorker');
     Route::get('getLocalsByManager', 'ManagerController@getLocalsByManager'); // checked MSC
     Route::get('getLocalStatistics/{id_local_data_main}', 'ManagerController@getLocalStatistics'); // checked MSC
+    Route::get('getWorkerList', 'ManagerController@getWorkerList'); // checked MSC
 });
 

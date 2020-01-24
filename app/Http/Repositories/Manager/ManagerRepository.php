@@ -103,4 +103,14 @@ class ManagerRepository
                     ";
         return DB::select($query);
     }
+
+    public static function getWorkerList($id_local_data_main){
+        $query = "SELECT
+                        u.email,
+                        r.id AS id_worker_ref_user
+                    FROM s_locals.t_worker_ref_user r
+                    LEFT JOIN users u ON u.id = r.id_user
+                    WHERE r.id_local_data_main = {$id_local_data_main};";
+        return DB::select($query);
+    }
 }

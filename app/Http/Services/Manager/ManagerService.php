@@ -52,4 +52,13 @@ class ManagerService
         }
 
     }
+
+    public function getWorkerList($id_local_data_main){
+        $user = Auth::user();
+        if($user->user_type == 3){
+            $workers = collect(ManagerRepository::getWorkerList($id_local_data_main));
+            return json_encode($workers);
+        }
+
+    }
 }
