@@ -133,7 +133,7 @@ class FilesService
         If (Auth::user()->user_type == -1){
             $i = 1;
             foreach($files as $file){
-                $file_name = 'menu_'.$i;
+                $file_name = 'menu_'.$i.'.png';
                 $ref = LocalRefDocument::where('id_local_data_main', $id_local_data_main)->where('id_document_const_type', 3)->first();
 
                 if($ref == null){
