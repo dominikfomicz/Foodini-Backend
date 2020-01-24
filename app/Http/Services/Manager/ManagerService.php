@@ -55,10 +55,28 @@ class ManagerService
 
     public function getWorkerList($id_local_data_main){
         $user = Auth::user();
-        if($user->user_type == 3){
+        $manager = ManagerRefUser::where('id_user', $user->id)->where('id_local_data_main', $id_local_data_main)->first();
+        if($user->user_type == 3 && $manager != NULL){
             $workers = collect(ManagerRepository::getWorkerList($id_local_data_main));
             return json_encode($workers);
         }
 
+    }
+
+    public function removeWorker($id_worker_ref_user){
+        $user = Auth::user();
+        $ref = WorkerRefUser::find($id_worker_ref_user);
+
+        $manager = ManagerRefUser::where('id_user', $user->id)->where('id_local_data_main', $ref->id_local_data_main)->first();
+
+		if($user->user_type == 3 && $manager != NULL){
+            $user = User::find($ref->id_user);
+            $user->user_type = 0;
+            $user->save();
+
+            $ref->delete();
+
+			return json_encode(0);
+        }
     }
 }
