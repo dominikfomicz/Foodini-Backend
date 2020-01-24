@@ -10,4 +10,22 @@ class LocalsStatisticsService
         $local->show_facebook_count = $local->show_facebook_count + 1;
         $local->save();
     }
+
+    public function showInstagramCount($id_local_data_main){
+        $local = LocalDataMain::find($id_local_data_main);
+        $local->show_instagram_count = $local->show_instagram_count + 1;
+        $local->save();
+    }
+
+    public function showMenuCount($id_local_data_main){
+        $local = LocalDataMain::find($id_local_data_main);
+        $local->show_menu_count = $local->show_menu_count + 1;
+        $local->save();
+    }
+
+    public function showPhonenumberCount($id_local_data_main){
+        $local = LocalDataMain::find($id_local_data_main);
+        $local->show_phonenumber_count = $local->show_phonenumber_count + 1;
+        $local->save();
+    }
 }
