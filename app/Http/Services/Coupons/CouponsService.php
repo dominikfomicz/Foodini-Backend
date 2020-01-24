@@ -107,9 +107,20 @@ class CouponsService
     }
 
     public function getDetails($id_coupon_data_main){
+        $id_user = Auth::user()->id;
+
         $coupon = collect(CouponsRepository::getDetails($id_coupon_data_main))->first();
         $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id));
         $coupon->available_hours = collect(CouponsRepository::getAvailableHours($coupon->coupon_id));
+        
+        $already_used = CouponRefUser::where('used', 1)->where('id_coupon_data_main', $id_coupon_data_main)
+                                        ->where('id_user', $id_user)->where('create_date', '>', DB::raw("CURRENT_TIMESTAMP - interval '1 day'"))->first();
+        if($already_used != null){
+            $coupon->already_used = TRUE;
+        }else{
+            $coupon->already_used = FALSE;
+        }
+
 
         $stats_coupon = CouponDataMain::find($id_coupon_data_main);
         $stats_coupon->show_detail_count = $stats_coupon->show_detail_count + 1;
@@ -178,7 +189,7 @@ class CouponsService
         $already_used = CouponRefUser::where('used', 1)->where('id_coupon_data_main', $id_coupon_data_main)
                                         ->where('id_user', $id_user)->where('create_date', '>', DB::raw("CURRENT_TIMESTAMP - interval '1 day'"))->first();
         If($already_used != null){
-            return -1;
+            return json_encode("Wykorzystany");
         }else{
             CouponRefUser::where('used', 2)->where('id_coupon_data_main', $id_coupon_data_main)->where('id_user', $id_user)->delete();
 

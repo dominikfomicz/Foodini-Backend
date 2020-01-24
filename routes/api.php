@@ -35,6 +35,11 @@ Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
 
     Route::get('getDetailsEdit/{id_local_data_main}', 'LocalsController@getDetailsEdit'); // checked MSC
 
+    Route::post('showFacebookCount', 'LocalsStatisticsController@showFacebookCount'); // checked MSC
+    Route::post('showInstagramCount', 'LocalsStatisticsController@showInstagramCount'); // checked MSC
+    Route::post('showMenuCount', 'LocalsStatisticsController@showMenuCount'); // checked MSC
+    Route::post('showPhonenumberCount', 'LocalsStatisticsController@showPhonenumberCount'); // checked MSC
+
     Route::group(array('prefix' => 'files'), function() {
       Route::post('addLogo', 'FilesController@addLogo');
       Route::post('addBackground', 'FilesController@addBackground');
@@ -83,5 +88,7 @@ Route::group(array('namespace' => 'Manager', 'prefix' => 'manager'), function() 
     Route::post('registerWorker', 'ManagerController@registerWorker');
     Route::get('getLocalsByManager', 'ManagerController@getLocalsByManager'); // checked MSC
     Route::get('getLocalStatistics/{id_local_data_main}', 'ManagerController@getLocalStatistics'); // checked MSC
+    Route::get('getWorkerList/{id_local_data_main}', 'ManagerController@getWorkerList'); // checked MSC
+    Route::post('removeWorker', 'ManagerController@removeWorker');
 });
 
