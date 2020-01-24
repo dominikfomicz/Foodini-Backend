@@ -112,6 +112,7 @@ class CouponsService
         $coupon = collect(CouponsRepository::getDetails($id_coupon_data_main))->first();
         $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id));
         $coupon->available_hours = collect(CouponsRepository::getAvailableHours($coupon->coupon_id));
+        
         $already_used = CouponRefUser::where('used', 1)->where('id_coupon_data_main', $id_coupon_data_main)
                                         ->where('id_user', $id_user)->where('create_date', '>', DB::raw("CURRENT_TIMESTAMP - interval '1 day'"))->first();
         if($already_used != null){
