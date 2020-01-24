@@ -152,8 +152,8 @@ class FilesService
                 $filePath = "public/locals/".$id_local_data_main."/".$file_name;
                 Storage::disk('local')->put($filePath, file_get_contents($file));
                 $i++;
+                dd($file);
             }
-            dd($files);
         }
 
 
