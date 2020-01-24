@@ -153,7 +153,7 @@ class FilesService
                 Storage::disk('local')->put($filePath, file_get_contents($file));
                 $i++;
             }
-            return 0;
+            dd($files);
         }
 
 
