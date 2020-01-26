@@ -132,12 +132,12 @@ class FilesService
     public function addMenuPhotos($id_local_data_main, $files){
         If (Auth::user()->user_type == -1){
 
-            $files = Storage::allFiles("public/locals/".$id_local_data_main);
+            $files_remove = Storage::allFiles("public/locals/".$id_local_data_main);
 
-            foreach($files As $file){
-                $file_name = basename($file);
+            foreach($files_remove As $file_remove){
+                $file_name = basename($file_remove);
                 if (strpos($file_name, 'menu') !== false) {
-                    Storage::delete($file);
+                    Storage::delete($file_remove);
                 }
             }
             $i = 1;
