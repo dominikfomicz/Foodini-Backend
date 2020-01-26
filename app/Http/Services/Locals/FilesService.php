@@ -131,6 +131,11 @@ class FilesService
 
     public function addMenuPhotos($id_local_data_main, $files){
         If (Auth::user()->user_type == -1){
+
+            $files =   Storage::allFiles("public/locals/".$id_local_data_main);
+
+            // Delete Files
+            Storage::delete($files);
             $i = 1;
             foreach($files as $file){
                 $file_name = 'menu_'.$i.'.png';
