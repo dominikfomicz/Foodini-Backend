@@ -162,6 +162,7 @@ class FilesService
                 Storage::disk('local')->put($filePath, file_get_contents($file));
                 $i++;
             }
+            return json_encode(1);
         }
 
 
