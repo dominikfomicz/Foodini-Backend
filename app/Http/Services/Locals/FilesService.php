@@ -167,4 +167,16 @@ class FilesService
 
 
     }
+
+    public function countMenuPhotos($id_local_data_main){
+        $files = Storage::allFiles("public/locals/".$id_local_data_main);
+            $count = 0;
+            foreach($files As $file){
+                $file_name = basename($file);
+                if (strpos($file_name, 'menu') !== false) {
+                    $count++;
+                }
+            }
+        return json_encode($count);
+    }
 }
