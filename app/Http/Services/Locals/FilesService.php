@@ -136,7 +136,7 @@ class FilesService
 
             foreach($files As $file){
                 $file_name = basename($file);
-                if (strpos($file_name, 'menu_') !== false) {
+                if (strpos($file_name, 'menu') !== false) {
                     Storage::delete($file);
                 }
             }
