@@ -173,7 +173,7 @@ class FilesService
             $count = 0;
             foreach($files As $file){
                 $file_name = basename($file);
-                if (strpos($file_name, 'menu') !== false) {
+                if (strpos($file_name, 'menu_') !== false) {
                     $count++;
                 }
             }
