@@ -134,8 +134,12 @@ class FilesService
 
             $files = Storage::allFiles("public/locals/".$id_local_data_main);
 
-            // Delete Files
-            Storage::delete($files);
+            foreach($files As $file){
+                $file_name = basename($file);
+                if (strpos($file_name, 'menu_') !== false) {
+                    Storage::delete($file);
+                }
+            }
             $i = 1;
             foreach($files as $file){
                 $file_name = 'menu_'.$i.'.png';
