@@ -31,7 +31,7 @@ class FilesController extends Controller
     }
 
     public function addMenuPhotos(Request $request){
-        return $this->service->addMenuPhotos($request->id_local_data_main, $request->files('image'));
+        return $this->service->addMenuPhotos($request->id_local_data_main, $request->allFiles('image'));
     }
 
     public function countMenuPhotos(Request $request){
