@@ -77,6 +77,9 @@ class CouponsService
             $new_coupon->description = $coupon_data->description;
             $new_coupon->amount = $coupon_data->amount;
             $new_coupon->mature = $coupon_data->mature;
+            $new_coupon->delivery = $coupon_data->delivery;
+            $new_coupon->eat_in_local = $coupon_data->eat_in_local;
+            $new_coupon->pick_up_local = $coupon_data->pick_up_local;
             $new_coupon->id_local_data_main = $id_local_data_main;
             $new_coupon->save();
     

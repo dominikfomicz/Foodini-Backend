@@ -251,13 +251,12 @@ class CouponsRepository
                         c.description,
                         c.amount,
                         c.name,
-                        l.delivery,
-                        l.eat_in_local,
-                        l.pick_up_local,
+                        c.delivery,
+                        c.eat_in_local,
+                        c.pick_up_local,
                         c.mature,
                         c.id_local_data_main
                     FROM s_coupons.t_coupon_data_main c
-                    LEFT JOIN s_locals.t_local_data_main l ON l.id = c.id_local_data_main
                     WHERE c.id = {$id_coupon_data_main}
                     LIMIT 1;
                     ";
