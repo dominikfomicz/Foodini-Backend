@@ -88,7 +88,7 @@ class LocalsService
         return json_encode($locals);
     }
 
-    public function changeLocal($id_local_data_main, $local_data, $tags, $open_hours, $file_logo, $file_background, $file_menu, $file_map){
+    public function changeLocal($id_local_data_main, $local_data, $tags, $open_hours, $file_logo, $file_background, $files_menu, $file_map){
         If (Auth::user()->user_type == -1){
             if($id_local_data_main == -1){
                 $new_local = new LocalDataMain();
@@ -135,7 +135,7 @@ class LocalsService
             $files = new FilesService();
             $files->addLogo($new_local->id, $file_logo);
             $files->addBackground($new_local->id, $file_background);
-            $files->addMenuPhoto($new_local->id, $file_menu);
+            $files->addMenuPhotos($new_local->id, $files_menu);
             $files->addMapLogo($new_local->id, $file_map);
             //return json_encode($new_local);
         }
