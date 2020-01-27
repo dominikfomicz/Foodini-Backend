@@ -34,7 +34,7 @@ class CouponsService
 
 
     public function checkAllCoupons(){
-        CouponRefUser::where('used', 2)->where('create_date', '<', DB::raw("CURRENT_TIMESTAMP - interval '5 minute'"))->update(['used' => 0]);
+        CouponRefUser::where('used', 2)->where('create_date', '<', DB::raw("CURRENT_TIMESTAMP - interval '5 minute'"))->update(['used' => 0, 'unique_number' => NULL]);
         $coupons = CouponDataMain::where('status', '<>','0')->get();
         foreach($coupons AS $coupon){
             if($coupon->amount > 0){
