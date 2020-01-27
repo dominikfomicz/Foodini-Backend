@@ -22,9 +22,9 @@ class CouponsRepository
                         l.id AS local_id,
                         c.name AS coupon_name,
                         c.mature,
-                        l.delivery,
-                        l.eat_in_local,
-                        l.pick_up_local,
+                        c.delivery,
+                        c.eat_in_local,
+                        c.pick_up_local,
                         c.amount,
                         CASE WHEN f.id IS NOT NULL THEN TRUE
                         ELSE FALSE
@@ -88,9 +88,9 @@ class CouponsRepository
                         CASE WHEN o.id IS NOT NULL THEN TRUE
                         ELSE FALSE
                         END AS is_available,
-                        l.delivery,
-                        l.eat_in_local,
-                        l.pick_up_local,
+                        c.delivery,
+                        c.eat_in_local,
+                        c.pick_up_local,
                         c.mature,
                         favourite_count.favourite_count
                     FROM s_coupons.t_coupon_data_main c
