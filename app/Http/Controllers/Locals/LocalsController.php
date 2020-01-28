@@ -49,7 +49,7 @@ class LocalsController extends Controller
                                             json_decode($request->open_hours),
                                             $request->file('file_logo'),
                                             $request->file('file_background'),
-                                            json_decode($request->file('file_menu')),
+                                            $request->file('file_menu'),
                                             $request->file('file_map')
                                         );
     }
