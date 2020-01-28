@@ -76,7 +76,7 @@ class FilesService
     public function addMenuPhoto($id_local_data_main, $file){
         If (Auth::user()->user_type == -1){
             // $file_name = uniqid().".png";
-            $file_name = "menu.png";
+            $file_name = "menu_1.png";
 
             $ref = LocalRefDocument::where('id_local_data_main', $id_local_data_main)->where('id_document_const_type', 3)->first();
             if($ref == null){
