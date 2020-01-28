@@ -105,7 +105,7 @@ class FilesService
             $file_name = "map.png";
             $image = Image::make($file);
 
-            $image->resize(55, 55);
+            $image->resize(50, 50);
 
             $ref = LocalRefDocument::where('id_local_data_main', $id_local_data_main)->where('id_document_const_type', 5)->first();
             if($ref == null){
