@@ -105,9 +105,9 @@ class FilesService
             $file_name = "map.png";
             $image = Image::make($file);
 
-            //$image->resize(85, 85);
+            //$image->resize(55, 55);
 
-            $image->resize(75, null, function ($constraint) {
+            $image->resize(55, null, function ($constraint) {
                 $constraint->aspectRatio();
             });
 
