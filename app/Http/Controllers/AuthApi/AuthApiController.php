@@ -91,7 +91,7 @@ class AuthApiController extends Controller
 	public function registerEmail(Request $request){
 		$request->validate([
             'name' => 'required',
-            'email' => 'required|unique:users,email',
+            'email' => 'required|email|unique:users,email',
 			'password' => 'required'
 		]);
 		//mail like msc@msc is correct
