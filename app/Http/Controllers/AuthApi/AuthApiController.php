@@ -35,7 +35,7 @@ class AuthApiController extends Controller
 
         $validate = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required,unique:users,email',
+            'email' => 'required|unique:users,email',
             'password' => 'required',
 
 		]);
