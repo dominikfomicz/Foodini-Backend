@@ -47,7 +47,7 @@ class AuthApiController extends Controller
 		$user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-			'password' => bcrypt($request->uuid)
+			'password' => bcrypt($request->password)
 		]);
 
         return 0;
