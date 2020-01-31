@@ -18,12 +18,31 @@ class AuthApiController extends Controller
 
 
 	public function register(Request $request){
-		$request->validate([
+		// $request->validate([
+        //     'name' => 'required',
+        //     'email' => 'required|unique:users,email',
+		// 	'password' => 'required'
+		// ]);
+		// //mail like msc@msc is correct
+
+		// $user = User::create([
+        //     'name' => $request->name,
+        //     'email' => $request->email,
+		// 	'password' => bcrypt($request->password)
+		// ]);
+
+        // return 0;
+
+        $validate = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|unique:users,email',
-			'password' => 'required'
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+
 		]);
-		//mail like msc@msc is correct
+
+		if($validate->fails()){
+			return -1;
+		}
 
 		$user = User::create([
             'name' => $request->name,
@@ -36,9 +55,9 @@ class AuthApiController extends Controller
 
 	public function registerUuid(Request $request){
 		$validate = Validator::make($request->all(), [
-			'uuid' => 'required|unique:users,email'
+			'uuid' => 'required|email|unique:users'
 		]);
-		
+
 		if($validate->fails()){
 			return -1;
 		}
