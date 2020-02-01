@@ -62,7 +62,7 @@ class CouponsService
             $new_ref->hour_to = $open_data->hour_to;
             $new_ref->save();
         }
-        
+
     }
 
     public function changeCoupon($id_coupon_data_main, $id_local_data_main, $coupon_data, $tags, $file_logo, $open_hours){
@@ -72,7 +72,7 @@ class CouponsService
             }else{
                 $new_coupon = CouponDataMain::find($id_coupon_data_main);
             }
-    
+
             $new_coupon->name = $coupon_data->name;
             $new_coupon->description = $coupon_data->description;
             $new_coupon->amount = $coupon_data->amount;
@@ -82,17 +82,17 @@ class CouponsService
             $new_coupon->pick_up_local = $coupon_data->pick_up_local;
             $new_coupon->id_local_data_main = $id_local_data_main;
             $new_coupon->save();
-    
+
             CouponRefMain::where('id_coupon_data_main', $new_coupon->id)->delete();
-    
+
             foreach($tags AS $tag){
                 $this->addTagToCoupon($new_coupon->id, $tag->id, $tag->priority_status);
             }
-    
+
             foreach($open_hours AS $open_hour){
                 $this->changeAvailableHours($new_coupon->id, $open_hour->id_week_day, $open_hour);
             }
-    
+
             $files = new FilesService();
             $file_logo = $files->addLogo($new_coupon->id, $file_logo);
         }
@@ -106,7 +106,7 @@ class CouponsService
             $new_ref->priority_status = $priority_status;
             $new_ref->save();
         }
-            
+
     }
 
     public function getDetails($id_coupon_data_main){
@@ -115,7 +115,7 @@ class CouponsService
         $coupon = collect(CouponsRepository::getDetails($id_coupon_data_main))->first();
         $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id));
         $coupon->available_hours = collect(CouponsRepository::getAvailableHours($coupon->coupon_id));
-        
+
         $already_used = CouponRefUser::where('used', 1)->where('id_coupon_data_main', $id_coupon_data_main)
                                         ->where('id_user', $id_user)->where('create_date', '>', DB::raw("CURRENT_TIMESTAMP - interval '1 day'"))->first();
         if($already_used != null){
@@ -200,26 +200,26 @@ class CouponsService
             $ref_user->id_coupon_data_main = $id_coupon_data_main;
             $ref_user->id_user = $id_user;
             $ref_user->used = 2;
-    
+
             $ref_user->save();
-    
+
             $local = LocalDataMain::find($coupon->id_local_data_main);
             $hexa_id = (($ref_user->id * 345545467) % 4093);
             $hexa = HexaConstType::find($hexa_id);
             $ref_user->unique_number = $local->hexa_value.$hexa->value;
             $ref_user->save();
-    
+
             $this->checkAllCoupons();
-    
+
             return json_encode($ref_user->unique_number);
         }
-        
+
     }
 
     public function checkCoupon($unique_number){
         $user_type = Auth::user()->user_type;
         $id_user = Auth::user()->id;
-        if($user_type == 2 || $user_type == 3){
+        if($user_type == 2 || $user_type == 3 || $user_type == -1){
             $coupon = CouponRefUser::where('used', 2)->where('unique_number', DB::raw("UPPER('{$unique_number}')"))->where('create_date', '>', DB::raw("CURRENT_TIMESTAMP - interval '5 minute'"))->first();
             if($coupon != null){
                 $coupon_data = CouponDataMain::find($coupon->id_coupon_data_main);
@@ -232,15 +232,15 @@ class CouponsService
                     return 1;
 
                 }else{
-                    
+
                     return 0;
                 }
-                
 
-                
+
+
             }else{
                 return 0;
-                
+
             }
         }else{
 
