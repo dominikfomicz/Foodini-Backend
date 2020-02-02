@@ -18,21 +18,6 @@ class AuthApiController extends Controller
 
 
 	public function register(Request $request){
-		// $request->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|unique:users,email',
-		// 	'password' => 'required'
-		// ]);
-		// //mail like msc@msc is correct
-
-		// $user = User::create([
-        //     'name' => $request->name,
-        //     'email' => $request->email,
-		// 	'password' => bcrypt($request->password)
-		// ]);
-
-        // return 0;
-
         $validate = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email|unique:users',
