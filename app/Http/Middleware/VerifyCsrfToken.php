@@ -22,6 +22,8 @@ class VerifyCsrfToken extends Middleware
         '/auth-api/register',
         '/auth-api/registerUuid',
         '/auth-api/getUserStatus',
-        '/auth-api/registerEmail'
+        '/auth-api/registerEmail',
+        '/password/email',
+        '/password/email'
     ];
 }
