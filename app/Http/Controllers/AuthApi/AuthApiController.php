@@ -55,7 +55,7 @@ class AuthApiController extends Controller
 
 	public function registerUuid(Request $request){
 		$validate = Validator::make($request->all(), [
-			'uuid' => 'required|email|unique:users'
+			'uuid' => 'required|unique:users'
 		]);
 
 		if($validate->fails()){
