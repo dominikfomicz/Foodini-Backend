@@ -93,3 +93,6 @@ Route::group(array('namespace' => 'Manager', 'prefix' => 'manager'), function() 
     Route::post('removeWorker', 'ManagerController@removeWorker');
 });
 
+Route::group(array('namespace' => 'Feedback', 'prefix' => 'feedback'), function() {
+    Route::post('add', 'FeedbackController@registerWorker');
+});
