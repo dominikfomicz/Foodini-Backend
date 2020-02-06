@@ -305,4 +305,9 @@ class CouponsService
         $coupons = collect(CouponsRepository::getSupportCouponsByCity($id_city_const_type));
         return json_encode($coupons);
     }
+
+    public function getUsedCouponsStatistic(){
+        $id_user = Auth::user()->id;
+        return CouponsRepository::getUsedCouponsStatistic($id_user);
+    }
 }

@@ -274,4 +274,26 @@ class CouponsRepository
                     ";
         return DB::select($query);
     }
+
+    public static function getUsedCouponsStatistic($id_user){
+        $query = "SELECT
+                            c.name AS coupon_name,
+                            used.create_date AS generate_date
+                        FROM s_locals.t_manager_ref_user ref
+                        LEFT JOIN s_locals.t_local_data_main l ON l.id = ref.id_local_data_main
+                        LEFT JOIN s_coupons.t_coupon_data_main c ON c.id_local_data_main = l.id
+                        LEFT JOIN s_coupons.t_coupon_ref_user used ON used.id_coupon_data_main = c.id AND used.used = 1
+                        WHERE ref.id_user = {$id_user} AND used.id IS NOT NULL
+                    UNION
+                    SELECT
+                            c.name AS coupon_name,
+                            used.create_date AS generate_date
+                        FROM s_locals.t_worker_ref_user ref
+                        LEFT JOIN s_locals.t_local_data_main l ON l.id = ref.id_local_data_main
+                        LEFT JOIN s_coupons.t_coupon_data_main c ON c.id_local_data_main = l.id
+                        LEFT JOIN s_coupons.t_coupon_ref_user used ON used.id_coupon_data_main = c.id AND used.used = 1
+                        WHERE ref.id_user = {$id_user} AND used.id IS NOT NULL;
+                    ";
+        return DB::select($query);
+    }
 }
