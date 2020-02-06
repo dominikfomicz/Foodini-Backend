@@ -248,6 +248,40 @@ class CouponsService
         }
     }
 
+    public function checkCouponDesktopApp($unique_number){
+        $user_type = Auth::user()->user_type;
+        $id_user = Auth::user()->id;
+        if($user_type == 2 || $user_type == 3 || $user_type == -1){
+            $coupon = CouponRefUser::where('used', 2)->where('unique_number', DB::raw("UPPER('{$unique_number}')"))->where('create_date', '>', DB::raw("CURRENT_TIMESTAMP - interval '5 minute'"))->first();
+            if($coupon != null){
+                $coupon_data = CouponDataMain::find($coupon->id_coupon_data_main);
+                $user_ref_local = WorkerRefUser::where('id_local_data_main', $coupon_data->id_local_data_main)->where('id_user', $id_user)->first();
+                $user_ref_menago = ManagerRefUser::where('id_local_data_main', $coupon_data->id_local_data_main)->where('id_user', $id_user)->first();
+                if($user_ref_local != null || $user_ref_menago != null){
+                    $coupon->used = 1;
+                    $coupon->unique_number = NULL;
+                    $coupon->save();
+                    return $coupon_data->name;
+
+                }else{
+
+                    return -1;
+                }
+
+
+
+            }else{
+                return -1;
+
+            }
+        }else{
+
+            return -1;
+        }
+    }
+
+    
+
     public function getCouponsByCity($id_city_const_type){
         $this->checkAllCoupons();
         $coupons = collect(CouponsRepository::getCouponsByCity($id_city_const_type));

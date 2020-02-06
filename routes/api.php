@@ -65,6 +65,7 @@ Route::group(array('namespace' => 'Coupons', 'prefix' => 'coupons'), function() 
 
     Route::post('orderCoupon', 'CouponsController@orderCoupon'); // checked MSC
     Route::post('checkCoupon', 'CouponsController@checkCoupon'); // checked MSC
+    Route::post('checkCouponDesktopApp', 'CouponsController@checkCouponDesktopApp'); // checked MSC
 
     Route::get('getDetailsEdit/{id_coupon_data_main}', 'CouponsController@getDetailsEdit'); // checked MSC
 
