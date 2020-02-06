@@ -156,7 +156,7 @@ class CouponsService
                 DocumentDataMain::find($document_ref->id_document_data_main)->delete();
                 $document_ref->delete();
             }
-
+            CouponRefFavourite::where('id_coupon_data_main', $id_coupon_data_main)->delete();
             AvailableDayRef::where('id_coupon_data_main', $id_coupon_data_main)->delete();
             CouponRefMain::where('id_coupon_data_main', $id_coupon_data_main)->delete();
 
