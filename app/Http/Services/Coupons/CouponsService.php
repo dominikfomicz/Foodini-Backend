@@ -170,7 +170,7 @@ class CouponsService
             $new_statics->coupon_name = $coupon->name;
             $new_statics->save();
 
-            CouponRefUser::where('id_coupon_data_main', $id_coupon_data_main)->where('used', 1)->delete();
+            CouponRefUser::where('id_coupon_data_main', $id_coupon_data_main)->delete();
             $coupon->delete();
         }
     }
