@@ -71,4 +71,8 @@ class CouponsController extends Controller
     public function getSupportCouponsByCity(Request $request){
         return $this->service->getSupportCouponsByCity($request->id_city_const_type);
     }
+
+    public function getUsedCouponsStatistic(Request $request){
+        return $this->service->getUsedCouponsStatistic();
+    }
 }
