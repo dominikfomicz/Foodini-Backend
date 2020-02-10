@@ -55,6 +55,7 @@ class ManagerRepository
                     )
 
                 SELECT
+                    l.name AS local_name,
                     l.show_detail_count,
                     l.show_facebook_count,
                     l.show_menu_count,
