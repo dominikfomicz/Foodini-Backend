@@ -51,7 +51,7 @@ class ManagerRepository
                             SELECT
                                 COUNT(*) AS users_count
                             FROM users
-                            WHERE last_login_date >= date_trunc('month', current_date - interval '1' month)
+                            WHERE last_login_date >= date_trunc('month', current_date)
                     )
 
                 SELECT
