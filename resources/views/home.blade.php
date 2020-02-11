@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">Komunikat</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,7 +14,8 @@
                         </div>
                     @endif
 
-                    {{ Auth::user()->user_type }}
+                    Dziękujemy, twój adres e-mail został potwierdzony!
+                    <br>Możesz teraz zalogowac się w aplikacji.
                 </div>
             </div>
         </div>
