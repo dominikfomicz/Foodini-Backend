@@ -70,7 +70,6 @@
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
                         <a href="{{ url('/log-viewer/logs') }}">Logs</a>
-                        {{ Auth::user()->user_type }}
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
