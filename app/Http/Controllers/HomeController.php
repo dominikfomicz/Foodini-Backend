@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use App\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,7 +25,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $user = Auth::user();
+        if($user->user_type == -1){
+            return redirect('http://repo.foodini.net.pl/log-viewer/logs');
+        }else {
+            return view('home');
+        }
+
 
     }
 }
