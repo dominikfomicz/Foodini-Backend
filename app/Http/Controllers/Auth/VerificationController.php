@@ -55,6 +55,6 @@ class VerificationController extends Controller
         if ($user->markEmailAsVerified())
             event(new Verified($user));
 
-        return redirect($this->redirectPath())->with('verified', true);
+        return redirect('https://google.com')->with('verified', true);
     }
 }
