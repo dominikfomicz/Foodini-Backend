@@ -137,7 +137,7 @@ class LocalsService
             $files->addBackground($new_local->id, $file_background);
             // $files->addMenuPhotos($new_local->id, $files_menu);
             $files->addMapLogo($new_local->id, $file_map);
-            //return json_encode($new_local);
+            return json_encode($new_local);
         }
 
     }
