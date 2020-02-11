@@ -68,8 +68,7 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                        <a href="{{ url('/log-viewer/logs') }}">Logs</a>
+                        @if(Auth::user()->user_type == -1)<a href="{{ url('/log-viewer/logs') }}">Logs</a>@endif
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
