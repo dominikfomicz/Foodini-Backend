@@ -55,6 +55,6 @@ class VerificationController extends Controller
         if ($user->markEmailAsVerified())
             event(new Verified($user));
 
-        return redirect('https://google.com')->with('verified', true);
+        return redirect('http://repo.foodini.net.pl/email-verified')->with('verified', true);
     }
 }
