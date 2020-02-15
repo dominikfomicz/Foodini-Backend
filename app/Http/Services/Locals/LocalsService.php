@@ -9,6 +9,7 @@ use App\Http\Repositories\Locals\LocalsRepository;
 use App\Models\s_locals\LocalDataMain;
 use App\Models\s_sys\HexaConstType;
 use App\Http\Services\Locals\FilesService;
+use App\Models\s_locals\LocalLogStatistics;
 use Auth;
 
 class LocalsService
@@ -22,6 +23,7 @@ class LocalsService
     }
 
     public function getDetails($id_local_data_main){
+        $id_user = Auth::user()->id;
         $local = collect(LocalsRepository::getDetails($id_local_data_main))->first();
         $local->work_hours = collect(LocalsRepository::getWorkHours($local->local_id));
         $tags = collect(LocalsRepository::getTagsByLocal($local->local_id));
@@ -31,6 +33,12 @@ class LocalsService
         $stats_local = LocalDataMain::find($id_local_data_main);
         $stats_local->show_detail_count = $stats_local->show_detail_count + 1;
         $stats_local->save();
+
+        $log_local = new LocalLogStatistics();
+        $log_local->id_user = $id_user;
+        $log_local->type = 1;
+        $log_local->id_local_data_main = $id_local_data_main;
+        $log_local->save();
 
         return json_encode($local);
     }

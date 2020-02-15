@@ -11,6 +11,7 @@ use App\Models\s_sys\HexaConstType;
 use App\Models\s_tags\CouponRefMain;
 use App\Http\Services\Coupons\FilesService;
 use App\Models\s_coupons\AvailableDayRef;
+use App\Models\s_coupons\CouponLogStatistics;
 use App\Models\s_coupons\CouponRefDocument;
 use App\Models\s_coupons\DeletedCouponStatistics;
 use App\Models\s_locals\ManagerRefUser;
@@ -128,6 +129,12 @@ class CouponsService
         $stats_coupon = CouponDataMain::find($id_coupon_data_main);
         $stats_coupon->show_detail_count = $stats_coupon->show_detail_count + 1;
         $stats_coupon->save();
+
+        $log_coupon = new CouponLogStatistics();
+        $log_coupon->id_user = $id_user;
+        $log_coupon->type = 1;
+        $log_coupon->id_coupon_data_main = $id_coupon_data_main;
+        $log_coupon->save();
 
         return json_encode($coupon);
     }
