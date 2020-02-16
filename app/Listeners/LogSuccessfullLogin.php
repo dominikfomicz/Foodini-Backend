@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Models\s_public\UserLoginHistory;
 use App\User;
 use Laravel\Passport\Events\AccessTokenCreated;
 use Illuminate\Http\Request;
@@ -39,5 +40,9 @@ class LogSuccessfullLogin
         $user = User::find($event->userId);
         $user->last_login_date = date('Y-m-d H:i:s');
         $user->save();
+
+        $login_history = new UserLoginHistory();
+        $login_history->id_user = $event->userId;
+        $login_history->save();
     }
 }
