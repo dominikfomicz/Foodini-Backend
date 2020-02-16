@@ -175,4 +175,33 @@ class LocalsService
         }
 
     }
+
+    public function getOrderedList($id_city_const_type, $id_sort_const_type){
+        // 1 Najbardziej popularne | 2 Najnowsze | 3 Tylko otwarte
+        switch ($id_sort_const_type) {
+            case 1:
+                $locals = collect(LocalsRepository::getOrderedList($id_city_const_type))->orderBy('favourite_count', 'DESC')->get();
+                foreach($locals AS $local){
+                    $local->tags = collect(LocalsRepository::getTagsByLocal($local->local_id))->where('is_main', true);
+                }
+                return json_encode($locals);
+            break;
+
+            case 2:
+                $locals = collect(LocalsRepository::getOrderedList($id_city_const_type))->orderBy('create_date', 'DESC')->get();
+                foreach($locals AS $local){
+                    $local->tags = collect(LocalsRepository::getTagsByLocal($local->local_id))->where('is_main', true);
+                }
+                return json_encode($locals);
+            break;
+
+            case 3:
+                $locals = collect(LocalsRepository::getOrderedList($id_city_const_type))->where('is_closed', '1')->get();
+                foreach($locals AS $local){
+                    $local->tags = collect(LocalsRepository::getTagsByLocal($local->local_id))->where('is_main', true);
+                }
+                return json_encode($locals);
+            break;
+        }
+    }
 }

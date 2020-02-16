@@ -67,4 +67,8 @@ class LocalsController extends Controller
         return $this->service->getDetailsEdit($request->id_local_data_main);
     }
 
+    public function getOrderedList(Request $request){
+        return $this->service->getOrderedList($request->id_city_const_type, $request->id_sort_const_type);
+    }
+
 }
