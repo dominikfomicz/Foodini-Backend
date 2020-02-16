@@ -72,7 +72,7 @@ class LocalsController extends Controller
     }
 
     public function getOrderedFavouriteList(Request $request){
-        return $this->service->getOrderedList($request->id_city_const_type, $request->id_sort_const_type);
+        return $this->service->getOrderedFavouriteList($request->id_city_const_type, $request->id_sort_const_type);
     }
 
 }
