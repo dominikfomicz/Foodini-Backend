@@ -196,7 +196,7 @@ class LocalsService
             break;
 
             case 3:
-                $locals = collect(LocalsRepository::getOrderedList($id_city_const_type))->where('is_closed', '1');
+                $locals = collect(LocalsRepository::getOrderedList($id_city_const_type))->where('is_open_now', true);
                 foreach($locals AS $local){
                     $local->tags = collect(LocalsRepository::getTagsByLocal($local->local_id))->where('is_main', true);
                 }
