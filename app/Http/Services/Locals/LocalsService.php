@@ -204,7 +204,7 @@ class LocalsService
         foreach($locals AS $local){
             $local->tags = collect(LocalsRepository::getTagsByLocal($local->local_id))->where('is_main', true);
         }
-        return json_encode($locals);
+        return json_encode([$locals]);
     }
 
     public function getOrderedFavouriteList($id_city_const_type, $id_sort_const_type){
