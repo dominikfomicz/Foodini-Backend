@@ -180,7 +180,7 @@ class LocalsService
         // 1 Najbardziej popularne | 2 Najnowsze | 3 Tylko otwarte
         switch ($id_sort_const_type) {
             case 1:
-                $locals = collect(LocalsRepository::getOrderedList($id_city_const_type))->orderBy('favourite_count', 'DESC');
+                $locals = collect(LocalsRepository::getOrderedList($id_city_const_type))->sortByDesc('favourite_count');
                 foreach($locals AS $local){
                     $local->tags = collect(LocalsRepository::getTagsByLocal($local->local_id))->where('is_main', true);
                 }
@@ -188,7 +188,7 @@ class LocalsService
             break;
 
             case 2:
-                $locals = collect(LocalsRepository::getOrderedList($id_city_const_type))->orderBy('create_date', 'DESC');
+                $locals = collect(LocalsRepository::getOrderedList($id_city_const_type))->sortByDesc('create_date');
                 foreach($locals AS $local){
                     $local->tags = collect(LocalsRepository::getTagsByLocal($local->local_id))->where('is_main', true);
                 }
