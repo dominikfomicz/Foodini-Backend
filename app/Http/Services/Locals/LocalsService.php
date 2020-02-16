@@ -184,7 +184,6 @@ class LocalsService
                 foreach($locals AS $local){
                     $local->tags = collect(LocalsRepository::getTagsByLocal($local->local_id))->where('is_main', true);
                 }
-                return json_encode($locals);
             break;
 
             case 2:
@@ -192,7 +191,6 @@ class LocalsService
                 foreach($locals AS $local){
                     $local->tags = collect(LocalsRepository::getTagsByLocal($local->local_id))->where('is_main', true);
                 }
-                return json_encode($locals);
             break;
 
             case 3:
@@ -200,9 +198,9 @@ class LocalsService
                 foreach($locals AS $local){
                     $local->tags = collect(LocalsRepository::getTagsByLocal($local->local_id))->where('is_main', true);
                 }
-                return json_encode($locals);
             break;
         }
+        return json_encode($locals);
     }
 
     public function getOrderedFavouriteList($id_city_const_type, $id_sort_const_type){
