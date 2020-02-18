@@ -212,7 +212,7 @@ class CouponsRepository
                              WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN TRUE
                              ELSE FALSE
                         END AS is_available
-                    FROM s_locals.t_local_data_main l 
+                    FROM s_locals.t_local_data_main l
                     LEFT JOIN s_coupons.t_coupon_data_main c ON l.id = c.id_local_data_main
                     LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
                     LEFT JOIN used_counter ON used_counter.id_coupon_data_main = c.id
@@ -268,7 +268,7 @@ class CouponsRepository
         $query = "SELECT
                         c.id AS id_coupon_data_main,
                         c.name
-                    FROM s_coupons.t_coupon_data_main c 
+                    FROM s_coupons.t_coupon_data_main c
                     LEFT JOIN s_locals.t_local_data_main l ON l.id = c.id_local_data_main
                     WHERE l.id_city_const_type = {$id_city_const_type};
                     ";
@@ -294,6 +294,129 @@ class CouponsRepository
                         LEFT JOIN s_coupons.t_coupon_ref_user used ON used.id_coupon_data_main = c.id AND used.used = 1
                         WHERE ref.id_user = {$id_user} AND used.id IS NOT NULL;
                     ";
+        return DB::select($query);
+    }
+
+    public static function getOrderedListByCity($id_city_const_type){
+        $id_user = Auth::user()->id;
+        $query = "WITH used_counter AS (
+                                        SELECT
+                                            COUNT(*) AS used_counter,
+                                            id_coupon_data_main
+                                        FROM s_coupons.t_coupon_ref_user
+                                        GROUP BY id_coupon_data_main
+                                        ),
+                        counter_fav AS (SELECT
+                            COUNT(*) AS favourite_count,
+                            id_coupon_data_main
+                        FROM s_coupons.t_coupon_ref_favourite
+                        GROUP BY id_coupon_data_main)
+
+                    SELECT
+                            c.id AS coupon_id,
+                            l.id AS local_id,
+                            c.name AS coupon_name,
+                            c.mature,
+                            c.delivery,
+                            c.eat_in_local,
+                            c.pick_up_local,
+                            c.amount,
+                            c.create_date,
+                            cf.favourite_count,
+                            CASE
+                                WHEN f.id IS NOT NULL THEN TRUE
+                                ELSE FALSE
+                            END AS is_favouirite,
+                            l.name AS local_name,
+                            CASE
+                                WHEN c.status = 1 THEN TRUE
+                                ELSE FALSE
+                            END AS status,
+                            CASE
+                                WHEN c.amount = -1 THEN c.amount
+                                WHEN used_counter.used_counter IS NOT NULL THEN c.amount - used_counter.used_counter
+                                ELSE c.amount
+                            END AS coupon_left,
+                            CASE
+                                WHEN CURRENT_TIME < '06:00' AND o.hour_to < '06:00' AND o.hour_to > CURRENT_TIME THEN TRUE
+                                WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN TRUE
+                                ELSE FALSE
+                            END AS is_available
+                        FROM s_coupons.t_coupon_data_main c
+                        LEFT JOIN s_locals.t_local_data_main l ON l.id = c.id_local_data_main
+                        LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
+                        LEFT JOIN used_counter ON used_counter.id_coupon_data_main = c.id
+                        LEFT JOIN s_coupons.t_available_day_ref o ON o.id_coupon_data_main = c.id
+                                                        AND o.id_weekday_const_type = CASE WHEN CURRENT_TIME < '06:00' THEN extract(dow from CURRENT_TIMESTAMP) - 1
+                                                                                        ELSE extract(dow from CURRENT_TIMESTAMP)
+                                                                                        END
+                        LEFT JOIN counter_fav cf on cf.id_coupon_data_main = c.id
+                        WHERE l.id_city_const_type = {$id_city_const_type}
+                        ORDER BY (CASE WHEN CURRENT_TIME < '06:00' AND o.hour_to < '06:00' AND o.hour_to > CURRENT_TIME THEN 1
+                        WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN 1
+                        ELSE 0
+                        END) DESC;";
+        return DB::select($query);
+    }
+
+    public static function getOrderedFavouriteList(){
+        $id_user = Auth::user()->id;
+        $query = "WITH used_counter AS (
+                                        SELECT
+                                            COUNT(*) AS used_counter,
+                                            id_coupon_data_main
+                                        FROM s_coupons.t_coupon_ref_user
+                                        GROUP BY id_coupon_data_main
+                                        ),
+                        counter_fav AS (SELECT
+                            COUNT(*) AS favourite_count,
+                            id_coupon_data_main
+                        FROM s_coupons.t_coupon_ref_favourite
+                        GROUP BY id_coupon_data_main)
+
+                    SELECT
+                            c.id AS coupon_id,
+                            l.id AS local_id,
+                            c.name AS coupon_name,
+                            c.mature,
+                            c.delivery,
+                            c.eat_in_local,
+                            c.pick_up_local,
+                            c.amount,
+                            cf.favourite_count,
+                            CASE
+                                WHEN f.id IS NOT NULL THEN TRUE
+                                ELSE FALSE
+                            END AS is_favouirite,
+                            l.name AS local_name,
+                            CASE
+                                WHEN c.status = 1 THEN TRUE
+                                ELSE FALSE
+                            END AS status,
+                            CASE
+                                WHEN c.amount = -1 THEN c.amount
+                                WHEN used_counter.used_counter IS NOT NULL THEN c.amount - used_counter.used_counter
+                                ELSE c.amount
+                            END AS coupon_left,
+                            CASE
+                                WHEN CURRENT_TIME < '06:00' AND o.hour_to < '06:00' AND o.hour_to > CURRENT_TIME THEN TRUE
+                                WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN TRUE
+                            ELSE FALSE
+                            END AS is_available
+                        FROM s_coupons.t_coupon_data_main c
+                        LEFT JOIN s_locals.t_local_data_main l ON l.id = c.id_local_data_main
+                        LEFT JOIN s_coupons.t_coupon_ref_favourite f ON f.id_user = {$id_user} AND f.id_coupon_data_main = c.id
+                        LEFT JOIN used_counter ON used_counter.id_coupon_data_main = c.id
+                        LEFT JOIN s_coupons.t_available_day_ref o ON o.id_coupon_data_main = c.id
+                                                        AND o.id_weekday_const_type = CASE WHEN CURRENT_TIME < '06:00' THEN extract(dow from CURRENT_TIMESTAMP) - 1
+                                                                                        ELSE extract(dow from CURRENT_TIMESTAMP)
+                                                                                        END
+                        LEFT JOIN counter_fav cf on cf.id_coupon_data_main = c.id
+                        WHERE f.id_user = {$id_user}
+                        ORDER BY (CASE WHEN CURRENT_TIME < '06:00' AND o.hour_to < '06:00' AND o.hour_to > CURRENT_TIME THEN 1
+                        WHEN o.hour_from < CURRENT_TIME AND (o.hour_to > CURRENT_TIME OR o.hour_to < '06:00') THEN 1
+                        ELSE 0
+                        END) DESC;";
         return DB::select($query);
     }
 }

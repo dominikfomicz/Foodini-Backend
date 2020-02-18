@@ -61,6 +61,8 @@ Route::group(array('namespace' => 'Coupons', 'prefix' => 'coupons'), function() 
 
     Route::get('getList/{id_local_data_main}', 'CouponsController@getList'); // checked MSC
     Route::get('getCouponsByCity/{id_city_const_type}', 'CouponsController@getCouponsByCity'); // checked MSC
+    Route::get('getOrderedListByCity/{id_city_const_type}/{id_sort_const_type}', 'CouponsController@getOrderedListByCity'); // checked DFZ
+    Route::get('getOrderedFavouriteList/{id_sort_const_type}', 'CouponsController@getOrderedFavouriteList'); // checked DFZ
 
     Route::get('getDetails/{id_coupon_data_main}', 'CouponsController@getDetails'); // checked MSC
     Route::get('getFavouriteList', 'CouponsController@getFavouriteList'); // checked MSC
