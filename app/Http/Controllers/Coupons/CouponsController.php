@@ -60,6 +60,10 @@ class CouponsController extends Controller
         return $this->service->checkCouponDesktopApp($request->unique_number);
     }
 
+    public function checkCouponNameDesktopApp(Request $request){
+        return $this->service->checkCouponNameDesktopApp($request->unique_number);
+    }
+
     public function getCouponsByCity(Request $request){
         return $this->service->getCouponsByCity($request->id_city_const_type);
     }

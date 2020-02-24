@@ -68,6 +68,7 @@ Route::group(array('namespace' => 'Coupons', 'prefix' => 'coupons'), function() 
 
     //desktop
     Route::post('checkCouponDesktopApp', 'CouponsController@checkCouponDesktopApp'); // checked MSC
+    Route::post('checkCouponNameDesktopApp', 'CouponsController@checkCouponNameDesktopApp'); // checked MSC
     Route::get('getUsedCouponsStatistic', 'CouponsController@getUsedCouponsStatistic'); // checked MSC
 
 
