@@ -298,12 +298,8 @@ class CouponsService
                 if($user_ref_local != null || $user_ref_menago != null){
                     return $coupon_data->name;
                 }else{
-
                     return "";
                 }
-
-
-
             }else{
                 return "";
             }
