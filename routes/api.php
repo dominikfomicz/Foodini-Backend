@@ -32,6 +32,8 @@ Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
     Route::get('getDetails/{id_local_data_main}', 'LocalsController@getDetails'); // checked MSC
     Route::get('getFavouriteList/{id_city_const_type}', 'LocalsController@getFavouriteList'); // checked MSC
     Route::get('getMapList/{id_city_const_type}', 'LocalsController@getMapList'); // checked MSC
+    Route::get('getOrderedList/{id_city_const_type}/{id_sort_const_type}', 'LocalsController@getOrderedList'); // checked DFZ
+    Route::get('getOrderedFavouriteList/{id_city_const_type}/{id_sort_const_type}', 'LocalsController@getOrderedFavouriteList'); // checked DFZ
 
     Route::get('getDetailsEdit/{id_local_data_main}', 'LocalsController@getDetailsEdit'); // checked MSC
 
@@ -59,6 +61,8 @@ Route::group(array('namespace' => 'Coupons', 'prefix' => 'coupons'), function() 
 
     Route::get('getList/{id_local_data_main}', 'CouponsController@getList'); // checked MSC
     Route::get('getCouponsByCity/{id_city_const_type}', 'CouponsController@getCouponsByCity'); // checked MSC
+    Route::get('getOrderedListByCity/{id_city_const_type}/{id_sort_const_type}', 'CouponsController@getOrderedListByCity'); // checked DFZ
+    Route::get('getOrderedFavouriteList/{id_sort_const_type}', 'CouponsController@getOrderedFavouriteList'); // checked DFZ
 
     Route::get('getDetails/{id_coupon_data_main}', 'CouponsController@getDetails'); // checked MSC
     Route::get('getFavouriteList', 'CouponsController@getFavouriteList'); // checked MSC

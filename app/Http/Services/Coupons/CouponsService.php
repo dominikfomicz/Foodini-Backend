@@ -23,7 +23,6 @@ use DB;
 class CouponsService
 {
 
-    //kom
     public function getList($id_local_data_main){
         $this->checkAllCoupons();
         $coupons = collect(CouponsRepository::getList($id_local_data_main));
@@ -314,7 +313,6 @@ class CouponsService
         }
     }
 
-    
 
     public function getCouponsByCity($id_city_const_type){
         $this->checkAllCoupons();
@@ -343,5 +341,57 @@ class CouponsService
     public function getUsedCouponsStatistic(){
         $id_user = Auth::user()->id;
         return CouponsRepository::getUsedCouponsStatistic($id_user);
+    }
+
+    public function getOrderedListByCity($id_city_const_type, $id_sort_const_type){
+        $this->checkAllCoupons();
+
+        // 1 Najbardziej popularne | 2 Najnowsze | 3 Tylko aktywne
+        switch ($id_sort_const_type) {
+            case 1: $coupons = collect(CouponsRepository::getOrderedListByCity($id_city_const_type))->sortByDesc('favourite_count')->values()->all();
+                    foreach($coupons AS $coupon){
+                        $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id))->where('is_main', TRUE);
+                    }
+            break;
+
+            case 2: $coupons = collect(CouponsRepository::getOrderedListByCity($id_city_const_type))->sortByDesc('create_date')->values()->all();
+                    foreach($coupons AS $coupon){
+                        $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id))->where('is_main', TRUE);
+                    }
+            break;
+
+            case 3: $coupons = collect(CouponsRepository::getOrderedListByCity($id_city_const_type))->where('is_available', true)->all();
+                    foreach($coupons AS $coupon){
+                        $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id))->where('is_main', TRUE);
+                    }
+            break;
+        }
+        return json_encode($coupons);
+    }
+
+    public function getOrderedFavouriteList($id_sort_const_type){
+        $this->checkAllCoupons();
+
+        // 1 Najbardziej popularne | 2 Najnowsze | 3 Tylko akytwne
+        switch ($id_sort_const_type) {
+            case 1: $coupons = collect(CouponsRepository::getOrderedFavouriteList($id_sort_const_type))->sortByDesc('favourite_count')->values()->all();
+                    foreach($coupons AS $coupon){
+                        $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id))->where('is_main', TRUE);
+                    }
+            break;
+
+            case 2: $coupons = collect(CouponsRepository::getOrderedFavouriteList($id_sort_const_type))->sortByDesc('create_date')->values()->all();
+                    foreach($coupons AS $coupon){
+                        $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id))->where('is_main', TRUE);
+                    }
+            break;
+
+            case 3: $coupons = collect(CouponsRepository::getOrderedFavouriteList($id_sort_const_type))->where('is_available', true)->all();
+                    foreach($coupons AS $coupon){
+                        $coupon->tags = collect(CouponsRepository::getTagsByCoupon($coupon->coupon_id))->where('is_main', TRUE);
+                    }
+            break;
+        }
+        return json_encode($coupons);
     }
 }
