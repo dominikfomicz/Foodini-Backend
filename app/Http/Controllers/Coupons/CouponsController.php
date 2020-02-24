@@ -25,8 +25,8 @@ class CouponsController extends Controller
     public function changeCoupon(Request $request){
         return $this->service->changeCoupon($request->id_coupon_data_main,
                                             $request->id_local_data_main,
-                                            json_decode($request->coupon_data), 
-                                            json_decode($request->tags), 
+                                            json_decode($request->coupon_data),
+                                            json_decode($request->tags),
                                             $request->file('file_logo'),
                                             json_decode($request->open_hours));
 
@@ -78,5 +78,13 @@ class CouponsController extends Controller
 
     public function getUsedCouponsStatistic(Request $request){
         return $this->service->getUsedCouponsStatistic();
+    }
+
+    public function getOrderedListByCity(Request $request){
+        return $this->service->getOrderedListByCity($request->id_city_const_type, $request->id_sort_const_type);
+    }
+
+    public function getOrderedFavouriteList(Request $request){
+        return $this->service->getOrderedFavouriteList($request->id_sort_const_type);
     }
 }

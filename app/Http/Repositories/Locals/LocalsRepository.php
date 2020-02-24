@@ -30,7 +30,7 @@ class LocalsRepository
                                                                                             ELSE extract(dow from CURRENT_TIMESTAMP)
                                                                                             END
                     LEFT JOIN s_locals.t_local_ref_favourite f ON f.id_user = {$id_user} AND f.id_local_data_main = l.id
-                    WHERE l.id_city_const_type = {$id_city_const_type} AND l.deleted = FALSE    
+                    WHERE l.id_city_const_type = {$id_city_const_type} AND l.deleted = FALSE
                     ORDER BY (CASE WHEN CURRENT_TIME < '06:00' AND o.local_hour_to < '06:00' AND o.local_hour_to > CURRENT_TIME THEN 1
                         	WHEN o.local_hour_from < CURRENT_TIME AND (o.local_hour_to > CURRENT_TIME OR o.local_hour_to < '06:00') THEN 1
                         ELSE 0
@@ -40,7 +40,6 @@ class LocalsRepository
     }
 
     public static function getDetails($id_local_data_main){
-
         $id_user = Auth::user()->id;
         $query = "WITH counter_fav AS (SELECT
                                         COUNT(*) AS favourite_count
@@ -114,7 +113,6 @@ class LocalsRepository
     }
 
     public static function getWorkHours($id_local_data_main){
-
         $query = "SELECT
                         o.id_weekday_const_type AS id_day,
                         to_char(o.local_hour_from, 'HH24:MI') AS open_from,
@@ -163,7 +161,7 @@ class LocalsRepository
                         l.latitude,
                         l.longitude
                     FROM s_locals.t_local_data_main l
-                    WHERE l.id_city_const_type = {$id_city_const_type} AND l.deleted = FALSE                                      ;
+                    WHERE l.id_city_const_type = {$id_city_const_type} AND l.deleted = FALSE;
                     ";
         return DB::select($query);
     }
@@ -215,6 +213,92 @@ class LocalsRepository
                     WHERE l.id = {$id_local_data_main};
                     ";
 
+        return DB::select($query);
+    }
+
+    public static function getOrderedList($id_city_const_type){
+
+        $id_user = Auth::user()->id;
+        $query = "WITH counter_fav AS (SELECT
+                                                COUNT(*) AS favourite_count,
+                                                id_local_data_main
+                                            FROM s_locals.t_local_ref_favourite
+                                            GROUP BY id_local_data_main
+
+                                        )
+
+                SELECT
+                        l.name,
+                        l.id AS local_id,
+                        CASE WHEN CURRENT_TIME < '06:00' AND o.local_hour_to < '06:00' AND o.local_hour_to > CURRENT_TIME THEN TRUE
+                            WHEN o.local_hour_from < CURRENT_TIME AND (o.local_hour_to > CURRENT_TIME OR o.local_hour_to < '06:00') THEN TRUE
+                            ELSE FALSE
+                        END AS is_open_now,
+                        to_char(o.local_hour_from, 'HH24:MI') AS open_from,
+                        to_char(o.local_hour_to, 'HH24:MI') AS open_to,
+                        o.status_closed AS is_closed,
+                        CASE WHEN f.id IS NOT NULL THEN TRUE
+                            ELSE FALSE
+                        END AS is_favouirite,
+                        l.delivery,
+                        l.eat_in_local,
+                        l.pick_up_local,
+                        l.create_date,
+                        c.favourite_count
+
+                FROM s_locals.t_local_data_main l
+                LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
+                                            AND id_weekday_const_type = CASE WHEN CURRENT_TIME < '06:00' THEN extract(dow from CURRENT_TIMESTAMP) - 1
+                                                                            ELSE extract(dow from CURRENT_TIMESTAMP)
+                                                                            END
+                LEFT JOIN s_locals.t_local_ref_favourite f ON f.id_user = {$id_user} AND f.id_local_data_main = l.id
+                LEFT JOIN counter_fav c on c.id_local_data_main = l.id
+                WHERE l.id_city_const_type = {$id_city_const_type} AND l.deleted = FALSE
+                ORDER BY (CASE WHEN CURRENT_TIME < '06:00' AND o.local_hour_to < '06:00' AND o.local_hour_to > CURRENT_TIME THEN 1
+                WHEN o.local_hour_from < CURRENT_TIME AND (o.local_hour_to > CURRENT_TIME OR o.local_hour_to < '06:00') THEN 1
+                ELSE 0
+                END) DESC;";
+
+        return DB::select($query);
+    }
+
+    public static function getOrderedFavouriteList($id_city_const_type){
+        $id_user = Auth::user()->id;
+        $query = "
+                WITH counter_fav AS (SELECT
+                            COUNT(*) AS favourite_count,
+                            id_local_data_main
+                        FROM s_locals.t_local_ref_favourite
+                        GROUP BY id_local_data_main
+
+                    )
+                SELECT
+                        l.name,
+                        l.id AS local_id,
+                        to_char(o.local_hour_from, 'HH24:MI') AS open_from,
+                        to_char(o.local_hour_to, 'HH24:MI') AS open_to,
+                        o.status_closed AS is_closed,
+                        CASE WHEN f.id IS NOT NULL THEN TRUE
+                        ELSE FALSE
+                        END AS is_favouirite,
+                        l.delivery,
+                        l.eat_in_local,
+                        l.pick_up_local,
+                        l.create_date,
+                        c.favourite_count,
+                        CASE WHEN CURRENT_TIME < '06:00' AND o.local_hour_to < '06:00' AND o.local_hour_to > CURRENT_TIME THEN TRUE
+                        	WHEN o.local_hour_from < CURRENT_TIME AND (o.local_hour_to > CURRENT_TIME OR o.local_hour_to < '06:00') THEN TRUE
+                        ELSE FALSE
+                        END AS is_open_now
+                    FROM  s_locals.t_local_ref_favourite f
+                    LEFT JOIN s_locals.t_local_data_main l ON f.id_local_data_main = l.id
+                    LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
+                                                            AND o.id_weekday_const_type = CASE WHEN CURRENT_TIME < '06:00' THEN extract(dow from CURRENT_TIMESTAMP) - 1
+                                                                                            ELSE extract(dow from CURRENT_TIMESTAMP)
+                                                                                            END
+                    LEFT JOIN counter_fav c on c.id_local_data_main = l.id
+                    WHERE f.id_user = {$id_user} AND l.id_city_const_type = {$id_city_const_type} AND l.deleted = FALSE;
+                    ";
         return DB::select($query);
     }
 }
