@@ -292,7 +292,8 @@ class CouponsRepository
                         LEFT JOIN s_locals.t_local_data_main l ON l.id = ref.id_local_data_main
                         LEFT JOIN s_coupons.t_coupon_data_main c ON c.id_local_data_main = l.id
                         LEFT JOIN s_coupons.t_coupon_ref_user used ON used.id_coupon_data_main = c.id AND used.used = 1
-                        WHERE ref.id_user = {$id_user} AND used.id IS NOT NULL;
+                        WHERE ref.id_user = {$id_user} AND used.id IS NOT NULL
+                        ORDER BY generate_date DESC;
                     ";
         return DB::select($query);
     }
