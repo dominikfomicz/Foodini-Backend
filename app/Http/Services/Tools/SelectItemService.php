@@ -10,10 +10,12 @@ use App\Models\s_tags\TagConstCategory;
 use Illuminate\Support\Collection;
 use DB;
 
-class SelectItemService {
+class SelectItemService
+{
 
     //
-    private function convertToReturnArray($array_list, $item_id_prop, $item_name_prop, $item_group_prop = NULL) {
+    private function convertToReturnArray($array_list, $item_id_prop, $item_name_prop, $item_group_prop = NULL)
+    {
         $return_array = [];
         foreach ($array_list as $item) {
             $tmpItem = new \stdClass();
@@ -26,7 +28,8 @@ class SelectItemService {
         return $return_array;
     }
 
-    public function getList($input_array) {
+    public function getList($input_array)
+    {
         $method = "get{$input_array['app_list_string']}";
         if (is_callable(array($this, $method))) {
             $reflect = new \ReflectionMethod(get_class(), $method);
@@ -42,28 +45,32 @@ class SelectItemService {
         return $return;
     }
 
-    private function getCityConstType() {
+    private function getCityConstType()
+    {
         $list = CityConstType::where('visible', true)->select("id", "name")->get();
         return $this->convertToReturnArray($list, "id", "name");
     }
 
-    private function getWeekdayConstType() {
+    private function getWeekdayConstType()
+    {
         $list = WeekdayConstType::select("id", "name")->get();
         return $this->convertToReturnArray($list, "id", "name");
     }
 
-    private function getTagDataMain($input_array) {
-        //
+    private function getTagDataMain($input_array)
+    {
         $list = TagDataMain::where('id_tag_const_category', $input_array['id_tag_const_category'])->select("id", "name")->get();
         return $this->convertToReturnArray($list, "id", "name");
     }
 
-    private function getLocalDataMain(){
-        $list = LocalDataMain::select("id", "name")->get();
+    private function getLocalDataMain()
+    {
+        $list = LocalDataMain::select("id", "name")::where('deleted', 'false')->get();
         return $this->convertToReturnArray($list, "id", "name");
     }
 
-    private function getTagConstCategory(){
+    private function getTagConstCategory()
+    {
         $list = TagConstCategory::select("id", "name")->get();
         return $this->convertToReturnArray($list, "id", "name");
     }
