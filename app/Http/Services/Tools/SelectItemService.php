@@ -65,7 +65,7 @@ class SelectItemService
 
     private function getLocalDataMain()
     {
-        $list = LocalDataMain::select("id", "name")->where('deleted', 'false')->get();
+        $list = LocalDataMain::where('deleted', false)->select("id", "name")->get();
         return $this->convertToReturnArray($list, "id", "name");
     }
 
