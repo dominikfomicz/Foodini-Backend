@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Repositories\Locals;
+
 use Illuminate\Support\Facades\DB;
 use \Auth;
 
 class LocalsRepository
 {
-    public static function getList($id_city_const_type){
+    public static function getList($id_city_const_type)
+    {
         $id_user = Auth::user()->id;
         $query = "SELECT
                         l.name,
@@ -23,7 +25,8 @@ class LocalsRepository
                         END AS is_favouirite,
                         l.delivery,
                         l.eat_in_local,
-                        l.pick_up_local
+                        l.pick_up_local,
+                        l.order_url
                     FROM s_locals.t_local_data_main l
                     LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
                                                             AND id_weekday_const_type = CASE WHEN CURRENT_TIME < '06:00' THEN extract(dow from CURRENT_TIMESTAMP) - 1
@@ -39,7 +42,8 @@ class LocalsRepository
         return DB::select($query);
     }
 
-    public static function getDetails($id_local_data_main){
+    public static function getDetails($id_local_data_main)
+    {
         $id_user = Auth::user()->id;
         $query = "WITH counter_fav AS (SELECT
                                         COUNT(*) AS favourite_count
@@ -101,7 +105,8 @@ class LocalsRepository
         return DB::select($query);
     }
 
-    public static function getTagsByLocal($local_id){
+    public static function getTagsByLocal($local_id)
+    {
         $query = "SELECT
                         t.id,
                         t.name,
@@ -112,7 +117,8 @@ class LocalsRepository
         return DB::select($query);
     }
 
-    public static function getWorkHours($id_local_data_main){
+    public static function getWorkHours($id_local_data_main)
+    {
         $query = "SELECT
                         o.id_weekday_const_type AS id_day,
                         to_char(o.local_hour_from, 'HH24:MI') AS open_from,
@@ -125,7 +131,8 @@ class LocalsRepository
         return DB::select($query);
     }
 
-    public static function getFavouriteList($id_city_const_type){
+    public static function getFavouriteList($id_city_const_type)
+    {
         $id_user = Auth::user()->id;
         $query = "SELECT
                         l.name,
@@ -155,7 +162,8 @@ class LocalsRepository
         return DB::select($query);
     }
 
-    public static function getMapList($id_city_const_type){
+    public static function getMapList($id_city_const_type)
+    {
         $query = "SELECT
                         l.id AS local_id,
                         l.latitude,
@@ -166,7 +174,8 @@ class LocalsRepository
         return DB::select($query);
     }
 
-    public static function getAllWorkHours($id_local_data_main){
+    public static function getAllWorkHours($id_local_data_main)
+    {
         // kom
 
         $query = "SELECT
@@ -185,7 +194,8 @@ class LocalsRepository
         return DB::select($query);
     }
 
-    public static function getDetailsEdit($id_local_data_main){
+    public static function getDetailsEdit($id_local_data_main)
+    {
 
         $id_user = Auth::user()->id;
         $query = "
@@ -216,7 +226,8 @@ class LocalsRepository
         return DB::select($query);
     }
 
-    public static function getOrderedList($id_city_const_type){
+    public static function getOrderedList($id_city_const_type)
+    {
 
         $id_user = Auth::user()->id;
         $query = "WITH counter_fav AS (SELECT
@@ -262,7 +273,8 @@ class LocalsRepository
         return DB::select($query);
     }
 
-    public static function getOrderedFavouriteList($id_city_const_type){
+    public static function getOrderedFavouriteList($id_city_const_type)
+    {
         $id_user = Auth::user()->id;
         $query = "
                 WITH counter_fav AS (SELECT
