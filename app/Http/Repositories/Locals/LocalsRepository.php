@@ -147,6 +147,7 @@ class LocalsRepository
                         l.delivery,
                         l.eat_in_local,
                         l.pick_up_local,
+                        l.order_url,
                         CASE WHEN CURRENT_TIME < '06:00' AND o.local_hour_to < '06:00' AND o.local_hour_to > CURRENT_TIME THEN TRUE
                         	WHEN o.local_hour_from < CURRENT_TIME AND (o.local_hour_to > CURRENT_TIME OR o.local_hour_to < '06:00') THEN TRUE
                         ELSE FALSE
@@ -256,7 +257,8 @@ class LocalsRepository
                         l.eat_in_local,
                         l.pick_up_local,
                         l.create_date,
-                        c.favourite_count
+                        c.favourite_count,
+                        l.order_url
 
                 FROM s_locals.t_local_data_main l
                 LEFT JOIN s_locals.t_open_ref_main o ON o.id_local_data_main = l.id
@@ -299,6 +301,7 @@ class LocalsRepository
                         l.pick_up_local,
                         l.create_date,
                         c.favourite_count,
+                        l.order_url,
                         CASE WHEN CURRENT_TIME < '06:00' AND o.local_hour_to < '06:00' AND o.local_hour_to > CURRENT_TIME THEN TRUE
                         	WHEN o.local_hour_from < CURRENT_TIME AND (o.local_hour_to > CURRENT_TIME OR o.local_hour_to < '06:00') THEN TRUE
                         ELSE FALSE
