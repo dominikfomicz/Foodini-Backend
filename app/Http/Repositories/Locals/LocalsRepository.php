@@ -220,7 +220,8 @@ class LocalsRepository
                         l.blik_payment,
                         l.delivery_range,
                         l.longitude,
-                        l.latitude
+                        l.latitude,
+                        l.order_url
                     FROM s_locals.t_local_data_main l
                     WHERE l.id = {$id_local_data_main};
                     ";
