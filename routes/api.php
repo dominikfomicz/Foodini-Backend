@@ -8,7 +8,7 @@ Route::get('/user', function () {
     return $current_user;
 })->middleware('auth:api');
 
-Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
+Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function () {
     Route::post('changeLocal', 'LocalsController@changeLocal'); // checked MSC
     Route::post('removeLocal', 'LocalsController@removeLocal'); // checked MSC
 
@@ -31,18 +31,19 @@ Route::group(array('namespace' => 'Locals', 'prefix' => 'locals'), function() {
     Route::post('showInstagramCount', 'LocalsStatisticsController@showInstagramCount'); // checked MSC
     Route::post('showMenuCount', 'LocalsStatisticsController@showMenuCount'); // checked MSC
     Route::post('showPhonenumberCount', 'LocalsStatisticsController@showPhonenumberCount'); // checked MSC
+    Route::post('showOrderCount', 'LocalsStatisticsController@showOrderCount'); // checked DFZ
 
-    Route::group(array('prefix' => 'files'), function() {
-      Route::post('addLogo', 'FilesController@addLogo'); // checked MSC
-      Route::post('addBackground', 'FilesController@addBackground'); // checked MSC
-      Route::post('addMenuPhoto', 'FilesController@addMenuPhoto'); // checked MSC
-      Route::post('addMapLogo', 'FilesController@addMapLogo'); // checked MSC
-      Route::post('addMenuPhotos', 'FilesController@addMenuPhotos'); // checked MSC
-      Route::post('countMenuPhotos', 'FilesController@countMenuPhotos'); // checked MSC
-  });
+    Route::group(array('prefix' => 'files'), function () {
+        Route::post('addLogo', 'FilesController@addLogo'); // checked MSC
+        Route::post('addBackground', 'FilesController@addBackground'); // checked MSC
+        Route::post('addMenuPhoto', 'FilesController@addMenuPhoto'); // checked MSC
+        Route::post('addMapLogo', 'FilesController@addMapLogo'); // checked MSC
+        Route::post('addMenuPhotos', 'FilesController@addMenuPhotos'); // checked MSC
+        Route::post('countMenuPhotos', 'FilesController@countMenuPhotos'); // checked MSC
+    });
 });
 
-Route::group(array('namespace' => 'Coupons', 'prefix' => 'coupons'), function() {
+Route::group(array('namespace' => 'Coupons', 'prefix' => 'coupons'), function () {
     Route::post('changeCoupon', 'CouponsController@changeCoupon'); // checked MSC
     Route::post('removeCoupon', 'CouponsController@removeCoupon'); // checked MSC
 
@@ -70,22 +71,22 @@ Route::group(array('namespace' => 'Coupons', 'prefix' => 'coupons'), function() 
 
     Route::get('getSupportCouponsByCity/{id_city_const_type}', 'CouponsController@getSupportCouponsByCity'); // checked MSC
 
-    Route::group(array('prefix' => 'files'), function() {
-      Route::post('addLogo', 'FilesController@addLogo'); // checked MSC
-  });
+    Route::group(array('prefix' => 'files'), function () {
+        Route::post('addLogo', 'FilesController@addLogo'); // checked MSC
+    });
 });
 
-Route::group(array('namespace' => 'Tools', 'prefix' => 'tools'), function() {
+Route::group(array('namespace' => 'Tools', 'prefix' => 'tools'), function () {
     Route::post('getList', 'SelectItemController@getList'); // checked MSC
 });
 
-Route::group(array('namespace' => 'Tags', 'prefix' => 'tags'), function() {
+Route::group(array('namespace' => 'Tags', 'prefix' => 'tags'), function () {
     Route::post('changeTag', 'TagsController@changeTag'); // checked DFZ
 
     Route::get('getList', 'TagsController@getList'); // checked DFZ
 });
 
-Route::group(array('namespace' => 'Manager', 'prefix' => 'manager'), function() {
+Route::group(array('namespace' => 'Manager', 'prefix' => 'manager'), function () {
     Route::post('registerWorker', 'ManagerController@registerWorker'); // checked MSC
     Route::get('getLocalsByManager', 'ManagerController@getLocalsByManager'); // checked MSC
     Route::get('getLocalStatistics/{id_local_data_main}', 'ManagerController@getLocalStatistics'); // checked MSC
@@ -93,7 +94,7 @@ Route::group(array('namespace' => 'Manager', 'prefix' => 'manager'), function() 
     Route::post('removeWorker', 'ManagerController@removeWorker'); // checked MSC
 });
 
-Route::group(array('namespace' => 'Feedback', 'prefix' => 'feedback'), function() {
+Route::group(array('namespace' => 'Feedback', 'prefix' => 'feedback'), function () {
     Route::post('add', 'FeedbackController@add'); // checked DFZ
 
 });

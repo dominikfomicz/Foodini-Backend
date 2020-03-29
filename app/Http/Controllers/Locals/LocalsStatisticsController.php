@@ -10,24 +10,33 @@ class LocalsStatisticsController extends Controller
 {
     private $service;
 
-    public function __construct(LocalsStatisticsService $service){
+    public function __construct(LocalsStatisticsService $service)
+    {
         $this->service = $service;
     }
 
-    public function showFacebookCount(Request $request){
+    public function showFacebookCount(Request $request)
+    {
         return $this->service->showFacebookCount($request->id_local_data_main);
     }
 
-    public function showInstagramCount(Request $request){
+    public function showInstagramCount(Request $request)
+    {
         return $this->service->showInstagramCount($request->id_local_data_main);
     }
 
-    public function showMenuCount(Request $request){
+    public function showMenuCount(Request $request)
+    {
         return $this->service->showMenuCount($request->id_local_data_main);
     }
 
-    public function showPhonenumberCount(Request $request){
+    public function showPhonenumberCount(Request $request)
+    {
         return $this->service->showPhonenumberCount($request->id_local_data_main);
     }
 
+    public function showOrderCount(Request $request)
+    {
+        return $this->service->showOrderCount($request->id_local_data_main);
+    }
 }
