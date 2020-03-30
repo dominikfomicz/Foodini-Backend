@@ -43,7 +43,7 @@ class AuthApiController extends Controller
 
     public function registerUuid(Request $request)
     {
-        $users = Users::where('email', '=', $request->uuid)->first();
+        $users = User::where('email', '=', $request->uuid)->first();
         if ($users === null) {
             $user = User::create([
                 'name' => $request->uuid,
