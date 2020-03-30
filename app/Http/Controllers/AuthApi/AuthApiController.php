@@ -43,22 +43,18 @@ class AuthApiController extends Controller
 
     public function registerUuid(Request $request)
     {
-        $validate = Validator::make($request->all(), [
-            'uuid' => 'required|unique:users'
-        ]);
-
-        if ($validate->fails()) {
+        $users = Users::where('email', '=', $request->uuid)->first();
+        if ($users === null) {
+            $user = User::create([
+                'name' => $request->uuid,
+                'email' => $request->uuid,
+                'password' => bcrypt($request->uuid),
+                'user_type' => 0
+            ]);
+            return 0;
+        } else {
             return -1;
         }
-
-        $user = User::create([
-            'name' => $request->uuid,
-            'email' => $request->uuid,
-            'password' => bcrypt($request->uuid),
-            'user_type' => 0
-        ]);
-
-        return 0;
     }
 
     public function getUserStatus(Request $request)
